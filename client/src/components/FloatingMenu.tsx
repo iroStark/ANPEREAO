@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { 
@@ -11,7 +11,22 @@ import { Menu, X, ChevronDown } from "lucide-react";
 
 const FloatingMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [location] = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const threshold = 100; // Pixels para ativar o efeito
+      setIsScrolled(scrollTop > threshold);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -36,9 +51,23 @@ const FloatingMenu = () => {
   ];
 
   return (
-    <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-full max-w-6xl px-4">
-      <nav className="bg-white dark:bg-card rounded-2xl shadow-lg border border-border backdrop-blur-sm bg-white/95">
-        <div className="px-6 py-4">
+    <div 
+      className={`fixed z-50 transition-all duration-500 ease-in-out ${
+        isScrolled 
+          ? 'top-0 left-0 w-full px-0' 
+          : 'top-4 left-1/2 -translate-x-1/2 w-full max-w-6xl px-4'
+      }`}
+    >
+      <nav 
+        className={`transition-all duration-500 ease-in-out border border-border ${
+          isScrolled 
+            ? 'bg-white/80 dark:bg-card/80 backdrop-blur-md shadow-md rounded-none' 
+            : 'bg-white/95 dark:bg-card/95 backdrop-blur-sm shadow-lg rounded-2xl'
+        }`}
+      >
+        <div className={`transition-all duration-500 ease-in-out ${
+          isScrolled ? 'px-4 sm:px-6 py-3' : 'px-6 py-4'
+        }`}>
           <div className="flex justify-between items-center">
             {/* Logo */}
             <div 
