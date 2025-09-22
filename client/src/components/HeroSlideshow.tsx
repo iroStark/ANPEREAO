@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import heroImage1 from "@assets/generated_images/Professional_radio_engineer_working_fee347b2.png";
-import heroImage2 from "@assets/generated_images/Telecommunications_tower_and_antennas_245fca06.png";
-import heroImage3 from "@assets/generated_images/Professional_telecommunications_meeting_fdc40657.png";
+import heroImage1 from "@assets/generated_images/Angolan_telecommunications_professionals_working_640a21c0.png";
+import heroImage2 from "@assets/generated_images/Telecommunications_tower_in_Luanda_Angola_da464df4.png";
+import heroImage3 from "@assets/generated_images/Angolan_professionals_telecommunications_meeting_859a9b86.png";
 
 const slides = [
   {
