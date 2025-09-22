@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import FloatingMenu from "@/components/FloatingMenu";
 import HeroSlideshow from "@/components/HeroSlideshow";
 import AboutSection from "@/components/AboutSection";
 import LegislationSection from "@/components/LegislationSection";
@@ -11,7 +11,7 @@ import Footer from "@/components/Footer";
 const Home = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <FloatingMenu />
       <main>
         <section id="home">
           <HeroSlideshow />
