@@ -1,0 +1,55 @@
+<section class="py-16">
+  <div class="container mx-auto mb-10 text-center lg:mb-20">
+    <p class="font-sans antialiased text-base md:text-lg text-orange-500 font-semibold">Features</p>
+    <h2 class="font-sans antialiased font-bold text-2xl md:text-3xl lg:text-4xl text-stone-800 my-4 max-w-lg [text-wrap:balance] mx-auto">Turn your idea into a startup</h2>
+    <p variant="lead" class="font-sans antialiased text-base mx-auto text-stone-600 max-w-xl [text-wrap:balance]">We&#x27;re constantly trying to express ourselves and actualize our dreams. If you have the opportunity to play</p>
+  </div>
+  <div class="mb-8 container mx-auto grid gap-y-8 lg:gap-x-8 grid-cols-1 lg:grid-cols-3">
+    <div class="w-full rounded-lg border shadow-sm border-stone-200 bg-stone-100 overflow-hidden">
+      <div class="p-8">
+        <h5 class="font-sans antialiased font-bold text-lg md:text-xl lg:text-2xl text-stone-800 mb-2 text-center">Mix and Match</h5>
+        <p class="font-sans antialiased text-base text-center mb-0 max-w-xs mx-auto font-normal text-stone-600">We get insulted by others, lose trust for those We get back.</p>
+      </div>
+      <div class="p-2 h-[477px] overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?q=80&w=1000&auto=format" alt="iphone" class="rounded-lg w-full h-full object-cover">
+      </div>
+    </div>
+    <div class="w-full rounded-lg border shadow-sm border-stone-200 col-span-2 bg-stone-100 overflow-hidden">
+      <div class="p-8">
+        <h5 class="font-sans antialiased font-bold text-lg md:text-xl lg:text-2xl text-stone-800 mb-2 text-center">Modular Components</h5>
+        <p class="font-sans antialiased text-base text-center mb-0 max-w-xs mx-auto font-normal text-stone-600">It becomes harder for us to give others hand. We get our heart by people we love.</p>
+      </div>
+      <div class="p-2">
+        <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/david-ui/img/image-4.jpg" alt="macbook" class="rounded-lg w-full h-full object-cover" />
+      </div>
+    </div>
+  </div>
+  <div class="container mx-auto grid gap-y-8 lg:gap-x-8 grid-cols-1 lg:grid-cols-3">
+    <div class="w-full rounded-lg border shadow-sm border-stone-200 col-span-2 bg-stone-100 overflow-hidden">
+      <div class="p-8">
+        <h5 class="font-sans antialiased font-bold text-lg md:text-xl lg:text-2xl text-stone-800 mb-2 text-center">Digital Product Design</h5>
+        <p class="font-sans antialiased text-base text-center mb-0 max-w-xs mx-auto font-normal text-stone-600">Check out our proven methods, guides, and exercises that help make work better, and people happier.</p>
+      </div>
+      <div class="p-2">
+        <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/david-ui/img/image-5.jpg" alt="logos" class="w-full rounded-lg object-cover object-top" />
+      </div>
+    </div>
+    <div class="w-full rounded-lg border shadow-sm border-stone-200 col-span-1 flex flex-col justify-between gap-4 bg-stone-100 overflow-hidden">
+      <div class="p-8">
+        <h5 class="font-sans antialiased font-bold text-lg md:text-xl lg:text-2xl text-stone-800 mb-2 text-center">Join Our Community</h5>
+        <p class="font-sans antialiased text-base text-center mb-0 max-w-xs mx-auto font-normal text-stone-600">The time is now for it to be okay to be great. For being a bright color.</p>
+      </div>
+      <div class="flex items-center justify-center -space-x-10 sm:-space-x-6 p-8">
+        <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/david-ui/img/image-6.jpg" alt="user 1" class="inline-block object-cover object-center w-20 h-20 rounded-full border-2 border-stone-200 hover:z-10 focus:z-10" />
+        <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/david-ui/img/image-7.jpg" alt="user 2" class="inline-block object-cover object-center w-20 h-20 rounded-full border-2 border-stone-200 hover:z-10 focus:z-10" />
+        <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/david-ui/img/image-8.jpg" alt="user 4" class="inline-block object-cover object-center w-20 h-20 rounded-full border-2 border-stone-200 hover:z-10 focus:z-10" />
+        <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/david-ui/img/image-9.jpg" alt="user 5" class="inline-block object-cover object-center w-20 h-20 rounded-full border-2 border-stone-200 hover:z-10 focus:z-10" />
+      </div>
+      <div class="p-2">
+        <a href="#" class="fle justify-between items-end">
+          <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/david-ui/img/image-10.jpg" class="rounded-lg" alt="logo" />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
