@@ -60,7 +60,7 @@ const ServiceCards = () => {
   return (
     <div className="relative -mt-20 mb-16 z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white dark:bg-card rounded-2xl shadow-xl border border-border p-4 lg:p-6">
+        <div className="bg-white dark:bg-card rounded-2xl shadow-xl border border-border p-3 lg:p-4">
           <div className="flex flex-col lg:flex-row divide-y lg:divide-y-0 lg:divide-x divide-border/20">
             {services.map((service, index) => {
               const IconComponent = service.icon;
@@ -69,7 +69,7 @@ const ServiceCards = () => {
               return (
                 <div
                   key={service.id}
-                  className={`relative flex-1 p-4 cursor-pointer transition-all duration-500 ease-in-out group ${
+                  className={`relative flex-1 p-3 cursor-pointer transition-all duration-500 ease-in-out group ${
                     isActive 
                       ? 'bg-primary text-primary-foreground shadow-lg scale-110 z-10 rounded-lg' 
                       : 'bg-background hover:bg-primary hover:text-primary-foreground hover:shadow-lg hover:scale-105 hover:z-10 hover:rounded-lg'
@@ -81,13 +81,13 @@ const ServiceCards = () => {
                 >
                   <div className="text-center">
                     {/* Icon */}
-                    <div className="flex justify-center mb-3">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+                    <div className="flex justify-center mb-2">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
                         isActive 
                           ? 'bg-primary-foreground/20' 
                           : 'bg-primary/10 group-hover:bg-primary-foreground/20'
                       }`}>
-                        <IconComponent className={`w-5 h-5 transition-colors duration-300 ${
+                        <IconComponent className={`w-4 h-4 transition-colors duration-300 ${
                           isActive 
                             ? 'text-primary-foreground' 
                             : 'text-primary group-hover:text-primary-foreground'
@@ -114,7 +114,7 @@ const ServiceCards = () => {
                     </p>
 
                     {/* Action Button - appears on hover/active */}
-                    <div className={`mt-3 transition-all duration-300 ${
+                    <div className={`mt-2 transition-all duration-300 ${
                       isActive ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0'
                     }`}>
                       <Button
