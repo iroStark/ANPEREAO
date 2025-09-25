@@ -1,0 +1,70 @@
+# ANPERE - Associação Nacional dos Profissionais do Espectro Rádio Eletrónico
+
+## Overview
+
+ANPERE is a professional association website for telecommunications radio spectrum professionals in Angola. The project is a comprehensive web application built as a single-page application (SPA) that showcases the organization's mission, services, events, publications, and provides contact functionality. The website serves as the primary digital presence for ANPERE, offering information about the association's activities, membership benefits, and professional development opportunities in the telecommunications sector.
+
+## User Preferences
+
+Preferred communication style: Simple, everyday language.
+
+## System Architecture
+
+### Frontend Architecture
+- **Framework**: React with TypeScript using Vite as the build tool
+- **UI Library**: Shadcn/ui components with Radix UI primitives for accessible, customizable components
+- **Styling**: Tailwind CSS with custom design system following professional educational institution aesthetics
+- **Routing**: Wouter for lightweight client-side routing
+- **State Management**: React Query (TanStack Query) for server state management
+- **Image Assets**: Static images stored in attached_assets directory for hero slideshow and visual content
+
+### Design System
+- **Color Palette**: Deep blue primary (220 85% 25%), light blue accents (210 70% 85%), with orange highlights for CTAs
+- **Typography**: Inter font family with consistent sizing scale (text-4xl to text-sm)
+- **Layout**: Responsive design with consistent spacing units (2, 4, 6, 8, 12, 16) and section spacing (py-12, py-16)
+- **Components**: Modular component architecture with floating navigation menu, hero slideshow, service cards, and dedicated sections for each main area
+
+### Backend Architecture
+- **Runtime**: Node.js with Express.js framework
+- **Language**: TypeScript with ES modules
+- **Database ORM**: Drizzle ORM configured for PostgreSQL
+- **Session Management**: Connect-pg-simple for PostgreSQL session storage
+- **API Structure**: RESTful API design with /api prefix for all backend routes
+
+### Component Structure
+- **Page Layout**: Single-page application with smooth scrolling navigation between sections
+- **Navigation**: Floating menu component that adapts based on scroll position
+- **Content Sections**: AboutSection (mission/vision), EventsSection, PublicationsSection, LegislationSection, GallerySection, ContactSection
+- **Interactive Elements**: Service cards with hover effects, carousel/slideshow components, modal dialogs for detailed content
+
+### Development Environment
+- **Build System**: Vite with TypeScript compilation and React Fast Refresh
+- **Development Server**: Express server with Vite middleware integration
+- **Asset Handling**: Vite handles static assets with path aliases for clean imports
+- **Error Handling**: Runtime error overlay for development debugging
+
+## External Dependencies
+
+### UI and Styling
+- **Radix UI**: Complete set of accessible UI primitives (accordion, dialog, dropdown, navigation, etc.)
+- **Tailwind CSS**: Utility-first CSS framework with PostCSS processing
+- **Class Variance Authority**: Type-safe variant management for component styling
+- **Lucide React**: Consistent icon library for UI elements
+
+### Database and Data Management
+- **Neon Database**: Serverless PostgreSQL database provider
+- **Drizzle ORM**: Type-safe database ORM with PostgreSQL dialect
+- **Drizzle Kit**: Database migration and schema management tools
+- **Connect-pg-simple**: PostgreSQL session store for Express sessions
+
+### Development and Build Tools
+- **Vite**: Fast build tool with development server and production bundling
+- **ESBuild**: JavaScript bundler for server-side code compilation
+- **TypeScript**: Static type checking for both client and server code
+- **React Hook Form**: Form handling with validation and resolver support
+
+### Utilities and Libraries
+- **Date-fns**: Modern date utility library for date formatting and manipulation
+- **Clsx/TailwindCSS Merge**: Utility for conditional CSS class composition
+- **Wouter**: Minimalist routing library for React applications
+- **Embla Carousel**: Touch-friendly carousel component for image galleries
