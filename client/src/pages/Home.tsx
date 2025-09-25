@@ -1,5 +1,6 @@
 import FloatingMenu from "@/components/FloatingMenu";
 import HeroSlideshow from "@/components/HeroSlideshow";
+import ServiceCards from "@/components/ServiceCards";
 import AboutSection from "@/components/AboutSection";
 import LegislationSection from "@/components/LegislationSection";
 import PublicationsSection from "@/components/PublicationsSection";
@@ -16,6 +17,7 @@ const Home = () => {
         <section id="home">
           <HeroSlideshow />
         </section>
+        <ServiceCards />
         <section id="quem-somos">
           <AboutSection />
         </section>
