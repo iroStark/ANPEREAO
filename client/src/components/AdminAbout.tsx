@@ -126,23 +126,23 @@ const AdminAbout = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 sm:p-6 lg:p-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
-          <h1 className="text-3xl font-bold">Gestão - Sobre Nós</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl sm:text-3xl font-bold">Gestão - Sobre Nós</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">
             Gerir informações da página "Sobre a ANPERE"
           </p>
         </div>
-        <Button onClick={handleEdit}>
+        <Button onClick={handleEdit} data-testid="button-edit-about">
           <Edit2 className="w-4 h-4 mr-2" />
           Editar Informações
         </Button>
       </div>
 
       {/* Current Content Preview */}
-      <div className="grid gap-6">
+      <div className="space-y-6">
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -166,7 +166,7 @@ const AdminAbout = () => {
                   <p className="text-muted-foreground">{aboutData.description}</p>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <div>
                     <h4 className="font-semibold mb-2 flex items-center gap-2">
                       <Target className="w-4 h-4" />
@@ -200,11 +200,13 @@ const AdminAbout = () => {
                 {aboutData.imageUrl && (
                   <div>
                     <h4 className="font-semibold mb-2">Imagem</h4>
-                    <img
-                      src={aboutData.imageUrl}
-                      alt="Imagem da ANPERE"
-                      className="w-full max-w-md h-auto rounded-lg"
-                    />
+                    <div className="w-full max-w-md mx-auto lg:mx-0">
+                      <img
+                        src={aboutData.imageUrl}
+                        alt="Imagem da ANPERE"
+                        className="w-full h-auto rounded-lg shadow-md"
+                      />
+                    </div>
                   </div>
                 )}
               </>
