@@ -220,23 +220,23 @@ const AdminLegislation = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 sm:p-6 lg:p-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
-          <h1 className="text-3xl font-bold">Gestão de Legislação</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl sm:text-3xl font-bold">Gestão de Legislação</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">
             Gerir documentos legais e regulamentações
           </p>
         </div>
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogTrigger asChild>
-            <Button>
+            <Button data-testid="button-create-legislation">
               <Plus className="w-4 h-4 mr-2" />
               Nova Legislação
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl">
+          <DialogContent className="max-w-full sm:max-w-2xl mx-4">
             <DialogHeader>
               <DialogTitle>Criar Nova Legislação</DialogTitle>
               <DialogDescription>
@@ -275,7 +275,7 @@ const AdminLegislation = () => {
                     </FormItem>
                   )}
                 />
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <FormField
                     control={createForm.control}
                     name="category"
@@ -329,15 +329,16 @@ const AdminLegislation = () => {
                     </FormItem>
                   )}
                 />
-                <div className="flex justify-end gap-2">
+                <div className="flex flex-col sm:flex-row justify-end gap-2">
                   <Button 
                     type="button" 
                     variant="outline" 
                     onClick={() => setIsCreateDialogOpen(false)}
+                    className="w-full sm:w-auto"
                   >
                     Cancelar
                   </Button>
-                  <Button type="submit" disabled={createMutation.isPending}>
+                  <Button type="submit" disabled={createMutation.isPending} className="w-full sm:w-auto">
                     {createMutation.isPending ? "Criando..." : "Criar"}
                   </Button>
                 </div>
@@ -348,8 +349,8 @@ const AdminLegislation = () => {
       </div>
 
       {/* Search and Filter */}
-      <Card>
-        <CardContent className="p-6">
+      <Card className="mb-6">
+        <CardContent className="p-4 sm:p-6">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
@@ -357,14 +358,16 @@ const AdminLegislation = () => {
                 placeholder="Pesquisar legislação..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-10 w-full"
+                data-testid="input-search-legislation"
               />
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 w-full sm:w-auto">
               <select
                 value={filterCategory}
                 onChange={(e) => setFilterCategory(e.target.value)}
-                className="px-3 py-2 border border-input bg-background rounded-md text-sm"
+                className="px-3 py-2 border border-input bg-background rounded-md text-sm flex-1 sm:flex-none min-w-0"
+                data-testid="select-filter-category"
               >
                 <option value="all">Todas as Categorias</option>
                 {categories.map((category) => (
@@ -402,17 +405,17 @@ const AdminLegislation = () => {
               transition={{ duration: 0.3 }}
             >
               <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <h3 className="text-lg font-semibold">{legislation.title}</h3>
-                        <Badge variant="secondary">{legislation.category}</Badge>
+                <CardContent className="p-4 sm:p-6">
+                  <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
+                        <h3 className="text-lg font-semibold truncate">{legislation.title}</h3>
+                        <Badge variant="secondary" className="self-start sm:self-center">{legislation.category}</Badge>
                       </div>
                       <p className="text-muted-foreground mb-3 line-clamp-2">
                         {legislation.description}
                       </p>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-muted-foreground">
                         <div className="flex items-center gap-1">
                           <Calendar className="w-4 h-4" />
                           {new Date(legislation.publishedAt).toLocaleDateString('pt-AO')}
@@ -422,7 +425,7 @@ const AdminLegislation = () => {
                             href={legislation.fileUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-1 hover:text-primary transition-colors"
+                            className="flex items-center gap-1 hover:text-primary transition-colors w-fit"
                           >
                             <ExternalLink className="w-4 h-4" />
                             Ver Documento
@@ -430,11 +433,12 @@ const AdminLegislation = () => {
                         )}
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 ml-4">
+                    <div className="flex items-center gap-2 flex-shrink-0">
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => handleEdit(legislation)}
+                        data-testid={`button-edit-legislation-${legislation.id}`}
                       >
                         <Edit2 className="w-4 h-4" />
                       </Button>

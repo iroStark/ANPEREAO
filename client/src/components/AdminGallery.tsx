@@ -210,23 +210,23 @@ const AdminGallery = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 sm:p-6 lg:p-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
-          <h1 className="text-3xl font-bold">Gestão da Galeria</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl sm:text-3xl font-bold">Gestão da Galeria</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">
             Gerir imagens e fotos da galeria
           </p>
         </div>
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogTrigger asChild>
-            <Button>
+            <Button data-testid="button-create-gallery">
               <Plus className="w-4 h-4 mr-2" />
               Nova Imagem
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl">
+          <DialogContent className="max-w-full sm:max-w-2xl mx-4">
             <DialogHeader>
               <DialogTitle>Adicionar Nova Imagem</DialogTitle>
               <DialogDescription>
@@ -265,7 +265,7 @@ const AdminGallery = () => {
                     </FormItem>
                   )}
                 />
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <FormField
                     control={createForm.control}
                     name="category"
@@ -293,15 +293,16 @@ const AdminGallery = () => {
                     )}
                   />
                 </div>
-                <div className="flex justify-end gap-2">
+                <div className="flex flex-col sm:flex-row justify-end gap-2">
                   <Button 
                     type="button" 
                     variant="outline" 
                     onClick={() => setIsCreateDialogOpen(false)}
+                    className="w-full sm:w-auto"
                   >
                     Cancelar
                   </Button>
-                  <Button type="submit" disabled={createMutation.isPending}>
+                  <Button type="submit" disabled={createMutation.isPending} className="w-full sm:w-auto">
                     {createMutation.isPending ? "Criando..." : "Criar"}
                   </Button>
                 </div>
@@ -312,8 +313,8 @@ const AdminGallery = () => {
       </div>
 
       {/* Search and Filter */}
-      <Card>
-        <CardContent className="p-6">
+      <Card className="mb-6">
+        <CardContent className="p-4 sm:p-6">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
@@ -321,7 +322,8 @@ const AdminGallery = () => {
                 placeholder="Pesquisar imagens..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-10 w-full"
+                data-testid="input-search-gallery"
               />
             </div>
             <div className="flex gap-2">
@@ -343,7 +345,7 @@ const AdminGallery = () => {
       </Card>
 
       {/* Gallery Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
         {filteredGallery.length === 0 ? (
           <div className="col-span-full">
             <Card>
