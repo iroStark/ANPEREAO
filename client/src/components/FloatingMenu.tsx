@@ -14,6 +14,8 @@ import ChatGPT_Image_26_09_2025__20_19_29 from "@assets/ChatGPT Image 26_09_2025
 
 import ChatGPT_Image_26_09_2025__20_24_00 from "@assets/ChatGPT Image 26_09_2025, 20_24_00.png";
 
+import ChatGPT_Image_26_de_set__de_2025__20_37_30 from "@assets/ChatGPT Image 26 de set. de 2025, 20_37_30.png";
+
 const FloatingMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -77,7 +79,7 @@ const FloatingMenu = () => {
               data-testid="logo-floating-menu"
             >
               <img 
-                src={ChatGPT_Image_26_09_2025__20_24_00}
+                src={ChatGPT_Image_26_de_set__de_2025__20_37_30}
                 alt="ANPERE - Associação Nacional dos Profissionais do Espectro Rádio Eletrónico"
                 className="h-12 w-auto"
               />
