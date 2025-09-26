@@ -82,7 +82,11 @@ const AdminEvents = () => {
 
   // Fetch events query
   const { data: events = [], isLoading, error } = useQuery<Event[]>({
-    queryKey: ["/api/admin/events"],
+    queryKey: ["admin", "events"],
+    queryFn: async () => {
+      const response = await apiRequest("GET", "/api/admin/events");
+      return response.json();
+    },
   });
 
   // Create event mutation
@@ -92,7 +96,7 @@ const AdminEvents = () => {
       return await response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/events"] });
+      queryClient.invalidateQueries({ queryKey: ["admin", "events"] });
       setIsCreateDialogOpen(false);
       toast({
         title: "Sucesso",
@@ -115,7 +119,7 @@ const AdminEvents = () => {
       return await response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/events"] });
+      queryClient.invalidateQueries({ queryKey: ["admin", "events"] });
       setIsEditDialogOpen(false);
       setEditingEvent(null);
       toast({
@@ -138,7 +142,7 @@ const AdminEvents = () => {
       await apiRequest("DELETE", `/api/admin/events/${id}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/events"] });
+      queryClient.invalidateQueries({ queryKey: ["admin", "events"] });
       toast({
         title: "Sucesso",
         description: "Evento eliminado com sucesso.",

@@ -78,7 +78,11 @@ const AdminPublications = () => {
 
   // Fetch publications query
   const { data: publications = [], isLoading, error } = useQuery<Publication[]>({
-    queryKey: ["/api/admin/publications"],
+    queryKey: ["admin", "publications"],
+    queryFn: async () => {
+      const response = await apiRequest("GET", "/api/admin/publications");
+      return response.json();
+    },
   });
 
   // Create publication mutation
@@ -88,7 +92,7 @@ const AdminPublications = () => {
       return await response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/publications"] });
+      queryClient.invalidateQueries({ queryKey: ["admin", "publications"] });
       setIsCreateDialogOpen(false);
       toast({
         title: "Sucesso",
@@ -111,7 +115,7 @@ const AdminPublications = () => {
       return await response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/publications"] });
+      queryClient.invalidateQueries({ queryKey: ["admin", "publications"] });
       setIsEditDialogOpen(false);
       setEditingPublication(null);
       toast({
@@ -134,7 +138,7 @@ const AdminPublications = () => {
       await apiRequest("DELETE", `/api/admin/publications/${id}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/publications"] });
+      queryClient.invalidateQueries({ queryKey: ["admin", "publications"] });
       toast({
         title: "Sucesso",
         description: "Publicação eliminada com sucesso.",
