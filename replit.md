@@ -4,6 +4,20 @@
 
 ANPERE is a professional association website for telecommunications radio spectrum professionals in Angola. The project is a comprehensive web application built as a single-page application (SPA) that showcases the organization's mission, services, events, publications, and provides contact functionality. The website serves as the primary digital presence for ANPERE, offering information about the association's activities, membership benefits, and professional development opportunities in the telecommunications sector.
 
+The system includes a complete administrative platform with secure authentication, enabling authorized users to manage all website content through CRUD interfaces for Publications, Events, Legislation, About content, and Gallery items. All data is persistently stored in a PostgreSQL database with proper data validation and session management.
+
+## Recent Changes
+
+### September 26, 2025 - Database Persistence Implementation
+- Migrated from volatile MemStorage to persistent PostgreSQL database using Drizzle ORM
+- Implemented DatabaseStorage class with full CRUD operations for all content types
+- Updated database schema to align with frontend CRUD interface requirements
+- Publications: title, description, category, date, fileUrl, downloadUrl fields
+- Events: title, description, date, time, location, type, capacity, registrationUrl fields
+- End-to-end testing confirms data persistence across logout/login cycles and server restarts
+- Admin authentication system maintains session state with PostgreSQL session storage
+- All CRUD operations (Create, Read, Update, Delete) now persist to database permanently
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
