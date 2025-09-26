@@ -40,7 +40,6 @@ const Legislacao = () => {
   return (
     <div className="min-h-screen bg-background">
       <FloatingMenu />
-      
       {/* Hero Section */}
       <section className="relative pt-24 pb-12 px-4">
         <div className="max-w-6xl mx-auto">
@@ -48,7 +47,7 @@ const Legislacao = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-12"
+            className="text-center mt-[48px] mb-[48px]"
           >
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               Legislação
@@ -60,7 +59,6 @@ const Legislacao = () => {
           </motion.div>
         </div>
       </section>
-
       {/* Legislation Content */}
       <section className="py-12 px-4">
         <div className="max-w-6xl mx-auto">
@@ -94,7 +92,6 @@ const Legislacao = () => {
           </div>
         </div>
       </section>
-
       {/* Additional Information */}
       <section className="py-12 px-4 bg-muted/30">
         <div className="max-w-4xl mx-auto text-center">
