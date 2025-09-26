@@ -99,21 +99,23 @@ const HeroSlideshow = () => {
       <Button
         variant="ghost"
         size="icon"
-        onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-black/20 backdrop-blur-sm hover:bg-black/40"
-        data-testid="button-prev-slide"
+        onClick={nextSlide}
+        className="absolute z-50 text-white bg-black/30 backdrop-blur-sm hover:bg-black/50 border border-white/20"
+        style={{ left: '24px', top: '50%', transform: 'translateY(-50%)' }}
+        data-testid="button-next-slide"
       >
-        <ChevronLeft size={24} />
+        <ChevronRight size={24} />
       </Button>
       
       <Button
         variant="ghost"
         size="icon"
-        onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-black/20 backdrop-blur-sm hover:bg-black/40"
-        data-testid="button-next-slide"
+        onClick={prevSlide}
+        className="absolute z-50 text-white bg-black/30 backdrop-blur-sm hover:bg-black/50 border border-white/20"
+        style={{ right: '24px', top: '50%', transform: 'translateY(-50%)' }}
+        data-testid="button-prev-slide"
       >
-        <ChevronRight size={24} />
+        <ChevronLeft size={24} />
       </Button>
 
       {/* Slide Indicators */}

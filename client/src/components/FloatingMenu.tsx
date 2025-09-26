@@ -174,8 +174,6 @@ const FloatingMenu = () => {
                 Galeria
               </Link>
 
-              
-
               {/* Login Button */}
               <Link
                 href="/admin/login"
@@ -296,8 +294,6 @@ const FloatingMenu = () => {
                 >
                   Galeria
                 </Link>
-
-                
 
                 {/* Mobile Login Button */}
                 <Link
