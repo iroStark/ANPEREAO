@@ -10,6 +10,8 @@ import {
 import { Menu, X, ChevronDown, User } from "lucide-react";
 import anpereLogo from "@assets/Gemini_Generated_Image_vlpezzvlpezzvlpe_1758913669762.png";
 
+import ChatGPT_Image_26_09_2025__20_19_29 from "@assets/ChatGPT Image 26_09_2025, 20_19_29.png";
+
 const FloatingMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -73,7 +75,7 @@ const FloatingMenu = () => {
               data-testid="logo-floating-menu"
             >
               <img 
-                src={anpereLogo}
+                src={ChatGPT_Image_26_09_2025__20_19_29}
                 alt="ANPERE - Associação Nacional dos Profissionais do Espectro Rádio Eletrónico"
                 className="h-12 w-auto"
               />
