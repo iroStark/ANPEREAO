@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import heroImage1 from "@assets/generated_images/Angolan_telecommunications_professionals_working_640a21c0.png";
 import heroImage2 from "@assets/generated_images/Telecommunications_tower_in_Luanda_Angola_da464df4.png";
 import heroImage3 from "@assets/generated_images/Angolan_professionals_telecommunications_meeting_859a9b86.png";
-import heroImage4 from "@assets/Gemini_Generated_Image_y9zwpuy9zwpuy9zw_1758926715022.png";
+import heroImage4 from "@assets/Gemini_Generated_Image_y9zwpuy9zwpuy9zw_1758927089316.png";
 
 const slides = [
   {
