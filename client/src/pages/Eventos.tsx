@@ -72,7 +72,6 @@ const Eventos = () => {
   return (
     <div className="min-h-screen bg-background">
       <FloatingMenu />
-      
       {/* Hero Section */}
       <section className="relative pt-24 pb-12 px-4">
         <div className="max-w-6xl mx-auto">
@@ -80,7 +79,7 @@ const Eventos = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-12"
+            className="text-center mt-[48px] mb-[48px]"
           >
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               Eventos
@@ -92,7 +91,6 @@ const Eventos = () => {
           </motion.div>
         </div>
       </section>
-
       {/* Upcoming Events */}
       <section className="py-12 px-4">
         <div className="max-w-6xl mx-auto">
@@ -163,7 +161,6 @@ const Eventos = () => {
           </div>
         </div>
       </section>
-
       {/* Past Events */}
       <section className="py-12 px-4 bg-muted/30">
         <div className="max-w-6xl mx-auto">
