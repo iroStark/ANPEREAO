@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import FloatingMenu from "@/components/FloatingMenu";
+import Footer from "@/components/Footer";
 import { Calendar, MapPin, Clock, Users, ChevronRight } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -220,6 +221,7 @@ const Eventos = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };

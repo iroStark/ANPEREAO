@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import FloatingMenu from "@/components/FloatingMenu";
+import Footer from "@/components/Footer";
 import { BookOpen, FileText, Gavel, Scale } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -112,6 +113,7 @@ const Legislacao = () => {
           </motion.div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };

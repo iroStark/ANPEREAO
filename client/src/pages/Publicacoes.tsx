@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import FloatingMenu from "@/components/FloatingMenu";
+import Footer from "@/components/Footer";
 import { FileText, Download, Calendar, Eye } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -170,6 +171,7 @@ const Publicacoes = () => {
           </motion.div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };

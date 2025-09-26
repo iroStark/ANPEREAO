@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import FloatingMenu from "@/components/FloatingMenu";
+import Footer from "@/components/Footer";
 import { ImageIcon, Play, Calendar, Eye } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -239,6 +240,7 @@ const Galeria = () => {
           </motion.div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };
