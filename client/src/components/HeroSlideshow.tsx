@@ -95,27 +95,43 @@ const HeroSlideshow = () => {
         </div>
       ))}
 
-      {/* Navigation Controls */}
+      {/* Navigation Controls - Full Screen Sides */}
       <Button
         variant="ghost"
         size="icon"
-        onClick={nextSlide}
-        className="absolute z-50 text-white bg-black/30 backdrop-blur-sm hover:bg-black/50 border border-white/20"
-        style={{ left: '24px', top: '50%', transform: 'translateY(-50%)' }}
-        data-testid="button-next-slide"
+        onClick={prevSlide}
+        className="text-white bg-black/40 backdrop-blur-md hover:bg-black/60 border border-white/30"
+        style={{
+          position: 'fixed',
+          left: '16px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          zIndex: 9999,
+          width: '48px',
+          height: '48px'
+        }}
+        data-testid="button-prev-slide"
       >
-        <ChevronRight size={24} />
+        <ChevronLeft size={28} />
       </Button>
       
       <Button
         variant="ghost"
         size="icon"
-        onClick={prevSlide}
-        className="absolute z-50 text-white bg-black/30 backdrop-blur-sm hover:bg-black/50 border border-white/20"
-        style={{ right: '24px', top: '50%', transform: 'translateY(-50%)' }}
-        data-testid="button-prev-slide"
+        onClick={nextSlide}
+        className="text-white bg-black/40 backdrop-blur-md hover:bg-black/60 border border-white/30"
+        style={{
+          position: 'fixed',
+          right: '16px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          zIndex: 9999,
+          width: '48px',
+          height: '48px'
+        }}
+        data-testid="button-next-slide"
       >
-        <ChevronLeft size={24} />
+        <ChevronRight size={28} />
       </Button>
 
       {/* Slide Indicators */}
