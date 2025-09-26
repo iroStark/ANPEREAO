@@ -73,7 +73,6 @@ const Publicacoes = () => {
   return (
     <div className="min-h-screen bg-background">
       <FloatingMenu />
-      
       {/* Hero Section */}
       <section className="relative pt-24 pb-12 px-4">
         <div className="max-w-6xl mx-auto">
@@ -81,7 +80,7 @@ const Publicacoes = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-12"
+            className="text-center mt-[48px] mb-[48px]"
           >
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               Publicações
@@ -93,7 +92,6 @@ const Publicacoes = () => {
           </motion.div>
         </div>
       </section>
-
       {/* Publications Grid */}
       <section className="py-12 px-4">
         <div className="max-w-6xl mx-auto">
@@ -149,7 +147,6 @@ const Publicacoes = () => {
           </div>
         </div>
       </section>
-
       {/* Call to Action */}
       <section className="py-12 px-4 bg-muted/30">
         <div className="max-w-4xl mx-auto text-center">
