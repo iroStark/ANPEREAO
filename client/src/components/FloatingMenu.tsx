@@ -88,9 +88,6 @@ const FloatingMenu = () => {
                   <span className="text-foreground">AN</span>
                   <span className="text-primary">PERE</span>
                 </div>
-                <div className="text-xs text-muted-foreground">
-                  Profissionais do Espectro Rádio
-                </div>
               </div>
             </Link>
 
