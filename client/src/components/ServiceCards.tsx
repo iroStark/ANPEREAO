@@ -58,7 +58,7 @@ const ServiceCards = () => {
   };
 
   return (
-    <div className="relative -mt-20 mb-16 z-10">
+    <div className="relative -mt-20 mb-8 z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white dark:bg-card rounded-2xl shadow-xl border border-border p-3 lg:p-4">
           <div className="flex flex-col lg:flex-row divide-y lg:divide-y-0 lg:divide-x divide-border/20">

@@ -124,7 +124,7 @@ const AboutSection = () => {
       {/* Hero Section with Parallax */}
       <motion.div 
         ref={heroRef}
-        className="relative min-h-screen flex items-center justify-center"
+        className="relative min-h-[70vh] flex items-center justify-center"
         style={{ position: 'relative' }}
         initial="hidden"
         animate={heroInView ? "visible" : "hidden"}
@@ -336,7 +336,7 @@ const AboutSection = () => {
 
       {/* Mission, Vision & Values - Interactive Tabs */}
       <motion.div
-        className="py-20 bg-gradient-to-b from-background to-muted/20"
+        className="py-12 bg-gradient-to-b from-background to-muted/20"
         initial="hidden"
         animate={cardsInView ? "visible" : "hidden"}
         variants={containerVariants}
@@ -344,7 +344,7 @@ const AboutSection = () => {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
-          <motion.div variants={itemVariants} className="text-center mb-16">
+          <motion.div variants={itemVariants} className="text-center mb-10">
             <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
               Nossos Pilares
             </h2>
@@ -354,7 +354,7 @@ const AboutSection = () => {
           </motion.div>
 
           {/* Interactive Tabs */}
-          <motion.div variants={itemVariants} className="flex flex-wrap justify-center gap-4 mb-12">
+          <motion.div variants={itemVariants} className="flex flex-wrap justify-center gap-4 mb-8">
             {tabs.map((tab) => {
               const IconComponent = tab.icon;
               return (
@@ -485,13 +485,13 @@ const AboutSection = () => {
       {/* Stats Section with Counter Animation */}
       <motion.div
         ref={statsRef}
-        className="py-20 bg-gradient-to-r from-primary/5 via-chart-2/5 to-chart-3/5"
+        className="py-12 bg-gradient-to-r from-primary/5 via-chart-2/5 to-chart-3/5"
         initial="hidden"
         animate={statsInView ? "visible" : "hidden"}
         variants={containerVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div variants={itemVariants} className="text-center mb-16">
+          <motion.div variants={itemVariants} className="text-center mb-10">
             <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
               Nossa Força em Números
             </h2>
@@ -543,13 +543,13 @@ const AboutSection = () => {
       {/* Timeline Section */}
       <motion.div
         ref={timelineRef}
-        className="py-20 bg-background"
+        className="py-12 bg-background"
         initial="hidden"
         animate={timelineInView ? "visible" : "hidden"}
         variants={containerVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div variants={itemVariants} className="text-center mb-16">
+          <motion.div variants={itemVariants} className="text-center mb-10">
             <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
               Nossa Jornada
             </h2>
