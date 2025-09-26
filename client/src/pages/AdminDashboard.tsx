@@ -25,133 +25,31 @@ import {
 } from "lucide-react";
 
 const AdminDashboard = () => {
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
   const { toast } = useToast();
 
-  const handleSeedData = async () => {
-    try {
-      toast({
-        title: "Iniciando Seed",
-        description: "Criando dados de exemplo...",
-      });
-
-      const response = await fetch("/api/seed-sample-data", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Erro ao executar seed dos dados");
-      }
-
-      const result = await response.json();
-      
-      toast({
-        title: "Seed Concluído",
-        description: `${result.message} Criados: ${result.eventsCount} eventos, ${result.publicationsCount} publicações, ${result.galleryCount} itens de galeria.`,
-      });
-    } catch (error: any) {
-      toast({
-        title: "Erro no Seed",
-        description: error.message || "Erro ao criar dados de exemplo.",
-        variant: "destructive",
-      });
+  // Determine which component to render based on the current location
+  const renderContent = () => {
+    const path = location.toLowerCase();
+    
+    if (path === '/admin/about') {
+      return <AdminAbout />;
+    } else if (path === '/admin/legislation') {
+      return <AdminLegislation />;
+    } else if (path === '/admin/publications') {
+      return <AdminPublications />;
+    } else if (path === '/admin/events') {
+      return <AdminEvents />;
+    } else if (path === '/admin/gallery') {
+      return <AdminGallery />;
     }
+    
+    // Default dashboard content for /admin
+    return renderDashboardContent();
   };
 
-  const stats = [
-    {
-      label: "Total de Membros",
-      value: "1,234",
-      icon: Users,
-      color: "bg-gradient-to-r from-blue-500 to-blue-600",
-      change: "+12%",
-      trend: "up"
-    },
-    {
-      label: "Publicações",
-      value: "89",
-      icon: FileText,
-      color: "bg-gradient-to-r from-green-500 to-green-600",
-      change: "+5%",
-      trend: "up"
-    },
-    {
-      label: "Eventos",
-      value: "24",
-      icon: Calendar,
-      color: "bg-gradient-to-r from-purple-500 to-purple-600",
-      change: "+18%",
-      trend: "up"
-    },
-    {
-      label: "Documentos",
-      value: "156",
-      icon: BookOpen,
-      color: "bg-gradient-to-r from-orange-500 to-orange-600",
-      change: "+8%",
-      trend: "up"
-    }
-  ];
-
-  const recentActivities = [
-    {
-      action: "Publicação criada",
-      item: "Relatório Anual 2024",
-      time: "há 2 horas",
-      type: "create"
-    },
-    {
-      action: "Evento atualizado",
-      item: "Conferência de Telecomunicações",
-      time: "há 4 horas",
-      type: "update"
-    },
-    {
-      action: "Legislação adicionada",
-      item: "Decreto Lei nº 45/2024",
-      time: "há 6 horas",
-      type: "create"
-    },
-    {
-      action: "Galeria atualizada",
-      item: "Fotos do Workshop",
-      time: "ontem",
-      type: "update"
-    }
-  ];
-
-  const quickActions = [
-    {
-      label: "Nova Publicação",
-      icon: FileText,
-      action: () => setLocation("/admin/publications"),
-      description: "Criar novo documento"
-    },
-    {
-      label: "Criar Evento",
-      icon: Calendar,
-      action: () => setLocation("/admin/events"),
-      description: "Agendar novo evento"
-    },
-    {
-      label: "Adicionar Legislação",
-      icon: BookOpen,
-      action: () => setLocation("/admin/legislation"),
-      description: "Incluir documento legal"
-    },
-    {
-      label: "Galeria",
-      icon: ImageIcon,
-      action: () => setLocation("/admin/gallery"),
-      description: "Gerenciar imagens"
-    }
-  ];
-
-  return (
-    <AdminLayout>
+  const renderDashboardContent = () => (
+    <>
       <AdminPageHeader 
         title="Dashboard" 
         description="Visão geral do sistema administrativo da ANPERE"
@@ -300,6 +198,134 @@ const AdminDashboard = () => {
           </CardContent>
         </Card>
       </div>
+    </>
+  );
+
+  const handleSeedData = async () => {
+    try {
+      toast({
+        title: "Iniciando Seed",
+        description: "Criando dados de exemplo...",
+      });
+
+      const response = await fetch("/api/seed-sample-data", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao executar seed dos dados");
+      }
+
+      const result = await response.json();
+      
+      toast({
+        title: "Seed Concluído",
+        description: `${result.message} Criados: ${result.eventsCount} eventos, ${result.publicationsCount} publicações, ${result.galleryCount} itens de galeria.`,
+      });
+    } catch (error: any) {
+      toast({
+        title: "Erro no Seed",
+        description: error.message || "Erro ao criar dados de exemplo.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const stats = [
+    {
+      label: "Total de Membros",
+      value: "1,234",
+      icon: Users,
+      color: "bg-gradient-to-r from-blue-500 to-blue-600",
+      change: "+12%",
+      trend: "up"
+    },
+    {
+      label: "Publicações",
+      value: "89",
+      icon: FileText,
+      color: "bg-gradient-to-r from-green-500 to-green-600",
+      change: "+5%",
+      trend: "up"
+    },
+    {
+      label: "Eventos",
+      value: "24",
+      icon: Calendar,
+      color: "bg-gradient-to-r from-purple-500 to-purple-600",
+      change: "+18%",
+      trend: "up"
+    },
+    {
+      label: "Documentos",
+      value: "156",
+      icon: BookOpen,
+      color: "bg-gradient-to-r from-orange-500 to-orange-600",
+      change: "+8%",
+      trend: "up"
+    }
+  ];
+
+  const recentActivities = [
+    {
+      action: "Publicação criada",
+      item: "Relatório Anual 2024",
+      time: "há 2 horas",
+      type: "create"
+    },
+    {
+      action: "Evento atualizado",
+      item: "Conferência de Telecomunicações",
+      time: "há 4 horas",
+      type: "update"
+    },
+    {
+      action: "Legislação adicionada",
+      item: "Decreto Lei nº 45/2024",
+      time: "há 6 horas",
+      type: "create"
+    },
+    {
+      action: "Galeria atualizada",
+      item: "Fotos do Workshop",
+      time: "ontem",
+      type: "update"
+    }
+  ];
+
+  const quickActions = [
+    {
+      label: "Nova Publicação",
+      icon: FileText,
+      action: () => setLocation("/admin/publications"),
+      description: "Criar novo documento"
+    },
+    {
+      label: "Criar Evento",
+      icon: Calendar,
+      action: () => setLocation("/admin/events"),
+      description: "Agendar novo evento"
+    },
+    {
+      label: "Adicionar Legislação",
+      icon: BookOpen,
+      action: () => setLocation("/admin/legislation"),
+      description: "Incluir documento legal"
+    },
+    {
+      label: "Galeria",
+      icon: ImageIcon,
+      action: () => setLocation("/admin/gallery"),
+      description: "Gerenciar imagens"
+    }
+  ];
+
+  return (
+    <AdminLayout>
+      {renderContent()}
     </AdminLayout>
   );
 };
