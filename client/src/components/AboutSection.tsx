@@ -21,6 +21,7 @@ import {
   Globe,
   Star
 } from "lucide-react";
+import DynamicSeparator from "@/components/DynamicSeparator";
 // SVG-based background - no image imports needed
 
 // Animation Variants
@@ -333,6 +334,9 @@ const AboutSection = () => {
           </motion.div>
         </div>
       </motion.div>
+
+      {/* Dynamic Separator */}
+      <DynamicSeparator />
 
       {/* Mission, Vision & Values - Interactive Tabs */}
       <motion.div
