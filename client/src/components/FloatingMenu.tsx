@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, User } from "lucide-react";
 
 const FloatingMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -167,6 +167,16 @@ const FloatingMenu = () => {
               >
                 Contactos
               </Link>
+
+              {/* Login Button */}
+              <Link
+                href="/admin/login"
+                className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-200 flex items-center"
+                data-testid="nav-login"
+              >
+                <User className="w-4 h-4 mr-1" />
+                Login
+              </Link>
             </div>
 
             {/* CTA Button */}
@@ -286,6 +296,17 @@ const FloatingMenu = () => {
                   data-testid="nav-mobile-contact"
                 >
                   Contactos
+                </Link>
+
+                {/* Mobile Login Button */}
+                <Link
+                  href="/admin/login"
+                  onClick={closeMenu}
+                  className="block w-full text-left text-sm font-medium text-foreground hover:text-primary py-2 flex items-center"
+                  data-testid="nav-mobile-login"
+                >
+                  <User className="w-4 h-4 mr-2" />
+                  Login
                 </Link>
 
                 <div className="pt-4">

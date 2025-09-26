@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User } from "lucide-react";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,22 +34,36 @@ const Header = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                data-testid={`link-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
-              >
-                <Button
-                  variant={location === item.href ? "default" : "ghost"}
-                  className="text-sm font-medium"
+          <div className="hidden md:flex items-center space-x-8">
+            <nav className="flex space-x-8">
+              {navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  data-testid={`link-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
                 >
-                  {item.name}
-                </Button>
-              </Link>
-            ))}
-          </nav>
+                  <Button
+                    variant={location === item.href ? "default" : "ghost"}
+                    className="text-sm font-medium"
+                  >
+                    {item.name}
+                  </Button>
+                </Link>
+              ))}
+            </nav>
+            
+            {/* Login Button */}
+            <Link href="/admin/login" data-testid="link-admin-login">
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-sm font-medium"
+              >
+                <User className="w-4 h-4 mr-2" />
+                Login
+              </Button>
+            </Link>
+          </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden">
@@ -82,6 +96,18 @@ const Header = () => {
                 </Button>
               </Link>
             ))}
+            
+            {/* Mobile Login Button */}
+            <Link href="/admin/login" data-testid="link-mobile-admin-login">
+              <Button
+                variant="outline"
+                className="w-full justify-start mb-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <User className="w-4 h-4 mr-2" />
+                Login
+              </Button>
+            </Link>
           </nav>
         )}
       </div>
