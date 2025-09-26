@@ -21,7 +21,7 @@ import {
   Globe,
   Star
 } from "lucide-react";
-import angolanProfessionalsImage from "@assets/generated_images/Angolan_telecommunications_professionals_working_640a21c0.png";
+// SVG-based background - no image imports needed
 
 // Animation Variants
 const containerVariants = {
@@ -130,17 +130,155 @@ const AboutSection = () => {
         animate={heroInView ? "visible" : "hidden"}
         variants={containerVariants}
       >
-        {/* Parallax Background */}
+        {/* Parallax Background with SVG Pattern */}
         <motion.div 
           style={{ y: heroY, opacity: heroOpacity }}
           className="absolute inset-0 z-0"
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-chart-2/20" />
-          <img 
-            src={angolanProfessionalsImage} 
-            alt="Profissionais ANPERE" 
-            className="w-full h-full object-cover opacity-30"
-          />
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-chart-2/5 to-chart-3/10" />
+          
+          {/* Abstract SVG Pattern */}
+          <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="currentColor" stopOpacity="0.3" />
+                <stop offset="50%" stopColor="currentColor" stopOpacity="0.1" />
+                <stop offset="100%" stopColor="currentColor" stopOpacity="0.3" />
+              </linearGradient>
+              <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+                <path d="M 100 0 L 0 0 0 100" fill="none" stroke="url(#grad1)" strokeWidth="1"/>
+              </pattern>
+            </defs>
+            
+            {/* Network/Grid Pattern */}
+            <rect width="100%" height="100%" fill="url(#grid)" className="text-primary" />
+            
+            {/* Floating Circles - representing radio waves/signals */}
+            <motion.circle 
+              cx="200" 
+              cy="200" 
+              r="50" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              className="text-primary opacity-40"
+              animate={{
+                r: [40, 60, 40],
+                strokeWidth: [1, 3, 1]
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.circle 
+              cx="800" 
+              cy="300" 
+              r="40" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              className="text-chart-2 opacity-30"
+              animate={{
+                r: [30, 50, 30],
+                strokeWidth: [1, 2, 1]
+              }}
+              transition={{
+                duration: 3.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1
+              }}
+            />
+            <motion.circle 
+              cx="150" 
+              cy="700" 
+              r="35" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              className="text-chart-3 opacity-25"
+              animate={{
+                r: [25, 45, 25],
+                strokeWidth: [1, 2.5, 1]
+              }}
+              transition={{
+                duration: 4.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 2
+              }}
+            />
+            
+            {/* Connection Lines - representing telecommunications */}
+            <motion.path
+              d="M 200 200 Q 500 100 800 300"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeDasharray="5,5"
+              className="text-primary opacity-20"
+              animate={{
+                strokeDashoffset: [0, -20, 0]
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            />
+            <motion.path
+              d="M 150 700 Q 400 400 200 200"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeDasharray="3,3"
+              className="text-chart-2 opacity-15"
+              animate={{
+                strokeDashoffset: [0, -15, 0]
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "linear",
+                delay: 1
+              }}
+            />
+            
+            {/* Geometric Shapes */}
+            <motion.polygon
+              points="700,500 750,450 800,500 750,550"
+              fill="currentColor"
+              className="text-chart-3 opacity-10"
+              animate={{
+                rotate: [0, 360]
+              }}
+              transition={{
+                duration: 20,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            />
+            <motion.rect
+              x="100"
+              y="400"
+              width="60"
+              height="60"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              className="text-chart-4 opacity-15"
+              animate={{
+                rotate: [0, -360]
+              }}
+              transition={{
+                duration: 25,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            />
+          </svg>
         </motion.div>
 
         {/* Floating Geometric Shapes */}
