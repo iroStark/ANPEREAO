@@ -267,7 +267,7 @@ const AdminEvents = () => {
           )}
         />
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <FormField
             control={form.control}
             name="date"
@@ -311,7 +311,7 @@ const AdminEvents = () => {
           )}
         />
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <FormField
             control={form.control}
             name="type"
@@ -383,11 +383,11 @@ const AdminEvents = () => {
   );
 
   return (
-    <div className="space-y-4 sm:space-y-6 max-w-full">
+    <div className="p-4 sm:p-6 lg:p-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <div className="min-w-0 flex-1">
-          <h2 className="text-xl sm:text-2xl font-semibold truncate">Gestão de Eventos</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold truncate">Gestão de Eventos</h2>
           <p className="text-sm sm:text-base text-muted-foreground truncate">
             Gerir conferências, workshops e atividades da ANPERE
           </p>
@@ -400,7 +400,7 @@ const AdminEvents = () => {
               <span className="sm:hidden">Novo</span>
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl">
+          <DialogContent className="max-w-full sm:max-w-2xl mx-4">
             <DialogHeader>
               <DialogTitle>Novo Evento</DialogTitle>
               <DialogDescription>
@@ -417,27 +417,27 @@ const AdminEvents = () => {
       </div>
 
       {/* Filters */}
-      <Card>
-        <CardContent className="p-4">
-          <div className="flex gap-4 items-center">
-            <div className="flex-1">
+      <Card className="mb-6">
+        <CardContent className="p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+            <div className="flex-1 w-full sm:w-auto">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
                   placeholder="Procurar eventos..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 w-full"
                   data-testid="input-search-events"
                 />
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Filter className="w-4 h-4 text-muted-foreground" />
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <Filter className="w-4 h-4 text-muted-foreground flex-shrink-0" />
               <select
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
-                className="px-3 py-2 border rounded-md text-sm"
+                className="px-3 py-2 border rounded-md text-sm flex-1 sm:flex-none min-w-0"
                 data-testid="select-event-type"
               >
                 <option value="">Todos os Tipos</option>

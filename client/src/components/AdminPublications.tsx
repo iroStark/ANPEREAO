@@ -217,11 +217,11 @@ const AdminPublications = () => {
   }
 
   return (
-    <div className="space-y-4 sm:space-y-6 max-w-full">
+    <div className="p-4 sm:p-6 lg:p-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <div className="min-w-0 flex-1">
-          <h2 className="text-xl sm:text-2xl font-semibold truncate">Gestão de Publicações</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold truncate">Gestão de Publicações</h2>
           <p className="text-sm sm:text-base text-muted-foreground truncate">
             Gerir documentos, relatórios e publicações da ANPERE
           </p>
@@ -234,7 +234,7 @@ const AdminPublications = () => {
               <span className="sm:hidden">Nova</span>
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl">
+          <DialogContent className="max-w-full sm:max-w-2xl mx-4">
             <DialogHeader>
               <DialogTitle>Nova Publicação</DialogTitle>
               <DialogDescription>
@@ -275,7 +275,7 @@ const AdminPublications = () => {
                   )}
                 />
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
                     name="category"
