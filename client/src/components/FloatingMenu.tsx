@@ -28,26 +28,22 @@ const FloatingMenu = () => {
     };
   }, []);
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const closeMenu = () => {
     setIsMenuOpen(false);
   };
 
   const publicationsItems = [
-    { name: "Planos de Actividades", section: "publicacoes" },
-    { name: "Relatórios Anuais", section: "publicacoes" },
-    { name: "Actas de Reunião", section: "publicacoes" },
-    { name: "Comunicados", section: "publicacoes" },
+    { name: "Planos de Actividades", path: "/publicacoes" },
+    { name: "Relatórios Anuais", path: "/publicacoes" },
+    { name: "Actas de Reunião", path: "/publicacoes" },
+    { name: "Comunicados", path: "/publicacoes" },
   ];
 
   const aboutItems = [
-    { name: "Nossa História", section: "quem-somos" },
-    { name: "Missão e Visão", section: "quem-somos" },
-    { name: "Organograma", section: "quem-somos" },
-    { name: "Diretoria", section: "quem-somos" },
+    { name: "Nossa História", path: "/quem-somos" },
+    { name: "Missão e Visão", path: "/quem-somos" },
+    { name: "Organograma", path: "/quem-somos" },
+    { name: "Diretoria", path: "/quem-somos" },
   ];
 
   return (
@@ -70,9 +66,9 @@ const FloatingMenu = () => {
         }`}>
           <div className="flex justify-between items-center">
             {/* Logo */}
-            <div 
-              onClick={() => scrollToSection('home')} 
-              className="flex-shrink-0 cursor-pointer"
+            <Link
+              href="/"
+              className="flex-shrink-0"
               data-testid="logo-floating-menu"
             >
               <div className="text-xl font-bold">
@@ -82,17 +78,17 @@ const FloatingMenu = () => {
               <div className="text-xs text-muted-foreground">
                 Profissionais do Espectro Rádio
               </div>
-            </div>
+            </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-6">
-              <button
-                onClick={() => scrollToSection('home')}
+              <Link
+                href="/"
                 className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-200"
                 data-testid="nav-home"
               >
                 Home
-              </button>
+              </Link>
 
               {/* About Dropdown */}
               <DropdownMenu>
@@ -106,23 +102,24 @@ const FloatingMenu = () => {
                   {aboutItems.map((item) => (
                     <DropdownMenuItem
                       key={item.name}
-                      onClick={() => scrollToSection(item.section)}
                       className="cursor-pointer"
                       data-testid={`dropdown-about-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
                     >
-                      {item.name}
+                      <Link href={item.path} className="w-full" onClick={closeMenu}>
+                        {item.name}
+                      </Link>
                     </DropdownMenuItem>
                   ))}
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              <button
-                onClick={() => scrollToSection('legislacao')}
+              <Link
+                href="/legislacao"
                 className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-200"
                 data-testid="nav-legislation"
               >
                 Legislação
-              </button>
+              </Link>
 
               {/* Publications Dropdown */}
               <DropdownMenu>
@@ -136,49 +133,48 @@ const FloatingMenu = () => {
                   {publicationsItems.map((item) => (
                     <DropdownMenuItem
                       key={item.name}
-                      onClick={() => scrollToSection(item.section)}
                       className="cursor-pointer"
                       data-testid={`dropdown-publications-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
                     >
-                      {item.name}
+                      <Link href={item.path} className="w-full" onClick={closeMenu}>
+                        {item.name}
+                      </Link>
                     </DropdownMenuItem>
                   ))}
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              <button
-                onClick={() => scrollToSection('eventos')}
+              <Link
+                href="/eventos"
                 className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-200"
                 data-testid="nav-events"
               >
                 Eventos
-              </button>
+              </Link>
 
-              <button
-                onClick={() => scrollToSection('galeria')}
+              <Link
+                href="/galeria"
                 className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-200"
                 data-testid="nav-gallery"
               >
                 Galeria
-              </button>
+              </Link>
 
-              <button
-                onClick={() => scrollToSection('contactos')}
+              <Link
+                href="/contactos"
                 className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-200"
                 data-testid="nav-contact"
               >
                 Contactos
-              </button>
+              </Link>
             </div>
 
             {/* CTA Button */}
             <div className="hidden lg:flex items-center">
-              <Button 
-                onClick={() => scrollToSection('contactos')}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6 py-2 rounded-full"
-                data-testid="button-associate"
-              >
-                ASSOCIAR-SE
+              <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6 py-2 rounded-full">
+                <Link href="/contactos" data-testid="button-associate">
+                  ASSOCIAR-SE
+                </Link>
               </Button>
             </div>
 
@@ -199,97 +195,104 @@ const FloatingMenu = () => {
           {isMenuOpen && (
             <div className="lg:hidden mt-6 pt-6 border-t border-border">
               <div className="space-y-4">
-                <button
-                  onClick={() => scrollToSection('home')}
+                <Link
+                  href="/"
+                  onClick={closeMenu}
                   className="block w-full text-left text-sm font-medium text-foreground hover:text-primary py-2"
                   data-testid="nav-mobile-home"
                 >
                   Home
-                </button>
+                </Link>
 
                 <div className="space-y-2">
-                  <button
-                    onClick={() => scrollToSection('quem-somos')}
+                  <Link
+                    href="/quem-somos"
+                    onClick={closeMenu}
                     className="block w-full text-left text-sm font-medium text-foreground hover:text-primary py-2"
                     data-testid="nav-mobile-about"
                   >
                     Quem Somos
-                  </button>
+                  </Link>
                   <div className="pl-4 space-y-2">
                     {aboutItems.map((item) => (
-                      <button
+                      <Link
                         key={item.name}
-                        onClick={() => scrollToSection(item.section)}
+                        href={item.path}
+                        onClick={closeMenu}
                         className="block w-full text-left text-xs text-muted-foreground hover:text-primary py-1"
                         data-testid={`nav-mobile-about-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
                       >
                         {item.name}
-                      </button>
+                      </Link>
                     ))}
                   </div>
                 </div>
 
-                <button
-                  onClick={() => scrollToSection('legislacao')}
+                <Link
+                  href="/legislacao"
+                  onClick={closeMenu}
                   className="block w-full text-left text-sm font-medium text-foreground hover:text-primary py-2"
                   data-testid="nav-mobile-legislation"
                 >
                   Legislação
-                </button>
+                </Link>
 
                 <div className="space-y-2">
-                  <button
-                    onClick={() => scrollToSection('publicacoes')}
+                  <Link
+                    href="/publicacoes"
+                    onClick={closeMenu}
                     className="block w-full text-left text-sm font-medium text-foreground hover:text-primary py-2"
                     data-testid="nav-mobile-publications"
                   >
                     Publicações
-                  </button>
+                  </Link>
                   <div className="pl-4 space-y-2">
                     {publicationsItems.map((item) => (
-                      <button
+                      <Link
                         key={item.name}
-                        onClick={() => scrollToSection(item.section)}
+                        href={item.path}
+                        onClick={closeMenu}
                         className="block w-full text-left text-xs text-muted-foreground hover:text-primary py-1"
                         data-testid={`nav-mobile-publications-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
                       >
                         {item.name}
-                      </button>
+                      </Link>
                     ))}
                   </div>
                 </div>
 
-                <button
-                  onClick={() => scrollToSection('eventos')}
+                <Link
+                  href="/eventos"
+                  onClick={closeMenu}
                   className="block w-full text-left text-sm font-medium text-foreground hover:text-primary py-2"
                   data-testid="nav-mobile-events"
                 >
                   Eventos
-                </button>
+                </Link>
 
-                <button
-                  onClick={() => scrollToSection('galeria')}
+                <Link
+                  href="/galeria"
+                  onClick={closeMenu}
                   className="block w-full text-left text-sm font-medium text-foreground hover:text-primary py-2"
                   data-testid="nav-mobile-gallery"
                 >
                   Galeria
-                </button>
+                </Link>
 
-                <button
-                  onClick={() => scrollToSection('contactos')}
+                <Link
+                  href="/contactos"
+                  onClick={closeMenu}
                   className="block w-full text-left text-sm font-medium text-foreground hover:text-primary py-2"
                   data-testid="nav-mobile-contact"
                 >
                   Contactos
-                </button>
+                </Link>
 
                 <div className="pt-4">
-                  <Button 
-                    onClick={() => scrollToSection('contactos')}
-                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-full"
-                    data-testid="button-mobile-associate"
-                  >
-                    ASSOCIAR-SE
+                  <Button asChild className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-full">
+                    <Link href="/contactos" onClick={closeMenu} data-testid="button-mobile-associate">
+                      ASSOCIAR-SE
+                    </Link>
                   </Button>
                 </div>
               </div>
