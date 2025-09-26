@@ -2,10 +2,6 @@ import FloatingMenu from "@/components/FloatingMenu";
 import HeroSlideshow from "@/components/HeroSlideshow";
 import ServiceCards from "@/components/ServiceCards";
 import AboutSection from "@/components/AboutSection";
-import LegislationSection from "@/components/LegislationSection";
-import PublicationsSection from "@/components/PublicationsSection";
-import EventsSection from "@/components/EventsSection";
-import GallerySection from "@/components/GallerySection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
@@ -20,18 +16,6 @@ const Home = () => {
         <ServiceCards />
         <section id="quem-somos">
           <AboutSection />
-        </section>
-        <section id="legislacao">
-          <LegislationSection />
-        </section>
-        <section id="publicacoes">
-          <PublicationsSection />
-        </section>
-        <section id="eventos">
-          <EventsSection />
-        </section>
-        <section id="galeria">
-          <GallerySection />
         </section>
         <section id="contactos">
           <ContactSection />
