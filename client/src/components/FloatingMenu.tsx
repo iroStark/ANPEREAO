@@ -174,13 +174,7 @@ const FloatingMenu = () => {
                 Galeria
               </Link>
 
-              <Link
-                href="/contactos"
-                className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-200"
-                data-testid="nav-contact"
-              >
-                Contactos
-              </Link>
+              
 
               {/* Login Button */}
               <Link
@@ -303,14 +297,7 @@ const FloatingMenu = () => {
                   Galeria
                 </Link>
 
-                <Link
-                  href="/contactos"
-                  onClick={closeMenu}
-                  className="block w-full text-left text-sm font-medium text-foreground hover:text-primary py-2"
-                  data-testid="nav-mobile-contact"
-                >
-                  Contactos
-                </Link>
+                
 
                 {/* Mobile Login Button */}
                 <Link
