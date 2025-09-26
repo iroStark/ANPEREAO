@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Menu, X, ChevronDown, User } from "lucide-react";
+import anpereLogo from "@assets/Gemini_Generated_Image_vlpezzvlpezzvlpe_1758913669762.png";
 
 const FloatingMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -68,15 +69,22 @@ const FloatingMenu = () => {
             {/* Logo */}
             <Link
               href="/"
-              className="flex-shrink-0"
+              className="flex-shrink-0 flex items-center"
               data-testid="logo-floating-menu"
             >
-              <div className="text-xl font-bold">
-                <span className="text-foreground">AN</span>
-                <span className="text-primary">PERE</span>
-              </div>
-              <div className="text-xs text-muted-foreground">
-                Profissionais do Espectro Rádio
+              <img 
+                src={anpereLogo}
+                alt="ANPERE - Associação Nacional dos Profissionais do Espectro Rádio Eletrónico"
+                className="h-12 w-auto"
+              />
+              <div className="ml-3">
+                <div className="text-lg font-bold">
+                  <span className="text-foreground">AN</span>
+                  <span className="text-primary">PERE</span>
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  Profissionais do Espectro Rádio
+                </div>
               </div>
             </Link>
 

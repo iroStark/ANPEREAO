@@ -23,12 +23,19 @@ const Header = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
-            <Link href="/" data-testid="link-home">
-              <div className="text-2xl font-bold text-primary">
-                ANPERE
-              </div>
-              <div className="text-xs text-muted-foreground">
-                Profissionais do Espectro Rádio Eletrónico
+            <Link href="/" data-testid="link-home" className="flex items-center">
+              <img 
+                src={import.meta.env.BASE_URL + 'attached_assets/Gemini_Generated_Image_vlpezzvlpezzvlpe_1758913669762.png'}
+                alt="ANPERE - Associação Nacional dos Profissionais do Espectro Rádio Eletrónico"
+                className="h-10 w-auto"
+              />
+              <div className="ml-3">
+                <div className="text-xl font-bold text-primary">
+                  ANPERE
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  Profissionais do Espectro Rádio Eletrónico
+                </div>
               </div>
             </Link>
           </div>
