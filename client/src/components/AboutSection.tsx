@@ -120,7 +120,7 @@ const AboutSection = () => {
   ];
 
   return (
-    <section className="relative overflow-hidden bg-background">
+    <section className="relative overflow-hidden bg-background -mt-20">
       {/* Hero Section with Parallax */}
       <motion.div 
         ref={heroRef}
@@ -135,7 +135,7 @@ const AboutSection = () => {
           style={{ y: heroY, opacity: heroOpacity }}
           className="absolute inset-0 z-0"
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-chart-2/5 to-chart-3/10" />
+          {/* Remove colored background gradient - keep only abstract pattern */}
           
           {/* Abstract SVG Pattern */}
           <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
@@ -151,7 +151,7 @@ const AboutSection = () => {
             </defs>
             
             {/* Network/Grid Pattern */}
-            <rect width="100%" height="100%" fill="url(#grid)" className="text-primary" />
+            <rect width="100%" height="100%" fill="url(#grid)" className="text-muted-foreground" />
             
             {/* Floating Circles - representing radio waves/signals */}
             <motion.circle 
@@ -161,7 +161,7 @@ const AboutSection = () => {
               fill="none" 
               stroke="currentColor" 
               strokeWidth="2" 
-              className="text-primary opacity-40"
+              className="text-muted-foreground opacity-20"
               animate={{
                 r: [40, 60, 40],
                 strokeWidth: [1, 3, 1]
@@ -179,7 +179,7 @@ const AboutSection = () => {
               fill="none" 
               stroke="currentColor" 
               strokeWidth="2" 
-              className="text-chart-2 opacity-30"
+              className="text-muted-foreground opacity-15"
               animate={{
                 r: [30, 50, 30],
                 strokeWidth: [1, 2, 1]
@@ -198,7 +198,7 @@ const AboutSection = () => {
               fill="none" 
               stroke="currentColor" 
               strokeWidth="2" 
-              className="text-chart-3 opacity-25"
+              className="text-muted-foreground opacity-10"
               animate={{
                 r: [25, 45, 25],
                 strokeWidth: [1, 2.5, 1]
@@ -218,7 +218,7 @@ const AboutSection = () => {
               stroke="currentColor"
               strokeWidth="2"
               strokeDasharray="5,5"
-              className="text-primary opacity-20"
+              className="text-muted-foreground opacity-15"
               animate={{
                 strokeDashoffset: [0, -20, 0]
               }}
@@ -234,7 +234,7 @@ const AboutSection = () => {
               stroke="currentColor"
               strokeWidth="2"
               strokeDasharray="3,3"
-              className="text-chart-2 opacity-15"
+              className="text-muted-foreground opacity-10"
               animate={{
                 strokeDashoffset: [0, -15, 0]
               }}
@@ -250,7 +250,7 @@ const AboutSection = () => {
             <motion.polygon
               points="700,500 750,450 800,500 750,550"
               fill="currentColor"
-              className="text-chart-3 opacity-10"
+              className="text-muted-foreground opacity-8"
               animate={{
                 rotate: [0, 360]
               }}
@@ -268,7 +268,7 @@ const AboutSection = () => {
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
-              className="text-chart-4 opacity-15"
+              className="text-muted-foreground opacity-10"
               animate={{
                 rotate: [0, -360]
               }}
