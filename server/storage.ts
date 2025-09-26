@@ -10,8 +10,17 @@ import {
   type Event,
   type InsertEvent,
   type Gallery,
-  type InsertGallery
+  type InsertGallery,
+  users,
+  aboutContent,
+  legislation,
+  publications,
+  events,
+  gallery
 } from "@shared/schema";
+import { drizzle } from "drizzle-orm/neon-http";
+import { neon } from "@neondatabase/serverless";
+import { eq } from "drizzle-orm";
 import { randomUUID } from "crypto";
 
 // modify the interface with any CRUD methods
@@ -385,4 +394,176 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+// Database Storage Implementation using Drizzle ORM
+export class DatabaseStorage implements IStorage {
+  private db;
+
+  constructor() {
+    const sql = neon(process.env.DATABASE_URL!);
+    this.db = drizzle(sql);
+  }
+
+  // User operations
+  async getUser(id: string): Promise<User | undefined> {
+    const result = await this.db.select().from(users).where(eq(users.id, id));
+    return result[0];
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const result = await this.db.select().from(users).where(eq(users.username, username));
+    return result[0];
+  }
+
+  async createUser(user: InsertUser): Promise<User> {
+    const result = await this.db.insert(users).values(user).returning();
+    return result[0];
+  }
+
+  // About Content operations
+  async getAboutContent(): Promise<AboutContent[]> {
+    return await this.db.select().from(aboutContent);
+  }
+
+  async getAboutContentBySection(section: string): Promise<AboutContent | undefined> {
+    const result = await this.db.select().from(aboutContent).where(eq(aboutContent.section, section));
+    return result[0];
+  }
+
+  async createAboutContent(content: InsertAboutContent): Promise<AboutContent> {
+    const result = await this.db.insert(aboutContent).values(content).returning();
+    return result[0];
+  }
+
+  async updateAboutContent(id: string, content: Partial<InsertAboutContent>): Promise<AboutContent | undefined> {
+    const result = await this.db
+      .update(aboutContent)
+      .set({ ...content, updatedAt: new Date() })
+      .where(eq(aboutContent.id, id))
+      .returning();
+    return result[0];
+  }
+
+  async deleteAboutContent(id: string): Promise<boolean> {
+    const result = await this.db.delete(aboutContent).where(eq(aboutContent.id, id));
+    return result.rowCount > 0;
+  }
+
+  // Legislation operations
+  async getAllLegislation(): Promise<Legislation[]> {
+    return await this.db.select().from(legislation);
+  }
+
+  async getLegislation(id: string): Promise<Legislation | undefined> {
+    const result = await this.db.select().from(legislation).where(eq(legislation.id, id));
+    return result[0];
+  }
+
+  async createLegislation(leg: InsertLegislation): Promise<Legislation> {
+    const result = await this.db.insert(legislation).values(leg).returning();
+    return result[0];
+  }
+
+  async updateLegislation(id: string, leg: Partial<InsertLegislation>): Promise<Legislation | undefined> {
+    const result = await this.db
+      .update(legislation)
+      .set({ ...leg, updatedAt: new Date() })
+      .where(eq(legislation.id, id))
+      .returning();
+    return result[0];
+  }
+
+  async deleteLegislation(id: string): Promise<boolean> {
+    const result = await this.db.delete(legislation).where(eq(legislation.id, id));
+    return result.rowCount > 0;
+  }
+
+  // Publication operations
+  async getAllPublications(): Promise<Publication[]> {
+    return await this.db.select().from(publications);
+  }
+
+  async getPublication(id: string): Promise<Publication | undefined> {
+    const result = await this.db.select().from(publications).where(eq(publications.id, id));
+    return result[0];
+  }
+
+  async createPublication(pub: InsertPublication): Promise<Publication> {
+    const result = await this.db.insert(publications).values(pub).returning();
+    return result[0];
+  }
+
+  async updatePublication(id: string, pub: Partial<InsertPublication>): Promise<Publication | undefined> {
+    const result = await this.db
+      .update(publications)
+      .set({ ...pub, updatedAt: new Date() })
+      .where(eq(publications.id, id))
+      .returning();
+    return result[0];
+  }
+
+  async deletePublication(id: string): Promise<boolean> {
+    const result = await this.db.delete(publications).where(eq(publications.id, id));
+    return result.rowCount > 0;
+  }
+
+  // Event operations
+  async getAllEvents(): Promise<Event[]> {
+    return await this.db.select().from(events);
+  }
+
+  async getEvent(id: string): Promise<Event | undefined> {
+    const result = await this.db.select().from(events).where(eq(events.id, id));
+    return result[0];
+  }
+
+  async createEvent(event: InsertEvent): Promise<Event> {
+    const result = await this.db.insert(events).values(event).returning();
+    return result[0];
+  }
+
+  async updateEvent(id: string, event: Partial<InsertEvent>): Promise<Event | undefined> {
+    const result = await this.db
+      .update(events)
+      .set({ ...event, updatedAt: new Date() })
+      .where(eq(events.id, id))
+      .returning();
+    return result[0];
+  }
+
+  async deleteEvent(id: string): Promise<boolean> {
+    const result = await this.db.delete(events).where(eq(events.id, id));
+    return result.rowCount > 0;
+  }
+
+  // Gallery operations
+  async getAllGallery(): Promise<Gallery[]> {
+    return await this.db.select().from(gallery);
+  }
+
+  async getGalleryItem(id: string): Promise<Gallery | undefined> {
+    const result = await this.db.select().from(gallery).where(eq(gallery.id, id));
+    return result[0];
+  }
+
+  async createGalleryItem(item: InsertGallery): Promise<Gallery> {
+    const result = await this.db.insert(gallery).values(item).returning();
+    return result[0];
+  }
+
+  async updateGalleryItem(id: string, item: Partial<InsertGallery>): Promise<Gallery | undefined> {
+    const result = await this.db
+      .update(gallery)
+      .set({ ...item, updatedAt: new Date() })
+      .where(eq(gallery.id, id))
+      .returning();
+    return result[0];
+  }
+
+  async deleteGalleryItem(id: string): Promise<boolean> {
+    const result = await this.db.delete(gallery).where(eq(gallery.id, id));
+    return result.rowCount > 0;
+  }
+}
+
+// Use DatabaseStorage instead of MemStorage for persistence
+export const storage = new DatabaseStorage();

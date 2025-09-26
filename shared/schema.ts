@@ -62,9 +62,8 @@ export const publications = pgTable("publications", {
   description: text("description").notNull(),
   category: varchar("category", { length: 50 }).notNull(), // 'Plano', 'Relatório', 'Acta', etc.
   date: varchar("date", { length: 50 }).notNull(), // formatted date string
-  size: varchar("size", { length: 20 }).notNull(), // file size string
-  downloads: integer("downloads").default(0),
   fileUrl: text("file_url"), // URL to the document file
+  downloadUrl: text("download_url"), // URL for downloading the file
   publishedAt: timestamp("published_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -86,9 +85,9 @@ export const events = pgTable("events", {
   date: varchar("date", { length: 50 }).notNull(), // formatted date string
   time: varchar("time", { length: 50 }).notNull(), // time range string
   location: text("location").notNull(),
-  participants: varchar("participants", { length: 20 }).notNull(), // participant count/limit
-  status: varchar("status", { length: 20 }).notNull().default('upcoming'), // 'upcoming', 'completed', 'cancelled'
-  category: varchar("category", { length: 50 }).notNull(), // 'Conferência', 'Workshop', etc.
+  type: varchar("type", { length: 50 }).notNull(), // 'Conferência', 'Workshop', etc.
+  capacity: varchar("capacity", { length: 20 }), // participant count/limit
+  registrationUrl: text("registration_url"), // URL for registration
   publishedAt: timestamp("published_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

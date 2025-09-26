@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import AdminPublications from "@/components/AdminPublications";
+import AdminEvents from "@/components/AdminEvents";
 import { 
   Shield, 
   LogOut, 
@@ -275,8 +276,11 @@ const AdminDashboard = () => {
           {/* Publications Section */}
           {activeSection === "publications" && <AdminPublications />}
 
+          {/* Events Section */}
+          {activeSection === "events" && <AdminEvents />}
+
           {/* Placeholder for other sections */}
-          {activeSection !== "dashboard" && activeSection !== "publications" && (
+          {activeSection !== "dashboard" && activeSection !== "publications" && activeSection !== "events" && (
             <Card>
               <CardHeader>
                 <CardTitle>
