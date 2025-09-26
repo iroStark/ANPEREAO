@@ -51,9 +51,9 @@ const AdminAbout = () => {
 
   // Fetch about data
   const { data: aboutData, isLoading } = useQuery({
-    queryKey: ["about"],
+    queryKey: ["admin", "about"],
     queryFn: async () => {
-      const response = await apiRequest("GET", "/api/about");
+      const response = await apiRequest("GET", "/api/admin/about");
       return response.json();
     },
   });
@@ -61,11 +61,11 @@ const AdminAbout = () => {
   // Update mutation
   const updateMutation = useMutation({
     mutationFn: async (data: AboutFormData) => {
-      const response = await apiRequest("PUT", "/api/about", data);
+      const response = await apiRequest("PUT", "/api/admin/about", data);
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["about"] });
+      queryClient.invalidateQueries({ queryKey: ["admin", "about"] });
       setIsEditDialogOpen(false);
       toast({
         title: "Sucesso",

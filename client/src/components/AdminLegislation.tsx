@@ -67,10 +67,10 @@ const AdminLegislation = () => {
   const queryClient = useQueryClient();
 
   // Fetch legislation data
-  const { data: legislation = [], isLoading } = useQuery({
-    queryKey: ["legislation"],
+  const { data: legislation = [], isLoading } = useQuery<any[]>({
+    queryKey: ["admin", "legislation"],
     queryFn: async () => {
-      const response = await apiRequest("GET", "/api/legislation");
+      const response = await apiRequest("GET", "/api/admin/legislation");
       return response.json();
     },
   });
@@ -78,11 +78,11 @@ const AdminLegislation = () => {
   // Create mutation
   const createMutation = useMutation({
     mutationFn: async (data: LegislationFormData) => {
-      const response = await apiRequest("POST", "/api/legislation", data);
+      const response = await apiRequest("POST", "/api/admin/legislation", data);
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["legislation"] });
+      queryClient.invalidateQueries({ queryKey: ["admin", "legislation"] });
       setIsCreateDialogOpen(false);
       toast({
         title: "Sucesso",
@@ -101,11 +101,11 @@ const AdminLegislation = () => {
   // Update mutation
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: number; data: LegislationFormData }) => {
-      const response = await apiRequest("PUT", `/api/legislation/${id}`, data);
+      const response = await apiRequest("PUT", `/api/admin/legislation/${id}`, data);
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["legislation"] });
+      queryClient.invalidateQueries({ queryKey: ["admin", "legislation"] });
       setIsEditDialogOpen(false);
       setEditingLegislation(null);
       toast({
@@ -125,11 +125,11 @@ const AdminLegislation = () => {
   // Delete mutation
   const deleteMutation = useMutation({
     mutationFn: async (id: number) => {
-      const response = await apiRequest("DELETE", `/api/legislation/${id}`);
+      const response = await apiRequest("DELETE", `/api/admin/legislation/${id}`);
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["legislation"] });
+      queryClient.invalidateQueries({ queryKey: ["admin", "legislation"] });
       toast({
         title: "Sucesso",
         description: "Legislação eliminada com sucesso!",
@@ -209,7 +209,7 @@ const AdminLegislation = () => {
   });
 
   // Get unique categories
-  const categories = Array.from(new Set(legislation.map((item: any) => item.category)));
+  const categories = Array.from(new Set(legislation.map((item: any) => item.category).filter(Boolean)));
 
   if (isLoading) {
     return (

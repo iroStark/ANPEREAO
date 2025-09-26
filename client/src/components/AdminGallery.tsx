@@ -63,10 +63,10 @@ const AdminGallery = () => {
   const queryClient = useQueryClient();
 
   // Fetch gallery data
-  const { data: gallery = [], isLoading } = useQuery({
-    queryKey: ["gallery"],
+  const { data: gallery = [], isLoading } = useQuery<any[]>({
+    queryKey: ["admin", "gallery"],
     queryFn: async () => {
-      const response = await apiRequest("GET", "/api/gallery");
+      const response = await apiRequest("GET", "/api/admin/gallery");
       return response.json();
     },
   });
@@ -74,11 +74,11 @@ const AdminGallery = () => {
   // Create mutation
   const createMutation = useMutation({
     mutationFn: async (data: GalleryFormData) => {
-      const response = await apiRequest("POST", "/api/gallery", data);
+      const response = await apiRequest("POST", "/api/admin/gallery", data);
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["gallery"] });
+      queryClient.invalidateQueries({ queryKey: ["admin", "gallery"] });
       setIsCreateDialogOpen(false);
       toast({
         title: "Sucesso",
@@ -97,11 +97,11 @@ const AdminGallery = () => {
   // Update mutation
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: number; data: GalleryFormData }) => {
-      const response = await apiRequest("PUT", `/api/gallery/${id}`, data);
+      const response = await apiRequest("PUT", `/api/admin/gallery/${id}`, data);
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["gallery"] });
+      queryClient.invalidateQueries({ queryKey: ["admin", "gallery"] });
       setIsEditDialogOpen(false);
       setEditingGallery(null);
       toast({
@@ -121,11 +121,11 @@ const AdminGallery = () => {
   // Delete mutation
   const deleteMutation = useMutation({
     mutationFn: async (id: number) => {
-      const response = await apiRequest("DELETE", `/api/gallery/${id}`);
+      const response = await apiRequest("DELETE", `/api/admin/gallery/${id}`);
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["gallery"] });
+      queryClient.invalidateQueries({ queryKey: ["admin", "gallery"] });
       toast({
         title: "Sucesso",
         description: "Item da galeria eliminado com sucesso!",
@@ -199,7 +199,7 @@ const AdminGallery = () => {
   });
 
   // Get unique categories
-  const categories = Array.from(new Set(gallery.map((item: any) => item.category)));
+  const categories = Array.from(new Set(gallery.map((item: any) => item.category).filter(Boolean)));
 
   if (isLoading) {
     return (

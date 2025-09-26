@@ -582,8 +582,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Inserir eventos
       let eventsCount = 0;
       for (const event of events) {
-        const insertedEvent = await storage.insertEvent(event);
-        if (insertedEvent.length > 0) {
+        const insertedEvent = await storage.createEvent(event);
+        if (insertedEvent) {
           eventsCount++;
           console.log(`✅ Evento criado: ${event.title}`);
         }
@@ -592,8 +592,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Inserir publicações
       let publicationsCount = 0;
       for (const publication of publications) {
-        const insertedPublication = await storage.insertPublication(publication);
-        if (insertedPublication.length > 0) {
+        const insertedPublication = await storage.createPublication(publication);
+        if (insertedPublication) {
           publicationsCount++;
           console.log(`✅ Publicação criada: ${publication.title}`);
         }
@@ -602,8 +602,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Inserir itens de galeria
       let galleryCount = 0;
       for (const galleryItem of galleryItems) {
-        const insertedGallery = await storage.insertGallery(galleryItem);
-        if (insertedGallery.length > 0) {
+        const insertedGallery = await storage.createGalleryItem(galleryItem);
+        if (insertedGallery) {
           galleryCount++;
           console.log(`✅ Item de galeria criado: ${galleryItem.title}`);
         }
