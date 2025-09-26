@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
@@ -13,6 +13,13 @@ interface ProtectedRouteProps {
 const ProtectedRoute = ({ children, fallback }: ProtectedRouteProps) => {
   const { isAuthenticated, isLoading } = useAuth();
   const [, setLocation] = useLocation();
+
+  // Handle redirect to login when not authenticated
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated && !fallback) {
+      setLocation("/admin/login");
+    }
+  }, [isLoading, isAuthenticated, fallback, setLocation]);
 
   // Show loading state while checking authentication
   if (isLoading) {
@@ -39,13 +46,13 @@ const ProtectedRoute = ({ children, fallback }: ProtectedRouteProps) => {
     );
   }
 
-  // Redirect to login if not authenticated
+  // Show fallback if provided and not authenticated
+  if (!isAuthenticated && fallback) {
+    return <>{fallback}</>;
+  }
+
+  // Show access denied message if not authenticated and no fallback
   if (!isAuthenticated) {
-    if (fallback) {
-      return <>{fallback}</>;
-    }
-    
-    setLocation("/admin/login");
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <motion.div

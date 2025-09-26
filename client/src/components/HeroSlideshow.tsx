@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import heroImage1 from "@assets/generated_images/Angolan_telecommunications_professionals_working_640a21c0.png";
 import heroImage2 from "@assets/generated_images/Telecommunications_tower_in_Luanda_Angola_da464df4.png";
 import heroImage3 from "@assets/generated_images/Angolan_professionals_telecommunications_meeting_859a9b86.png";
+import heroImage4 from "@assets/generated_images/ANPERE_assembly_meeting.png";
 
 const slides = [
   {
@@ -23,6 +24,12 @@ const slides = [
     title: "Comunidade Profissional",
     subtitle: "Solidariedade e apoio mútuo",
     description: "Oferecemos assistência social, médica e jurídica aos nossos associados, fortalecendo a comunidade de profissionais de telecomunicações."
+  },
+  {
+    image: heroImage4,
+    title: "Assembleia de Constituição da ANPERE",
+    subtitle: "Unidade e determinação dos profissionais",
+    description: "Momento histórico da fundação da nossa associação, onde profissionais de telecomunicações se uniram para criar uma organização forte e representativa do setor em Angola."
   }
 ];
 

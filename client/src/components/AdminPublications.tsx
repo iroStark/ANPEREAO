@@ -213,20 +213,21 @@ const AdminPublications = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6 max-w-full">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-semibold">Gestão de Publicações</h2>
-          <p className="text-muted-foreground">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+        <div className="min-w-0 flex-1">
+          <h2 className="text-xl sm:text-2xl font-semibold truncate">Gestão de Publicações</h2>
+          <p className="text-sm sm:text-base text-muted-foreground truncate">
             Gerir documentos, relatórios e publicações da ANPERE
           </p>
         </div>
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="gap-2" data-testid="button-create-publication">
+            <Button className="gap-2 w-full sm:w-auto" data-testid="button-create-publication">
               <Plus className="w-4 h-4" />
-              Nova Publicação
+              <span className="hidden sm:inline">Nova Publicação</span>
+              <span className="sm:hidden">Nova</span>
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-2xl">
@@ -360,26 +361,26 @@ const AdminPublications = () => {
 
       {/* Filters */}
       <Card>
-        <CardContent className="p-4">
-          <div className="flex gap-4 items-center">
-            <div className="flex-1">
+        <CardContent className="p-3 sm:p-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center">
+            <div className="flex-1 min-w-0">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
                   placeholder="Procurar publicações..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 w-full"
                   data-testid="input-search"
                 />
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Filter className="w-4 h-4 text-muted-foreground" />
+            <div className="flex items-center gap-2 min-w-0">
+              <Filter className="w-4 h-4 text-muted-foreground flex-shrink-0" />
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-3 py-2 border rounded-md text-sm"
+                className="px-3 py-2 border rounded-md text-sm w-full sm:w-auto min-w-0"
                 data-testid="select-category"
               >
                 <option value="">Todas as Categorias</option>
@@ -420,44 +421,45 @@ const AdminPublications = () => {
                 transition={{ duration: 0.3, delay: index * 0.1 }}
               >
                 <Card>
-                  <CardContent className="p-6">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                          <FileText className="w-5 h-5 text-primary" />
-                          <h3 className="font-semibold text-lg">{publication.title}</h3>
+                  <CardContent className="p-4 sm:p-6">
+                    <div className="flex flex-col sm:flex-row items-start justify-between gap-3 sm:gap-4">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 sm:gap-3 mb-2">
+                          <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-primary flex-shrink-0" />
+                          <h3 className="font-semibold text-base sm:text-lg truncate">{publication.title}</h3>
                         </div>
                         
-                        <p className="text-muted-foreground mb-3">
+                        <p className="text-sm sm:text-base text-muted-foreground mb-3 line-clamp-2">
                           {publication.description}
                         </p>
                         
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
                           <div className="flex items-center gap-1">
-                            <Calendar className="w-4 h-4" />
+                            <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
                             {new Date(publication.date).toLocaleDateString('pt-PT')}
                           </div>
-                          <Badge variant="secondary">{publication.category}</Badge>
+                          <Badge variant="secondary" className="text-xs">{publication.category}</Badge>
                         </div>
                         
                         {(publication.fileUrl || publication.downloadUrl) && (
-                          <div className="flex gap-2 mt-3">
+                          <div className="flex flex-col sm:flex-row gap-2 mt-3">
                             {publication.fileUrl && (
                               <Button
                                 variant="outline"
                                 size="sm"
-                                className="gap-2"
+                                className="gap-2 text-xs sm:text-sm"
                                 onClick={() => window.open(publication.fileUrl, '_blank')}
                               >
                                 <ExternalLink className="w-3 h-3" />
-                                Ver Ficheiro
+                                <span className="hidden sm:inline">Ver Ficheiro</span>
+                                <span className="sm:hidden">Ver</span>
                               </Button>
                             )}
                             {publication.downloadUrl && (
                               <Button
                                 variant="outline"
                                 size="sm"
-                                className="gap-2"
+                                className="gap-2 text-xs sm:text-sm"
                                 onClick={() => window.open(publication.downloadUrl, '_blank')}
                               >
                                 <ExternalLink className="w-3 h-3" />
@@ -468,24 +470,28 @@ const AdminPublications = () => {
                         )}
                       </div>
                       
-                      <div className="flex gap-2">
+                      <div className="flex gap-1 sm:gap-2 w-full sm:w-auto">
                         <Button
                           variant="outline"
-                          size="icon"
+                          size="sm"
+                          className="flex-1 sm:flex-none"
                           onClick={() => handleEdit(publication)}
                           data-testid={`button-edit-${publication.id}`}
                         >
-                          <Edit2 className="w-4 h-4" />
+                          <Edit2 className="w-3 h-3 sm:w-4 sm:h-4" />
+                          <span className="ml-1 sm:hidden">Editar</span>
                         </Button>
                         
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
                             <Button
                               variant="outline"
-                              size="icon"
+                              size="sm"
+                              className="flex-1 sm:flex-none"
                               data-testid={`button-delete-${publication.id}`}
                             >
-                              <Trash2 className="w-4 h-4 text-destructive" />
+                              <Trash2 className="w-3 h-3 sm:w-4 sm:h-4 text-destructive" />
+                              <span className="ml-1 sm:hidden">Eliminar</span>
                             </Button>
                           </AlertDialogTrigger>
                           <AlertDialogContent>

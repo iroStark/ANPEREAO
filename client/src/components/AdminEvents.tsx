@@ -379,20 +379,21 @@ const AdminEvents = () => {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6 max-w-full">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-semibold">Gestão de Eventos</h2>
-          <p className="text-muted-foreground">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+        <div className="min-w-0 flex-1">
+          <h2 className="text-xl sm:text-2xl font-semibold truncate">Gestão de Eventos</h2>
+          <p className="text-sm sm:text-base text-muted-foreground truncate">
             Gerir conferências, workshops e atividades da ANPERE
           </p>
         </div>
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="gap-2" data-testid="button-create-event">
+            <Button className="gap-2 w-full sm:w-auto" data-testid="button-create-event">
               <Plus className="w-4 h-4" />
-              Novo Evento
+              <span className="hidden sm:inline">Novo Evento</span>
+              <span className="sm:hidden">Novo</span>
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-2xl">
