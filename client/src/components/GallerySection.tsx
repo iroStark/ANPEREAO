@@ -152,7 +152,7 @@ const GallerySection = () => {
             </Button>
           </div>
         )}
-
+        
         {/* Photo Modal */}
         <Dialog open={!!selectedPhoto} onOpenChange={() => setSelectedPhoto(null)}>
           <DialogContent className="max-w-4xl">
