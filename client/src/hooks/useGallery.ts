@@ -10,6 +10,8 @@ export interface GalleryItem {
   category: string;
   views?: number;
   duration?: string;
+  thumbnailUrl?: string;
+  mediaUrl?: string;
   publishedAt?: string;
   updatedAt?: string;
 }
@@ -22,6 +24,8 @@ export interface CreateGalleryItemData {
   category: string;
   views?: number;
   duration?: string;
+  thumbnailUrl?: string;
+  mediaUrl?: string;
 }
 
 export interface UpdateGalleryItemData extends Partial<CreateGalleryItemData> {

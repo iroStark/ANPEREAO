@@ -56,6 +56,11 @@ const AdminGallery = () => {
         const uploadResult = await uploadResponse.json();
         uploadedFileUrl = uploadResult.url;
         
+        // Atualizar os dados com a URL do arquivo
+        data.mediaUrl = uploadedFileUrl;
+        if (file.type.startsWith('image/')) {
+          data.thumbnailUrl = uploadedFileUrl;
+        }
       }
       
       await createGalleryItem.mutateAsync(data);

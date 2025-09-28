@@ -62,6 +62,8 @@ export const GalleryDialog = ({
     category: '',
     views: 0,
     duration: '',
+    thumbnailUrl: '',
+    mediaUrl: '',
   });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
@@ -77,6 +79,8 @@ export const GalleryDialog = ({
         category: galleryItem.category || '',
         views: galleryItem.views || 0,
         duration: galleryItem.duration || '',
+        thumbnailUrl: galleryItem.thumbnailUrl || '',
+        mediaUrl: galleryItem.mediaUrl || '',
       });
     } else {
       setFormData({
@@ -87,6 +91,8 @@ export const GalleryDialog = ({
         category: '',
         views: 0,
         duration: '',
+        thumbnailUrl: '',
+        mediaUrl: '',
       });
     }
     
@@ -117,6 +123,14 @@ export const GalleryDialog = ({
       } else if (file.type.startsWith('video/')) {
         setFormData(prev => ({ ...prev, type: 'video' }));
       }
+      
+      // Atualizar URLs com o nome do arquivo (será substituído pela URL real após upload)
+      const fileName = file.name;
+      setFormData(prev => ({
+        ...prev,
+        thumbnailUrl: file.type.startsWith('image/') ? fileName : prev.thumbnailUrl,
+        mediaUrl: fileName,
+      }));
     }
   };
 
@@ -126,6 +140,11 @@ export const GalleryDialog = ({
       URL.revokeObjectURL(previewUrl);
     }
     setPreviewUrl('');
+    setFormData(prev => ({
+      ...prev,
+      thumbnailUrl: '',
+      mediaUrl: '',
+    }));
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -177,6 +196,31 @@ export const GalleryDialog = ({
               required
             />
           </div>
+
+          {/* Preview da imagem atual (quando editando) */}
+          {galleryItem && galleryItem.mediaUrl && !selectedFile && (
+            <div className="space-y-2">
+              <Label>Imagem Atual</Label>
+              <div className="relative">
+                <img
+                  src={galleryItem.mediaUrl}
+                  alt="Imagem atual"
+                  className="w-full h-32 sm:h-48 object-cover rounded-lg border"
+                />
+                <div className="absolute top-2 right-2">
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => setFormData(prev => ({ ...prev, mediaUrl: '', thumbnailUrl: '' }))}
+                    className="h-6 w-6 p-0"
+                  >
+                    <X className="w-3 h-3" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Campo de Upload */}
           <div className="space-y-2">
@@ -328,6 +372,34 @@ export const GalleryDialog = ({
               />
             </div>
           </div>
+
+          {/* Campos de URL (para URLs externas) */}
+          <div className="space-y-2">
+            <Label htmlFor="mediaUrl">URL do Mídia (opcional)</Label>
+            <Input
+              id="mediaUrl"
+              type="url"
+              value={formData.mediaUrl}
+              onChange={(e) => handleInputChange('mediaUrl', e.target.value)}
+              placeholder="https://exemplo.com/media.jpg ou .mp4"
+            />
+            <p className="text-xs text-muted-foreground">
+              Use este campo para URLs externas ou deixe vazio se estiver fazendo upload de arquivo
+            </p>
+          </div>
+
+          {formData.type === 'image' && (
+            <div className="space-y-2">
+              <Label htmlFor="thumbnailUrl">URL da Miniatura (opcional)</Label>
+              <Input
+                id="thumbnailUrl"
+                type="url"
+                value={formData.thumbnailUrl}
+                onChange={(e) => handleInputChange('thumbnailUrl', e.target.value)}
+                placeholder="https://exemplo.com/miniatura.jpg"
+              />
+            </div>
+          )}
 
           <DialogFooter className="flex flex-col sm:flex-row gap-2">
             <Button

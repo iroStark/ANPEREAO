@@ -117,16 +117,32 @@ const Galeria = () => {
                 >
                   <Card className="h-full hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden">
                     <CardContent className="p-0">
-                      {/* Media Placeholder */}
+                      {/* Media Display */}
                       <div className="aspect-video bg-gradient-to-br from-muted to-muted/50 flex items-center justify-center relative overflow-hidden">
                         {item.type === 'video' ? (
                           <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                              <Play className="w-8 h-8 text-primary ml-1" />
-                            </div>
+                            {item.mediaUrl ? (
+                              <video 
+                                src={item.mediaUrl} 
+                                className="w-full h-full object-cover"
+                                controls
+                              />
+                            ) : (
+                              <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                                <Play className="w-8 h-8 text-primary ml-1" />
+                              </div>
+                            )}
                           </div>
                         ) : (
-                          <ImageIcon className="w-12 h-12 text-muted-foreground" />
+                          item.mediaUrl ? (
+                            <img 
+                              src={item.mediaUrl} 
+                              alt={item.title}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <ImageIcon className="w-12 h-12 text-muted-foreground" />
+                          )
                         )}
                         
                         {/* Category Badge */}
