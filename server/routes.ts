@@ -4,6 +4,10 @@ import bcrypt from "bcrypt";
 import { z } from "zod";
 import { storage } from "./storage";
 import { insertUserSchema } from "@shared/schema";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+import express from "express";
 
 // Extend Express Session type to include user info
 declare module 'express-session' {
@@ -69,6 +73,43 @@ async function initializeAdmin() {
 export async function registerRoutes(app: Express): Promise<Server> {
   // Initialize admin user
   await initializeAdmin();
+
+  // Configure multer for file uploads
+  const uploadDir = path.join(process.cwd(), 'uploads');
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+
+  const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+    }
+  });
+
+  const upload = multer({
+    storage: storage,
+    limits: {
+      fileSize: 10 * 1024 * 1024, // 10MB limit
+    },
+    fileFilter: (req, file, cb) => {
+      const allowedTypes = /jpeg|jpg|png|gif|mp4|mov|avi/;
+      const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+      const mimetype = allowedTypes.test(file.mimetype);
+
+      if (mimetype && extname) {
+        return cb(null, true);
+      } else {
+        cb(new Error('Tipo de arquivo não suportado. Use apenas imagens (JPG, PNG, GIF) ou vídeos (MP4, MOV, AVI).'));
+      }
+    }
+  });
+
+  // Serve uploaded files
+  app.use('/uploads', express.static(uploadDir));
 
   // Authentication routes
   app.post("/api/auth/login", async (req: Request, res: Response) => {
@@ -350,6 +391,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Upload endpoint for gallery files
+  app.post("/api/admin/upload", requireAuth, upload.single('file'), async (req: Request, res: Response) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: "Nenhum arquivo foi enviado" });
+      }
+
+      const fileUrl = `/uploads/${req.file.filename}`;
+      
+      res.json({
+        success: true,
+        filename: req.file.filename,
+        originalName: req.file.originalname,
+        size: req.file.size,
+        url: fileUrl,
+        type: req.file.mimetype
+      });
+    } catch (error: any) {
+      console.error("Error uploading file:", error);
+      res.status(500).json({ error: error.message || "Erro ao fazer upload do arquivo" });
+    }
+  });
+
   // Legislation endpoints
   app.get("/api/legislation", async (req: Request, res: Response) => {
     try {
@@ -358,6 +422,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching legislation:", error);
       res.status(500).json({ error: "Failed to fetch legislation" });
+    }
+  });
+
+  // Publications endpoints (public)
+  app.get("/api/publications", async (req: Request, res: Response) => {
+    try {
+      const publications = await storage.getAllPublications();
+      res.json(publications);
+    } catch (error) {
+      console.error("Error fetching publications:", error);
+      res.status(500).json({ error: "Failed to fetch publications" });
+    }
+  });
+
+  // Events endpoints (public)
+  app.get("/api/events", async (req: Request, res: Response) => {
+    try {
+      const events = await storage.getAllEvents();
+      res.json(events);
+    } catch (error) {
+      console.error("Error fetching events:", error);
+      res.status(500).json({ error: "Failed to fetch events" });
     }
   });
 
@@ -423,6 +509,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error updating about data:", error);
       res.status(500).json({ error: "Failed to update about data" });
+    }
+  });
+
+  // Gallery endpoints (public)
+  app.get("/api/gallery", async (req: Request, res: Response) => {
+    try {
+      const gallery = await storage.getAllGallery();
+      res.json(gallery);
+    } catch (error) {
+      console.error("Error fetching gallery:", error);
+      res.status(500).json({ error: "Failed to fetch gallery" });
     }
   });
 

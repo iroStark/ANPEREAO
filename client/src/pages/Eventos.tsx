@@ -5,69 +5,34 @@ import { Calendar, MapPin, Clock, Users, ChevronRight } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useEvents } from "@/hooks/useEvents";
 
 const Eventos = () => {
-  const upcomingEvents = [
-    {
-      title: "Conferência Nacional de Telecomunicações 2024",
-      description: "Evento anual que reúne profissionais do sector para debater as tendências e inovações",
-      date: "15 de Junho, 2024",
-      time: "09:00 - 17:00",
-      location: "Hotel Presidente, Luanda",
-      participants: "200+",
-      status: "upcoming",
-      category: "Conferência"
-    },
-    {
-      title: "Workshop: 5G e o Futuro das Comunicações",
-      description: "Sessão técnica sobre implementação e impacto da tecnologia 5G em Angola",
-      date: "28 de Maio, 2024", 
-      time: "14:00 - 18:00",
-      location: "Centro de Convenções de Talatona",
-      participants: "80",
-      status: "upcoming",
-      category: "Workshop"
-    },
-    {
-      title: "Assembleia Geral Ordinária",
-      description: "Reunião anual dos membros da ANPERE para aprovação de contas e planos",
-      date: "10 de Abril, 2024",
-      time: "15:00 - 17:00", 
-      location: "Sede da ANPERE",
-      participants: "150",
-      status: "upcoming",
-      category: "Assembleia"
-    }
-  ];
+  const { data: events = [], isLoading, error } = useEvents();
 
-  const pastEvents = [
-    {
-      title: "Seminário: Cibersegurança nas Telecomunicações",
-      description: "Discussão sobre desafios e soluções de segurança no sector",
-      date: "22 de Fevereiro, 2024",
-      time: "09:00 - 13:00",
-      location: "ITEL, Luanda",
-      participants: "120",
-      status: "completed",
-      category: "Seminário"
-    },
-    {
-      title: "Mesa Redonda: Regulamentação do Espectro",
-      description: "Debate sobre as novas regulamentações do espectro radioeléctrico",
-      date: "18 de Janeiro, 2024",
-      time: "16:00 - 18:30",
-      location: "Ministério das Telecomunicações",
-      participants: "45",
-      status: "completed", 
-      category: "Mesa Redonda"
-    }
-  ];
+  // Separar eventos em próximos e passados baseado na data
+  const now = new Date();
+  const upcomingEvents = events.filter(event => new Date(event.date) >= now);
+  const pastEvents = events.filter(event => new Date(event.date) < now);
 
-  const getStatusBadge = (status: string) => {
-    return status === "upcoming" 
+  const getStatusBadge = (eventDate: string) => {
+    const eventDateObj = new Date(eventDate);
+    return eventDateObj >= now 
       ? <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Próximo</Badge>
       : <Badge variant="secondary">Realizado</Badge>;
   };
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-background">
+        <FloatingMenu />
+        <div className="pt-24 pb-12 px-4 text-center">
+          <p className="text-red-500">Erro ao carregar eventos: {error.message}</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -109,55 +74,67 @@ const Eventos = () => {
           </motion.div>
 
           <div className="grid lg:grid-cols-2 gap-6 mb-12">
-            {upcomingEvents.map((event, index) => (
-              <motion.div
-                key={event.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <Card className="h-full hover-elevate">
-                  <CardHeader>
-                    <div className="flex items-start justify-between mb-2">
-                      <Badge variant="outline">{event.category}</Badge>
-                      {getStatusBadge(event.status)}
-                    </div>
-                    <CardTitle className="text-xl line-clamp-2">
-                      {event.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <CardDescription>
-                      {event.description}
-                    </CardDescription>
-                    
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Calendar className="w-4 h-4 text-primary" />
-                        {event.date}
+            {isLoading ? (
+              <div className="col-span-2 text-center py-12">
+                <p className="text-muted-foreground">Carregando eventos...</p>
+              </div>
+            ) : upcomingEvents.length === 0 ? (
+              <div className="col-span-2 text-center py-12">
+                <p className="text-muted-foreground">Nenhum evento próximo programado.</p>
+              </div>
+            ) : (
+              upcomingEvents.map((event, index) => (
+                <motion.div
+                  key={event.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                >
+                  <Card className="h-full hover-elevate">
+                    <CardHeader>
+                      <div className="flex items-start justify-between mb-2">
+                        <Badge variant="outline">{event.type}</Badge>
+                        {getStatusBadge(event.date)}
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Clock className="w-4 h-4 text-primary" />
-                        {event.time}
+                      <CardTitle className="text-xl line-clamp-2">
+                        {event.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <CardDescription>
+                        {event.description}
+                      </CardDescription>
+                      
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <Calendar className="w-4 h-4 text-primary" />
+                          {new Date(event.date).toLocaleDateString('pt-PT')}
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <Clock className="w-4 h-4 text-primary" />
+                          {event.time}
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <MapPin className="w-4 h-4 text-primary" />
+                          {event.location}
+                        </div>
+                        {event.capacity && (
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <Users className="w-4 h-4 text-primary" />
+                            {event.capacity} participantes
+                          </div>
+                        )}
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <MapPin className="w-4 h-4 text-primary" />
-                        {event.location}
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Users className="w-4 h-4 text-primary" />
-                        {event.participants} participantes
-                      </div>
-                    </div>
-                    
-                    <Button className="w-full gap-2" data-testid={`button-register-${index}`}>
-                      Inscrever-se
-                      <ChevronRight className="w-4 h-4" />
-                    </Button>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
+                      
+                      <Button className="w-full gap-2" data-testid={`button-register-${index}`}>
+                        Inscrever-se
+                        <ChevronRight className="w-4 h-4" />
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))
+            )}
           </div>
         </div>
       </section>
@@ -179,42 +156,54 @@ const Eventos = () => {
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-6">
-            {pastEvents.map((event, index) => (
-              <motion.div
-                key={event.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 + 0.3 }}
-              >
-                <Card className="hover-elevate">
-                  <CardHeader>
-                    <div className="flex items-start justify-between mb-2">
-                      <Badge variant="outline">{event.category}</Badge>
-                      {getStatusBadge(event.status)}
-                    </div>
-                    <CardTitle className="text-lg">
-                      {event.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <CardDescription className="text-sm">
-                      {event.description}
-                    </CardDescription>
-                    
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <Calendar className="w-3 h-3" />
-                        {event.date}
+            {isLoading ? (
+              <div className="col-span-2 text-center py-12">
+                <p className="text-muted-foreground">Carregando eventos...</p>
+              </div>
+            ) : pastEvents.length === 0 ? (
+              <div className="col-span-2 text-center py-12">
+                <p className="text-muted-foreground">Nenhum evento realizado ainda.</p>
+              </div>
+            ) : (
+              pastEvents.map((event, index) => (
+                <motion.div
+                  key={event.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 + 0.3 }}
+                >
+                  <Card className="hover-elevate">
+                    <CardHeader>
+                      <div className="flex items-start justify-between mb-2">
+                        <Badge variant="outline">{event.type}</Badge>
+                        {getStatusBadge(event.date)}
                       </div>
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <Users className="w-3 h-3" />
-                        {event.participants} participantes
+                      <CardTitle className="text-lg">
+                        {event.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      <CardDescription className="text-sm">
+                        {event.description}
+                      </CardDescription>
+                      
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <Calendar className="w-3 h-3" />
+                          {new Date(event.date).toLocaleDateString('pt-PT')}
+                        </div>
+                        {event.capacity && (
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <Users className="w-3 h-3" />
+                            {event.capacity} participantes
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))
+            )}
           </div>
         </div>
       </section>

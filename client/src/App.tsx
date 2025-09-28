@@ -10,7 +10,12 @@ import Publicacoes from "@/pages/Publicacoes";
 import Eventos from "@/pages/Eventos";
 import Galeria from "@/pages/Galeria";
 import AdminLogin from "@/pages/AdminLogin";
-import AdminDashboard from "@/pages/AdminDashboard";
+import AdminDashboard from "@/pages/admin/AdminDashboard";
+import AdminAbout from "@/pages/admin/AdminAbout";
+import AdminLegislation from "@/pages/admin/AdminLegislation";
+import AdminPublications from "@/pages/admin/AdminPublications";
+import AdminEvents from "@/pages/admin/AdminEvents";
+import AdminGallery from "@/pages/admin/AdminGallery";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import NotFound from "@/pages/not-found";
 
@@ -33,9 +38,29 @@ function Router() {
           <AdminDashboard />
         </ProtectedRoute>
       )} />
-      <Route path="/admin/:section" component={() => (
+      <Route path="/admin/about" component={() => (
         <ProtectedRoute>
-          <AdminDashboard />
+          <AdminAbout />
+        </ProtectedRoute>
+      )} />
+      <Route path="/admin/legislation" component={() => (
+        <ProtectedRoute>
+          <AdminLegislation />
+        </ProtectedRoute>
+      )} />
+      <Route path="/admin/publications" component={() => (
+        <ProtectedRoute>
+          <AdminPublications />
+        </ProtectedRoute>
+      )} />
+      <Route path="/admin/events" component={() => (
+        <ProtectedRoute>
+          <AdminEvents />
+        </ProtectedRoute>
+      )} />
+      <Route path="/admin/gallery" component={() => (
+        <ProtectedRoute>
+          <AdminGallery />
         </ProtectedRoute>
       )} />
       
