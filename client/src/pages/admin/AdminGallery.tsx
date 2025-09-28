@@ -37,23 +37,31 @@ const AdminGallery = () => {
 
   const handleCreateGalleryItem = async (data: any, file?: File) => {
     try {
+      console.log('handleCreateGalleryItem called with:', { data, file });
       let uploadedFileUrl = '';
       
       // Se há um arquivo, fazer upload primeiro
       if (file) {
+        console.log('Uploading file:', file.name, file.type, file.size);
         const formData = new FormData();
         formData.append('file', file);
         
         const uploadResponse = await fetch('/api/admin/upload', {
           method: 'POST',
+          credentials: 'include', // Incluir cookies de autenticação
           body: formData,
         });
         
+        console.log('Upload response status:', uploadResponse.status);
+        
         if (!uploadResponse.ok) {
+          const errorText = await uploadResponse.text();
+          console.error('Upload error:', errorText);
           throw new Error('Erro ao fazer upload do arquivo');
         }
         
         const uploadResult = await uploadResponse.json();
+        console.log('Upload result:', uploadResult);
         uploadedFileUrl = uploadResult.url;
         
         // Atualizar os dados com a URL do arquivo
@@ -63,10 +71,12 @@ const AdminGallery = () => {
         }
       }
       
+      console.log('Final data before create:', data);
       await createGalleryItem.mutateAsync(data);
       setIsCreateDialogOpen(false);
       toast.success('Item da galeria criado com sucesso!');
     } catch (error: any) {
+      console.error('Error creating gallery item:', error);
       toast.error('Erro ao criar item da galeria', { description: error.message || 'Tente novamente.' });
     }
   };

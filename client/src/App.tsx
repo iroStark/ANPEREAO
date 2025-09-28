@@ -16,6 +16,9 @@ import AdminLegislation from "@/pages/admin/AdminLegislation";
 import AdminPublications from "@/pages/admin/AdminPublications";
 import AdminEvents from "@/pages/admin/AdminEvents";
 import AdminGallery from "@/pages/admin/AdminGallery";
+import AdminUsers from "@/pages/admin/AdminUsers";
+import AdminReports from "@/pages/admin/AdminReports";
+import AdminSettings from "@/pages/admin/AdminSettings";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import NotFound from "@/pages/not-found";
 
@@ -61,6 +64,21 @@ function Router() {
       <Route path="/admin/gallery" component={() => (
         <ProtectedRoute>
           <AdminGallery />
+        </ProtectedRoute>
+      )} />
+      <Route path="/admin/users" component={() => (
+        <ProtectedRoute>
+          <AdminUsers />
+        </ProtectedRoute>
+      )} />
+      <Route path="/admin/reports" component={() => (
+        <ProtectedRoute>
+          <AdminReports />
+        </ProtectedRoute>
+      )} />
+      <Route path="/admin/settings" component={() => (
+        <ProtectedRoute>
+          <AdminSettings />
         </ProtectedRoute>
       )} />
       

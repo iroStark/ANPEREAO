@@ -11,12 +11,18 @@ import {
   type InsertEvent,
   type Gallery,
   type InsertGallery,
+  type Report,
+  type InsertReport,
+  type Setting,
+  type InsertSetting,
   users,
   aboutContent,
   legislation,
   publications,
   events,
-  gallery
+  gallery,
+  reports,
+  settings
 } from "@shared/schema";
 import { drizzle } from "drizzle-orm/neon-http";
 import { neon } from "@neondatabase/serverless";
@@ -66,6 +72,25 @@ export interface IStorage {
   createGalleryItem(item: InsertGallery): Promise<Gallery>;
   updateGalleryItem(id: string, item: Partial<InsertGallery>): Promise<Gallery | undefined>;
   deleteGalleryItem(id: string): Promise<boolean>;
+
+  // User management operations
+  getAllUsers(): Promise<User[]>;
+  updateUser(id: string, user: Partial<InsertUser>): Promise<User | undefined>;
+  deleteUser(id: string): Promise<boolean>;
+
+  // Report operations
+  getAllReports(): Promise<Report[]>;
+  getReport(id: string): Promise<Report | undefined>;
+  createReport(report: InsertReport): Promise<Report>;
+  updateReport(id: string, report: Partial<InsertReport>): Promise<Report | undefined>;
+  deleteReport(id: string): Promise<boolean>;
+
+  // Setting operations
+  getAllSettings(): Promise<Setting[]>;
+  getSetting(id: string): Promise<Setting | undefined>;
+  createSetting(setting: InsertSetting): Promise<Setting>;
+  updateSetting(id: string, setting: Partial<InsertSetting>): Promise<Setting | undefined>;
+  deleteSetting(id: string): Promise<boolean>;
 }
 
 export class MemStorage implements IStorage {
@@ -75,6 +100,8 @@ export class MemStorage implements IStorage {
   private publications: Map<string, Publication>;
   private events: Map<string, Event>;
   private gallery: Map<string, Gallery>;
+  private reports: Map<string, Report>;
+  private settings: Map<string, Setting>;
 
   constructor() {
     this.users = new Map();
@@ -83,6 +110,8 @@ export class MemStorage implements IStorage {
     this.publications = new Map();
     this.events = new Map();
     this.gallery = new Map();
+    this.reports = new Map();
+    this.settings = new Map();
     
     // Initialize with some default data from existing pages
     this.seedDefaultData();
@@ -181,7 +210,16 @@ export class MemStorage implements IStorage {
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = randomUUID();
-    const user: User = { ...insertUser, id };
+    const user: User = { 
+      ...insertUser, 
+      id,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      role: insertUser.role || 'viewer',
+      isActive: insertUser.isActive !== undefined ? insertUser.isActive : true,
+      email: insertUser.email || null,
+      lastLoginAt: null
+    };
     this.users.set(id, user);
     return user;
   }
@@ -561,6 +599,83 @@ export class DatabaseStorage implements IStorage {
 
   async deleteGalleryItem(id: string): Promise<boolean> {
     const result = await this.db.delete(gallery).where(eq(gallery.id, id));
+    return result.rowCount > 0;
+  }
+
+  // User management operations
+  async getAllUsers(): Promise<User[]> {
+    return await this.db.select().from(users);
+  }
+
+  async updateUser(id: string, user: Partial<InsertUser>): Promise<User | undefined> {
+    const result = await this.db
+      .update(users)
+      .set({ ...user, updatedAt: new Date() })
+      .where(eq(users.id, id))
+      .returning();
+    return result[0];
+  }
+
+  async deleteUser(id: string): Promise<boolean> {
+    const result = await this.db.delete(users).where(eq(users.id, id));
+    return result.rowCount > 0;
+  }
+
+  // Report operations
+  async getAllReports(): Promise<Report[]> {
+    return await this.db.select().from(reports);
+  }
+
+  async getReport(id: string): Promise<Report | undefined> {
+    const result = await this.db.select().from(reports).where(eq(reports.id, id));
+    return result[0];
+  }
+
+  async createReport(report: InsertReport): Promise<Report> {
+    const result = await this.db.insert(reports).values(report).returning();
+    return result[0];
+  }
+
+  async updateReport(id: string, report: Partial<InsertReport>): Promise<Report | undefined> {
+    const result = await this.db
+      .update(reports)
+      .set({ ...report, updatedAt: new Date() })
+      .where(eq(reports.id, id))
+      .returning();
+    return result[0];
+  }
+
+  async deleteReport(id: string): Promise<boolean> {
+    const result = await this.db.delete(reports).where(eq(reports.id, id));
+    return result.rowCount > 0;
+  }
+
+  // Setting operations
+  async getAllSettings(): Promise<Setting[]> {
+    return await this.db.select().from(settings);
+  }
+
+  async getSetting(id: string): Promise<Setting | undefined> {
+    const result = await this.db.select().from(settings).where(eq(settings.id, id));
+    return result[0];
+  }
+
+  async createSetting(setting: InsertSetting): Promise<Setting> {
+    const result = await this.db.insert(settings).values(setting).returning();
+    return result[0];
+  }
+
+  async updateSetting(id: string, setting: Partial<InsertSetting>): Promise<Setting | undefined> {
+    const result = await this.db
+      .update(settings)
+      .set({ ...setting, updatedAt: new Date() })
+      .where(eq(settings.id, id))
+      .returning();
+    return result[0];
+  }
+
+  async deleteSetting(id: string): Promise<boolean> {
+    const result = await this.db.delete(settings).where(eq(settings.id, id));
     return result.rowCount > 0;
   }
 }

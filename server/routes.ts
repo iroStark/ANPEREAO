@@ -62,6 +62,8 @@ async function initializeAdmin() {
       await storage.createUser({
         username: adminUsername,
         password: hashedPassword,
+        role: 'admin',
+        isActive: true,
       });
       console.log(`Admin user created with username: ${adminUsername}`);
     }
@@ -411,6 +413,168 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error: any) {
       console.error("Error uploading file:", error);
       res.status(500).json({ error: error.message || "Erro ao fazer upload do arquivo" });
+    }
+  });
+
+  // Users endpoints (admin)
+  app.get("/api/admin/users", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const users = await storage.getAllUsers();
+      res.json(users);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      res.status(500).json({ error: "Failed to fetch users" });
+    }
+  });
+
+  app.post("/api/admin/users", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const { username, email, password, role, isActive } = req.body;
+      
+      // Hash password
+      const hashedPassword = await bcrypt.hash(password, 10);
+      
+      const user = await storage.createUser({
+        username,
+        email,
+        password: hashedPassword,
+        role: role || 'viewer',
+        isActive: isActive !== undefined ? isActive : true,
+      });
+      
+      res.json(user);
+    } catch (error) {
+      console.error("Error creating user:", error);
+      res.status(500).json({ error: "Failed to create user" });
+    }
+  });
+
+  app.put("/api/admin/users/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const { username, email, password, role, isActive } = req.body;
+      
+      const updateData: any = { username, email, role, isActive };
+      
+      // Only hash password if provided
+      if (password) {
+        updateData.password = await bcrypt.hash(password, 10);
+      }
+      
+      const user = await storage.updateUser(req.params.id, updateData);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      res.json(user);
+    } catch (error) {
+      console.error("Error updating user:", error);
+      res.status(500).json({ error: "Failed to update user" });
+    }
+  });
+
+  app.delete("/api/admin/users/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const success = await storage.deleteUser(req.params.id);
+      if (!success) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      res.status(500).json({ error: "Failed to delete user" });
+    }
+  });
+
+  // Reports endpoints (admin)
+  app.get("/api/admin/reports", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const reports = await storage.getAllReports();
+      res.json(reports);
+    } catch (error) {
+      console.error("Error fetching reports:", error);
+      res.status(500).json({ error: "Failed to fetch reports" });
+    }
+  });
+
+  app.post("/api/admin/reports", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const report = await storage.createReport(req.body);
+      res.json(report);
+    } catch (error) {
+      console.error("Error creating report:", error);
+      res.status(500).json({ error: "Failed to create report" });
+    }
+  });
+
+  app.put("/api/admin/reports/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const report = await storage.updateReport(req.params.id, req.body);
+      if (!report) {
+        return res.status(404).json({ error: "Report not found" });
+      }
+      res.json(report);
+    } catch (error) {
+      console.error("Error updating report:", error);
+      res.status(500).json({ error: "Failed to update report" });
+    }
+  });
+
+  app.delete("/api/admin/reports/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const success = await storage.deleteReport(req.params.id);
+      if (!success) {
+        return res.status(404).json({ error: "Report not found" });
+      }
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting report:", error);
+      res.status(500).json({ error: "Failed to delete report" });
+    }
+  });
+
+  // Settings endpoints (admin)
+  app.get("/api/admin/settings", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const settings = await storage.getAllSettings();
+      res.json(settings);
+    } catch (error) {
+      console.error("Error fetching settings:", error);
+      res.status(500).json({ error: "Failed to fetch settings" });
+    }
+  });
+
+  app.post("/api/admin/settings", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const setting = await storage.createSetting(req.body);
+      res.json(setting);
+    } catch (error) {
+      console.error("Error creating setting:", error);
+      res.status(500).json({ error: "Failed to create setting" });
+    }
+  });
+
+  app.put("/api/admin/settings/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const setting = await storage.updateSetting(req.params.id, req.body);
+      if (!setting) {
+        return res.status(404).json({ error: "Setting not found" });
+      }
+      res.json(setting);
+    } catch (error) {
+      console.error("Error updating setting:", error);
+      res.status(500).json({ error: "Failed to update setting" });
+    }
+  });
+
+  app.delete("/api/admin/settings/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const success = await storage.deleteSetting(req.params.id);
+      if (!success) {
+        return res.status(404).json({ error: "Setting not found" });
+      }
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting setting:", error);
+      res.status(500).json({ error: "Failed to delete setting" });
     }
   });
 

@@ -57,6 +57,7 @@ export const useCreateGalleryItem = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(data),
       });
       
@@ -83,6 +84,7 @@ export const useUpdateGalleryItem = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(data),
       });
       
@@ -106,6 +108,7 @@ export const useDeleteGalleryItem = () => {
     mutationFn: async (id: string) => {
       const response = await fetch(`/api/admin/gallery/${id}`, {
         method: 'DELETE',
+        credentials: 'include',
       });
       
       if (!response.ok) {

@@ -103,6 +103,7 @@ export const GalleryDialog = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('GalleryDialog handleSubmit:', { formData, selectedFile });
     onSubmit(formData, selectedFile || undefined);
   };
 

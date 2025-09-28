@@ -143,6 +143,7 @@ const GallerySection = () => {
             </Card>
           ))}
         </div>
+        )}
 
         {/* Load More Button - Hidden for now, can be implemented later with pagination */}
         {filteredPhotos.length > 9 && (
