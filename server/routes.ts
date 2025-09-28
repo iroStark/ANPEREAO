@@ -80,7 +80,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     fs.mkdirSync(uploadDir, { recursive: true });
   }
 
-  const storage = multer.diskStorage({
+  const multerStorage = multer.diskStorage({
     destination: (req, file, cb) => {
       cb(null, uploadDir);
     },
@@ -91,7 +91,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   const upload = multer({
-    storage: storage,
+    storage: multerStorage,
     limits: {
       fileSize: 10 * 1024 * 1024, // 10MB limit
     },
@@ -537,7 +537,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           time: "09:00 - 17:00",
           location: "Hotel Presidente, Luanda",
           type: "Conferência",
-          capacity: 200,
+          capacity: "200",
           registrationDeadline: "10 de Junho, 2024",
           cost: "15.000 AOA",
           imageUrl: "/lovable-uploads/0194c04c-ec72-4ff9-9fd0-e1db7c6f4ef8.png"
@@ -549,7 +549,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           time: "14:00 - 18:00",
           location: "Centro de Convenções de Talatona",
           type: "Workshop",
-          capacity: 50,
+          capacity: "50",
           registrationDeadline: "18 de Maio, 2024",
           cost: "Gratuito para membros",
           imageUrl: "/lovable-uploads/4bfb5b81-7f66-44a6-8a90-6b7a85c12c14.png"
@@ -561,7 +561,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           time: "09:30 - 16:30",
           location: "Universidade Católica de Angola, Luanda",
           type: "Seminário",
-          capacity: 80,
+          capacity: "80",
           registrationDeadline: "3 de Julho, 2024",
           cost: "8.000 AOA",
           imageUrl: "/lovable-uploads/f47ac10b-58cc-4372-a567-0e02b2c3d479.png"
@@ -573,7 +573,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           time: "08:00 - 17:00",
           location: "Instituto Superior Politécnico do Kwanza Sul",
           type: "Curso",
-          capacity: 30,
+          capacity: "30",
           registrationDeadline: "5 de Agosto, 2024",
           cost: "25.000 AOA",
           imageUrl: "/lovable-uploads/0194c04c-ec72-4ff9-9fd0-e1db7c6f4ef8.png"
@@ -585,7 +585,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           time: "09:00 - 15:00",
           location: "Hotel Kandengue, Huambo",
           type: "Encontro",
-          capacity: 120,
+          capacity: "120",
           registrationDeadline: "12 de Setembro, 2024",
           cost: "5.000 AOA",
           imageUrl: "/lovable-uploads/4bfb5b81-7f66-44a6-8a90-6b7a85c12c14.png"
@@ -598,41 +598,41 @@ export async function registerRoutes(app: Express): Promise<Server> {
           title: "Plano de Actividades ANPERE 2024",
           description: "Documento oficial que apresenta o plano estratégico e actividades previstas para o ano de 2024. Inclui objectivos, metas, cronograma de eventos, projectos de desenvolvimento profissional e iniciativas de fortalecimento do setor.",
           category: "Plano Estratégico",
+          date: "Janeiro 2024",
           fileUrl: "/api/placeholder/document/plano-actividades-2024.pdf",
-          imageUrl: "/lovable-uploads/f47ac10b-58cc-4372-a567-0e02b2c3d479.png",
-          publishedAt: new Date("2024-01-15")
+          downloadUrl: null
         },
         {
           title: "Relatório Anual de Actividades 2023",
           description: "Relatório completo das actividades realizadas pela ANPERE em 2023. Apresenta estatísticas de membros, eventos realizados, projectos executados, parcerias estabelecidas e impacto no desenvolvimento do setor de telecomunicações.",
           category: "Relatório",
+          date: "Fevereiro 2024",
           fileUrl: "/api/placeholder/document/relatorio-anual-2023.pdf",
-          imageUrl: "/lovable-uploads/0194c04c-ec72-4ff9-9fd0-e1db7c6f4ef8.png",
-          publishedAt: new Date("2024-02-20")
+          downloadUrl: null
         },
         {
           title: "Código de Ética Profissional dos Técnicos em Telecomunicações",
           description: "Documento que estabelece os princípios éticos e deontológicos para o exercício da profissão de técnico em telecomunicações. Define direitos, deveres, responsabilidades e padrões de conduta profissional.",
           category: "Ética",
+          date: "Março 2024",
           fileUrl: "/api/placeholder/document/codigo-etica-2024.pdf",
-          imageUrl: "/lovable-uploads/4bfb5b81-7f66-44a6-8a90-6b7a85c12c14.png",
-          publishedAt: new Date("2024-03-10")
+          downloadUrl: null
         },
         {
           title: "Manual de Boas Práticas em Instalações de Telecomunicações",
           description: "Guia técnico com as melhores práticas para instalação, manutenção e operação de equipamentos de telecomunicações. Inclui normas de segurança, procedimentos técnicos e recomendações para garantir qualidade e eficiência.",
           category: "Manual Técnico",
+          date: "Abril 2024",
           fileUrl: "/api/placeholder/document/manual-boas-praticas.pdf",
-          imageUrl: "/lovable-uploads/f47ac10b-58cc-4372-a567-0e02b2c3d479.png",
-          publishedAt: new Date("2024-04-05")
+          downloadUrl: null
         },
         {
           title: "Boletim Informativo - Novidades do Setor Q1 2024",
           description: "Boletim trimestral com as principais novidades, avanços tecnológicos, mudanças regulamentares e oportunidades no setor de telecomunicações. Informação actualizada para manter os profissionais informados sobre tendências do mercado.",
           category: "Boletim",
+          date: "Abril 2024",
           fileUrl: "/api/placeholder/document/boletim-q1-2024.pdf",
-          imageUrl: "/lovable-uploads/0194c04c-ec72-4ff9-9fd0-e1db7c6f4ef8.png",
-          publishedAt: new Date("2024-04-30")
+          downloadUrl: null
         }
       ];
 
@@ -641,38 +641,56 @@ export async function registerRoutes(app: Express): Promise<Server> {
         {
           title: "Conferência Nacional 2023 - Cerimónia de Abertura",
           description: "Momento da cerimónia de abertura da Conferência Nacional de Telecomunicações 2023, com a presença de autoridades governamentais e líderes do setor.",
-          imageUrl: "/lovable-uploads/0194c04c-ec72-4ff9-9fd0-e1db7c6f4ef8.png",
-          category: "Eventos"
+          type: "image",
+          date: "Junho 2023",
+          category: "Eventos",
+          thumbnail: "/lovable-uploads/0194c04c-ec72-4ff9-9fd0-e1db7c6f4ef8.png",
+          mediaUrl: null
         },
         {
           title: "Workshop 5G - Demonstração Prática",
           description: "Sessão prática do workshop sobre tecnologias 5G, onde os participantes puderam experimentar equipamentos de última geração.",
-          imageUrl: "/lovable-uploads/4bfb5b81-7f66-44a6-8a90-6b7a85c12c14.png",
-          category: "Formação"
+          type: "image",
+          date: "Maio 2023",
+          category: "Formação",
+          thumbnail: "/lovable-uploads/4bfb5b81-7f66-44a6-8a90-6b7a85c12c14.png",
+          mediaUrl: null
         },
         {
           title: "Reunião do Conselho Directivo",
           description: "Reunião mensal do conselho directivo da ANPERE para discussão de estratégias e tomada de decisões importantes para a associação.",
-          imageUrl: "/lovable-uploads/f47ac10b-58cc-4372-a567-0e02b2c3d479.png",
-          category: "Institucional"
+          type: "image",
+          date: "Abril 2023",
+          category: "Institucional",
+          thumbnail: "/lovable-uploads/f47ac10b-58cc-4372-a567-0e02b2c3d479.png",
+          mediaUrl: null
         },
         {
           title: "Cerimónia de Certificação Profissional",
           description: "Cerimónia de entrega de certificados aos novos profissionais certificados pela ANPERE, reconhecendo sua competência técnica.",
-          imageUrl: "/lovable-uploads/0194c04c-ec72-4ff9-9fd0-e1db7c6f4ef8.png",
-          category: "Certificação"
+          type: "image",
+          date: "Março 2023",
+          category: "Certificação",
+          thumbnail: "/lovable-uploads/0194c04c-ec72-4ff9-9fd0-e1db7c6f4ef8.png",
+          mediaUrl: null
         },
         {
           title: "Visita Técnica à Estação Base 5G",
           description: "Visita técnica de membros da ANPERE a uma moderna estação base 5G para conhecimento das novas tecnologias implementadas.",
-          imageUrl: "/lovable-uploads/4bfb5b81-7f66-44a6-8a90-6b7a85c12c14.png",
-          category: "Visitas"
+          type: "image",
+          date: "Fevereiro 2023",
+          category: "Visitas",
+          thumbnail: "/lovable-uploads/4bfb5b81-7f66-44a6-8a90-6b7a85c12c14.png",
+          mediaUrl: null
         },
         {
           title: "Assembleia Geral Anual 2024",
           description: "Assembleia geral anual da ANPERE com apresentação de relatórios, aprovação de contas e eleições para novos cargos directivos.",
-          imageUrl: "/lovable-uploads/f47ac10b-58cc-4372-a567-0e02b2c3d479.png",
-          category: "Assembleia"
+          type: "image",
+          date: "Janeiro 2024",
+          category: "Assembleia",
+          thumbnail: "/lovable-uploads/f47ac10b-58cc-4372-a567-0e02b2c3d479.png",
+          mediaUrl: null
         }
       ];
 

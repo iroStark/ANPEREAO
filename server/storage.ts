@@ -128,9 +128,8 @@ export class MemStorage implements IStorage {
       description: 'Planeamento estratégico das actividades da ANPERE para o ano de 2024',
       category: 'Plano',
       date: 'Janeiro 2024',
-      size: '2.4 MB',
-      downloads: 245,
       fileUrl: null,
+      downloadUrl: null,
       publishedAt: new Date(),
       updatedAt: new Date(),
     };
@@ -144,9 +143,9 @@ export class MemStorage implements IStorage {
       date: '15 de Junho, 2024',
       time: '09:00 - 17:00',
       location: 'Hotel Presidente, Luanda',
-      participants: '200+',
-      status: 'upcoming',
-      category: 'Conferência',
+      type: 'Conferência',
+      capacity: '200+',
+      registrationUrl: null,
       publishedAt: new Date(),
       updatedAt: new Date(),
     };
@@ -281,8 +280,8 @@ export class MemStorage implements IStorage {
     const id = randomUUID();
     const publication: Publication = {
       ...insertPublication,
-      downloads: insertPublication.downloads ?? 0,
       fileUrl: insertPublication.fileUrl ?? null,
+      downloadUrl: insertPublication.downloadUrl ?? null,
       id,
       publishedAt: new Date(),
       updatedAt: new Date(),
@@ -323,7 +322,8 @@ export class MemStorage implements IStorage {
     const id = randomUUID();
     const event: Event = {
       ...insertEvent,
-      status: insertEvent.status ?? 'upcoming',
+      capacity: insertEvent.capacity ?? null,
+      registrationUrl: insertEvent.registrationUrl ?? null,
       id,
       publishedAt: new Date(),
       updatedAt: new Date(),
