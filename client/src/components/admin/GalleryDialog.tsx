@@ -124,13 +124,7 @@ export const GalleryDialog = ({
         setFormData(prev => ({ ...prev, type: 'video' }));
       }
       
-      // Atualizar URLs com o nome do arquivo (será substituído pela URL real após upload)
-      const fileName = file.name;
-      setFormData(prev => ({
-        ...prev,
-        thumbnailUrl: file.type.startsWith('image/') ? fileName : prev.thumbnailUrl,
-        mediaUrl: fileName,
-      }));
+      // O arquivo será processado no servidor e a URL será definida automaticamente
     }
   };
 
@@ -373,33 +367,6 @@ export const GalleryDialog = ({
             </div>
           </div>
 
-          {/* Campos de URL (para URLs externas) */}
-          <div className="space-y-2">
-            <Label htmlFor="mediaUrl">URL do Mídia (opcional)</Label>
-            <Input
-              id="mediaUrl"
-              type="url"
-              value={formData.mediaUrl}
-              onChange={(e) => handleInputChange('mediaUrl', e.target.value)}
-              placeholder="https://exemplo.com/media.jpg ou .mp4"
-            />
-            <p className="text-xs text-muted-foreground">
-              Use este campo para URLs externas ou deixe vazio se estiver fazendo upload de arquivo
-            </p>
-          </div>
-
-          {formData.type === 'image' && (
-            <div className="space-y-2">
-              <Label htmlFor="thumbnailUrl">URL da Miniatura (opcional)</Label>
-              <Input
-                id="thumbnailUrl"
-                type="url"
-                value={formData.thumbnailUrl}
-                onChange={(e) => handleInputChange('thumbnailUrl', e.target.value)}
-                placeholder="https://exemplo.com/miniatura.jpg"
-              />
-            </div>
-          )}
 
           <DialogFooter className="flex flex-col sm:flex-row gap-2">
             <Button
