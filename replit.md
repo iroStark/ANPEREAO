@@ -8,6 +8,22 @@ The system includes a complete administrative platform with secure authenticatio
 
 ## Recent Changes
 
+### October 2, 2025 - Member Registration System with PDF Generation
+- Implemented complete member registration system accessible via /associar-se route
+- Created members table in PostgreSQL with comprehensive fields matching official registration form
+- Added full CRUD operations for member management in storage layer
+- Built public registration endpoint (POST /api/members/register) with photo upload support
+- Created admin endpoints for member management (GET, PUT, DELETE /api/admin/members)
+- Developed MemberRegistration page with multi-section form based on official PDF template
+- Integrated jsPDF library for automated PDF generation of registration certificates
+- Form sections: Personal Info, Document Info, Family Info, Professional Info, Contact Info
+- Auto-generated member numbers in format XXXX/YYYY (sequential number/year)
+- PDF certificate includes all registration details and official formatting
+- Connected "Junte-se a Nós" button (AboutSection) and "ASSOCIAR-SE" service card to registration page
+- Comprehensive form validation using Zod schemas and react-hook-form
+- Photo upload functionality with preview and storage in uploads directory
+- Post-registration screen with member number display and PDF download option
+
 ### September 26, 2025 - Database Persistence Implementation
 - Migrated from volatile MemStorage to persistent PostgreSQL database using Drizzle ORM
 - Implemented DatabaseStorage class with full CRUD operations for all content types

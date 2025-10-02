@@ -9,6 +9,7 @@ import Legislacao from "@/pages/Legislacao";
 import Publicacoes from "@/pages/Publicacoes";
 import Eventos from "@/pages/Eventos";
 import Galeria from "@/pages/Galeria";
+import MemberRegistration from "@/pages/MemberRegistration";
 import AdminLogin from "@/pages/AdminLogin";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import AdminAbout from "@/pages/admin/AdminAbout";
@@ -33,6 +34,7 @@ function Router() {
       <Route path="/eventos" component={Eventos} />
       <Route path="/galeria" component={Galeria} />
       <Route path="/contactos" component={Home} />
+      <Route path="/associar-se" component={MemberRegistration} />
       
       {/* Admin routes */}
       <Route path="/admin/login" component={AdminLogin} />

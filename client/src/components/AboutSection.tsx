@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -323,10 +324,12 @@ const AboutSection = () => {
               variants={itemVariants}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
-              <Button size="lg" className="group hover-elevate">
-                Junte-se a Nós
-                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
+              <Link href="/associar-se">
+                <Button size="lg" className="group hover-elevate" data-testid="button-join-us">
+                  Junte-se a Nós
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
               <Button variant="outline" size="lg" className="backdrop-blur-sm bg-white/10 border-white/20 hover-elevate">
                 Saiba Mais
               </Button>

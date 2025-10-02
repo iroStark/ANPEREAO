@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { 
   UserPlus, 
@@ -15,7 +16,8 @@ const services = [
     icon: UserPlus,
     title: "ASSOCIAR-SE",
     subtitle: "Torne-se membro da ANPERE",
-    section: "contactos"
+    section: "contactos",
+    link: "/associar-se"
   },
   {
     id: 2,
@@ -49,11 +51,16 @@ const services = [
 
 const ServiceCards = () => {
   const [activeCard, setActiveCard] = useState<number | null>(null);
+  const [, setLocation] = useLocation();
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+  const handleCardClick = (service: typeof services[0]) => {
+    if (service.link) {
+      setLocation(service.link);
+    } else {
+      const element = document.getElementById(service.section);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
@@ -76,7 +83,7 @@ const ServiceCards = () => {
                   }`}
                   onMouseEnter={() => setActiveCard(service.id)}
                   onMouseLeave={() => setActiveCard(null)}
-                  onClick={() => scrollToSection(service.section)}
+                  onClick={() => handleCardClick(service)}
                   data-testid={`service-card-${service.id}`}
                 >
                   <div className="text-center">
