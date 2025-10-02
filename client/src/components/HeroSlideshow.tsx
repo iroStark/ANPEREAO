@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import heroImage1 from "@assets/generated_images/Angolan_telecommunications_professionals_working_640a21c0.png";
 import heroImage2 from "@assets/generated_images/Telecommunications_tower_in_Luanda_Angola_da464df4.png";
-import heroImage3 from "@assets/generated_images/Angolan_professionals_telecommunications_meeting_859a9b86.png";
+import heroImage3 from "@assets/IMG-20240214-WA0082_1759411408988.jpg";
 import heroImage4 from "@assets/Gemini_Generated_Image_y9zwpuy9zwpuy9zw_1758927089316.png";
 
 const slides = [
@@ -21,9 +21,9 @@ const slides = [
   },
   {
     image: heroImage3,
-    title: "Comunidade Profissional",
-    subtitle: "Solidariedade e apoio mútuo",
-    description: "Oferecemos assistência social, médica e jurídica aos nossos associados, fortalecendo a comunidade de profissionais de telecomunicações."
+    title: "Membros da ANPERE",
+    subtitle: "Unidos pela profissão",
+    description: "Membros da ANPERE reunidos, representando a força e união dos profissionais do espectro rádio eletrónico em Angola."
   },
   {
     image: heroImage4,

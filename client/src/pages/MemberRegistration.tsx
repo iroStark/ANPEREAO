@@ -47,8 +47,8 @@ export default function MemberRegistration() {
       birthDate: "",
       birthPlace: "",
       nationality: "Angolana",
-      gender: "",
-      maritalStatus: "",
+      gender: undefined,
+      maritalStatus: undefined,
       idDocument: "",
       idIssueDate: "",
       idIssuePlace: "",
@@ -126,6 +126,9 @@ export default function MemberRegistration() {
 
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = 20;
+    const maxWidth = pageWidth - 2 * margin;
     
     // Header
     doc.setFontSize(16);
@@ -146,12 +149,45 @@ export default function MemberRegistration() {
     doc.setFontSize(11);
     doc.setFont("helvetica", "normal");
 
+    const checkPageBreak = (additionalHeight = 7) => {
+      if (yPos + additionalHeight > pageHeight - 30) {
+        doc.addPage();
+        yPos = 20;
+      }
+    };
+
     const addField = (label: string, value: string) => {
+      checkPageBreak();
       doc.setFont("helvetica", "bold");
-      doc.text(`${label}:`, 20, yPos);
+      doc.text(`${label}:`, margin, yPos);
       doc.setFont("helvetica", "normal");
-      doc.text(value || "N/A", 80, yPos);
+      
+      // Handle long text with wrapping
+      const textLines = doc.splitTextToSize(value || "N/A", maxWidth - 60);
+      textLines.forEach((line: string, index: number) => {
+        if (index > 0) {
+          yPos += 5;
+          checkPageBreak(5);
+        }
+        doc.text(line, 80, yPos);
+      });
       yPos += 7;
+    };
+
+    const addMultilineField = (label: string, value: string) => {
+      checkPageBreak();
+      doc.setFont("helvetica", "bold");
+      doc.text(`${label}:`, margin, yPos);
+      yPos += 7;
+      doc.setFont("helvetica", "normal");
+      
+      const textLines = doc.splitTextToSize(value || "N/A", maxWidth);
+      textLines.forEach((line: string) => {
+        checkPageBreak();
+        doc.text(line, margin, yPos);
+        yPos += 5;
+      });
+      yPos += 5;
     };
 
     addField("Nome Completo", registeredMember.fullName);
@@ -173,26 +209,29 @@ export default function MemberRegistration() {
     addField("E-mail", registeredMember.email);
     
     if (registeredMember.otherInfo) {
-      addField("Outros Dados", registeredMember.otherInfo);
+      addMultilineField("Outros Dados", registeredMember.otherInfo);
     }
 
     // Date and signature section
+    checkPageBreak(30);
     yPos += 10;
     const today = new Date();
     const formattedDate = `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`;
-    doc.text(`Luanda, aos ${formattedDate}`, 20, yPos);
+    doc.text(`Luanda, aos ${formattedDate}`, margin, yPos);
     
     yPos += 20;
+    checkPageBreak(15);
     doc.text("_________________________________", pageWidth / 2, yPos, { align: "center" });
     yPos += 7;
     doc.text("O ASSOCIADO", pageWidth / 2, yPos, { align: "center" });
 
-    // Footer
+    // Footer on last page
     doc.setFontSize(8);
-    doc.text("Documento gerado automaticamente pelo sistema ANPERE", pageWidth / 2, doc.internal.pageSize.getHeight() - 10, { align: "center" });
+    doc.text("Documento gerado automaticamente pelo sistema ANPERE", pageWidth / 2, pageHeight - 10, { align: "center" });
 
-    // Save PDF
-    doc.save(`comprovativo-inscricao-${registeredMember.memberNumber}.pdf`);
+    // Save PDF with safe filename (replace / with _)
+    const safeFilename = registeredMember.memberNumber.replace(/\//g, '_');
+    doc.save(`comprovativo-inscricao-${safeFilename}.pdf`);
   };
 
   const onSubmit = (data: MemberFormData) => {

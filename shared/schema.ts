@@ -211,6 +211,13 @@ export const insertMemberSchema = createInsertSchema(members).omit({
   registrationDate: true,
   createdAt: true,
   updatedAt: true,
+}).extend({
+  gender: z.enum(["Masculino", "Feminino"], { 
+    required_error: "Selecione o sexo",
+  }),
+  maritalStatus: z.enum(["Solteiro(a)", "Casado(a)", "Divorciado(a)", "Viúvo(a)"], {
+    required_error: "Selecione o estado civil",
+  }),
 });
 
 export type InsertMember = z.infer<typeof insertMemberSchema>;
