@@ -416,6 +416,74 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Member routes (Public - for registration)
+  app.post("/api/members/register", upload.single('photo'), async (req: Request, res: Response) => {
+    try {
+      const memberData = req.body;
+      
+      // If photo was uploaded, add the URL to memberData
+      if (req.file) {
+        memberData.photoUrl = `/uploads/${req.file.filename}`;
+      }
+
+      const member = await storage.createMember(memberData);
+      res.status(201).json(member);
+    } catch (error) {
+      console.error("Error registering member:", error);
+      res.status(500).json({ error: "Failed to register member" });
+    }
+  });
+
+  // Member routes (Admin)
+  app.get("/api/admin/members", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const members = await storage.getAllMembers();
+      res.json(members);
+    } catch (error) {
+      console.error("Error fetching members:", error);
+      res.status(500).json({ error: "Failed to fetch members" });
+    }
+  });
+
+  app.get("/api/admin/members/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const member = await storage.getMember(req.params.id);
+      if (!member) {
+        return res.status(404).json({ error: "Member not found" });
+      }
+      res.json(member);
+    } catch (error) {
+      console.error("Error fetching member:", error);
+      res.status(500).json({ error: "Failed to fetch member" });
+    }
+  });
+
+  app.put("/api/admin/members/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const member = await storage.updateMember(req.params.id, req.body);
+      if (!member) {
+        return res.status(404).json({ error: "Member not found" });
+      }
+      res.json(member);
+    } catch (error) {
+      console.error("Error updating member:", error);
+      res.status(500).json({ error: "Failed to update member" });
+    }
+  });
+
+  app.delete("/api/admin/members/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const success = await storage.deleteMember(req.params.id);
+      if (!success) {
+        return res.status(404).json({ error: "Member not found" });
+      }
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting member:", error);
+      res.status(500).json({ error: "Failed to delete member" });
+    }
+  });
+
   // Users endpoints (admin)
   app.get("/api/admin/users", requireAuth, async (req: Request, res: Response) => {
     try {
