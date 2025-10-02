@@ -175,3 +175,43 @@ export const insertSettingSchema = createInsertSchema(settings).omit({
 
 export type InsertSetting = z.infer<typeof insertSettingSchema>;
 export type Setting = typeof settings.$inferSelect;
+
+// Members (Associados)
+export const members = pgTable("members", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  memberNumber: varchar("member_number", { length: 20 }), // Número de membro
+  fullName: text("full_name").notNull(),
+  birthDate: varchar("birth_date", { length: 50 }).notNull(),
+  birthPlace: text("birth_place").notNull(), // Naturalidade
+  nationality: varchar("nationality", { length: 50 }).notNull(),
+  gender: varchar("gender", { length: 10 }).notNull(), // Sexo
+  maritalStatus: varchar("marital_status", { length: 20 }).notNull(), // Estado Civil
+  idDocument: varchar("id_document", { length: 50 }).notNull(), // B.I./Passaporte
+  idIssueDate: varchar("id_issue_date", { length: 50 }).notNull(),
+  idIssuePlace: text("id_issue_place").notNull(),
+  fatherName: text("father_name").notNull(),
+  motherName: text("mother_name").notNull(),
+  occupation: text("occupation").notNull(), // Função que Exerce/exerceu
+  phone: varchar("phone", { length: 20 }).notNull(),
+  currentAddress: text("current_address").notNull(), // Residência Actual
+  municipality: text("municipality").notNull(), // Município e Distrito
+  workProvince: text("work_province").notNull(), // Província onde Trabalhou
+  email: text("email").notNull(),
+  photoUrl: text("photo_url"), // URL da foto
+  otherInfo: text("other_info"), // Outros dados
+  registrationDate: timestamp("registration_date").defaultNow(),
+  status: varchar("status", { length: 20 }).notNull().default('active'), // 'active', 'inactive', 'pending'
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertMemberSchema = createInsertSchema(members).omit({
+  id: true,
+  memberNumber: true,
+  registrationDate: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertMember = z.infer<typeof insertMemberSchema>;
+export type Member = typeof members.$inferSelect;

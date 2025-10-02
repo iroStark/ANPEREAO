@@ -59,9 +59,8 @@ const ContactSection = () => {
                   <div>
                     <h4 className="font-medium text-foreground mb-1">Endereço da Sede</h4>
                     <p className="text-sm text-muted-foreground" data-testid="text-address">
-                      Município de Viana<br />
-                      Rua Comandante Bula<br />
-                      Prédio N.º 33L1 1ª andar esquerdo<br />
+                      Vila de Viana Benfica<br />
+                      Código: 39W5+79G<br />
                       Luanda, Angola
                     </p>
                   </div>
@@ -113,15 +112,20 @@ const ContactSection = () => {
               </CardContent>
             </Card>
 
-            {/* Map Placeholder */}
+            {/* Interactive Map */}
             <Card>
               <CardContent className="p-0">
-                <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <MapPin className="w-12 h-12 text-muted-foreground mx-auto mb-2" />
-                    <p className="text-muted-foreground">Mapa de Localização</p>
-                    <p className="text-sm text-muted-foreground">Viana, Luanda - Angola</p>
-                  </div>
+                <div className="aspect-video rounded-lg overflow-hidden">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3908.5!2d13.3!3d-8.8!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOMKwNDgnMDAuMCJTIDEzwrAxOCcwMC4wIkU!5e0!3m2!1spt!2sao!4v1234567890123!5m2!1spt!2sao&q=39W5%2B79G%2C+Vila+de+viana+Benfica%2C+Luanda"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Localização da ANPERE - Vila de Viana Benfica, Luanda"
+                  />
                 </div>
               </CardContent>
             </Card>

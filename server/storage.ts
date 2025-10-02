@@ -15,6 +15,8 @@ import {
   type InsertReport,
   type Setting,
   type InsertSetting,
+  type Member,
+  type InsertMember,
   users,
   aboutContent,
   legislation,
@@ -22,7 +24,8 @@ import {
   events,
   gallery,
   reports,
-  settings
+  settings,
+  members
 } from "@shared/schema";
 import { drizzle } from "drizzle-orm/neon-http";
 import { neon } from "@neondatabase/serverless";
@@ -91,6 +94,13 @@ export interface IStorage {
   createSetting(setting: InsertSetting): Promise<Setting>;
   updateSetting(id: string, setting: Partial<InsertSetting>): Promise<Setting | undefined>;
   deleteSetting(id: string): Promise<boolean>;
+
+  // Member operations
+  getAllMembers(): Promise<Member[]>;
+  getMember(id: string): Promise<Member | undefined>;
+  createMember(member: InsertMember): Promise<Member>;
+  updateMember(id: string, member: Partial<InsertMember>): Promise<Member | undefined>;
+  deleteMember(id: string): Promise<boolean>;
 }
 
 export class MemStorage implements IStorage {
@@ -676,6 +686,44 @@ export class DatabaseStorage implements IStorage {
 
   async deleteSetting(id: string): Promise<boolean> {
     const result = await this.db.delete(settings).where(eq(settings.id, id));
+    return result.rowCount > 0;
+  }
+
+  // Member operations
+  async getAllMembers(): Promise<Member[]> {
+    return await this.db.select().from(members);
+  }
+
+  async getMember(id: string): Promise<Member | undefined> {
+    const result = await this.db.select().from(members).where(eq(members.id, id));
+    return result[0];
+  }
+
+  async createMember(member: InsertMember): Promise<Member> {
+    // Generate member number (format: XXXX/YYYY where YYYY is the year)
+    const year = new Date().getFullYear();
+    const existingMembers = await this.db.select().from(members);
+    const memberCount = existingMembers.length + 1;
+    const memberNumber = `${String(memberCount).padStart(4, '0')}/${year}`;
+
+    const result = await this.db
+      .insert(members)
+      .values({ ...member, memberNumber })
+      .returning();
+    return result[0];
+  }
+
+  async updateMember(id: string, member: Partial<InsertMember>): Promise<Member | undefined> {
+    const result = await this.db
+      .update(members)
+      .set({ ...member, updatedAt: new Date() })
+      .where(eq(members.id, id))
+      .returning();
+    return result[0];
+  }
+
+  async deleteMember(id: string): Promise<boolean> {
+    const result = await this.db.delete(members).where(eq(members.id, id));
     return result.rowCount > 0;
   }
 }
