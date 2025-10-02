@@ -8,7 +8,7 @@ The system includes a complete administrative platform with secure authenticatio
 
 ## Recent Changes
 
-### October 2, 2025 - Member Registration System with PDF Generation
+### October 2, 2025 - Member Registration System with Enhanced PDF Generation
 - Implemented complete member registration system accessible via /associar-se route
 - Created members table in PostgreSQL with comprehensive fields matching official registration form
 - Added full CRUD operations for member management in storage layer
@@ -18,11 +18,14 @@ The system includes a complete administrative platform with secure authenticatio
 - Integrated jsPDF library for automated PDF generation of registration certificates
 - Form sections: Personal Info, Document Info, Family Info, Professional Info, Contact Info
 - Auto-generated member numbers in format XXXX/YYYY (sequential number/year)
-- PDF certificate includes all registration details and official formatting
+- PDF certificate includes all registration details with smart pagination and text wrapping
 - Connected "Junte-se a Nós" button (AboutSection) and "ASSOCIAR-SE" service card to registration page
-- Comprehensive form validation using Zod schemas and react-hook-form
-- Photo upload functionality with preview and storage in uploads directory
+- Comprehensive form validation using Zod schemas with strict enum validation for gender and marital status
+- Photo upload functionality with preview, multer storage in uploads directory, and path persistence
 - Post-registration screen with member number display and PDF download option
+- Enhanced PDF generation: automatic page breaks, text wrapping for long content, safe filenames
+- Strict type validation: gender (Masculino/Feminino), marital status (Solteiro(a)/Casado(a)/Divorciado(a)/Viúvo(a))
+- TypeScript consistency improvements with proper form default values and type safety
 
 ### September 26, 2025 - Database Persistence Implementation
 - Migrated from volatile MemStorage to persistent PostgreSQL database using Drizzle ORM
