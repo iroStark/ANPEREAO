@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { PublicationDialog } from '@/components/admin/PublicationDialog';
+import { PublicationViewDialog } from '@/components/admin/PublicationViewDialog';
 import { 
   usePublications, 
   useCreatePublication, 
@@ -19,6 +20,7 @@ import { toast } from 'sonner';
 const AdminPublications = () => {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [editingPublication, setEditingPublication] = useState<Publication | null>(null);
+  const [viewingPublication, setViewingPublication] = useState<Publication | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
 
@@ -194,12 +196,25 @@ const AdminPublications = () => {
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Button variant="outline" size="sm">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => setViewingPublication(publication)}
+                          data-testid={`button-view-publication-${publication.id}`}
+                        >
                           <Eye className="w-4 h-4" />
                         </Button>
-                        <Button variant="outline" size="sm">
-                          <Download className="w-4 h-4" />
-                        </Button>
+                        {publication.downloadUrl && (
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            asChild
+                          >
+                            <a href={publication.downloadUrl} target="_blank" rel="noopener noreferrer">
+                              <Download className="w-4 h-4" />
+                            </a>
+                          </Button>
+                        )}
                         <Button 
                           variant="outline" 
                           size="sm"
@@ -263,6 +278,12 @@ const AdminPublications = () => {
           publication={editingPublication}
           onSubmit={handleUpdatePublication}
           isLoading={updatePublication.isPending}
+        />
+
+        <PublicationViewDialog
+          publication={viewingPublication}
+          open={!!viewingPublication}
+          onOpenChange={(open) => !open && setViewingPublication(null)}
         />
       </div>
     </AdminLayout>

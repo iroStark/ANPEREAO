@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 
@@ -30,8 +30,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Update user state when auth data changes
   useEffect(() => {
-    if (authData && authData.user) {
-      setUser(authData.user);
+    if (authData && (authData as any).user) {
+      setUser((authData as any).user);
     } else if (error) {
       setUser(null);
     }
@@ -46,7 +46,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     onSuccess: (data) => {
       setUser(data.user);
       queryClient.setQueryData(["/api/auth/me"], data);
-      queryClient.invalidateQueries({ queryKey: ["/api/auth/me"] });
+      // Don't invalidate immediately - the data is already fresh
     },
     onError: (error) => {
       console.error("Login failed:", error);
@@ -83,7 +83,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const value: AuthContextType = {
     user,
     isAuthenticated: !!user,
-    isLoading: isLoading || loginMutation.isPending || logoutMutation.isPending,
+    isLoading,
     login,
     logout,
   };

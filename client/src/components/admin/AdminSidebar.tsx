@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -12,6 +12,7 @@ import {
   ImageIcon,
   Settings,
   Users,
+  UserCheck,
   BarChart3,
   LogOut,
   ChevronLeft,
@@ -61,6 +62,11 @@ const navigation: NavigationItem[] = [
     icon: Users,
   },
   {
+    name: 'Membros',
+    href: '/admin/members',
+    icon: UserCheck,
+  },
+  {
     name: 'Relatórios',
     href: '/admin/reports',
     icon: BarChart3,
@@ -88,7 +94,7 @@ const AdminSidebar = () => {
         method: 'POST',
         credentials: 'include',
       });
-      setLocation('/admin/login');
+      setLocation('/');
     } catch (error) {
       console.error('Logout failed:', error);
     }

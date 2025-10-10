@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { LegislationDialog } from '@/components/admin/LegislationDialog';
+import { LegislationViewDialog } from '@/components/admin/LegislationViewDialog';
 import { 
   useLegislation, 
   useCreateLegislation, 
@@ -19,6 +20,7 @@ import { toast } from 'sonner';
 const AdminLegislation = () => {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [editingLegislation, setEditingLegislation] = useState<Legislation | null>(null);
+  const [viewingLegislation, setViewingLegislation] = useState<Legislation | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
 
@@ -209,7 +211,12 @@ const AdminLegislation = () => {
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Button variant="outline" size="sm">
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => setViewingLegislation(legislation)}
+                            data-testid={`button-view-legislation-${legislation.id}`}
+                          >
                             <Eye className="w-4 h-4" />
                           </Button>
                           <Button variant="outline" size="sm">
@@ -279,6 +286,12 @@ const AdminLegislation = () => {
           legislation={editingLegislation}
           onSubmit={handleUpdateLegislation}
           isLoading={updateLegislation.isPending}
+        />
+
+        <LegislationViewDialog
+          legislation={viewingLegislation}
+          open={!!viewingLegislation}
+          onOpenChange={(open) => !open && setViewingLegislation(null)}
         />
       </div>
     </AdminLayout>

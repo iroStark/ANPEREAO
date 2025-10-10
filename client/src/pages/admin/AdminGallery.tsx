@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { GalleryDialog } from '@/components/admin/GalleryDialog';
+import { GalleryViewDialog } from '@/components/admin/GalleryViewDialog';
 import { 
   useGallery, 
   useCreateGalleryItem, 
@@ -19,6 +20,7 @@ import { toast } from 'sonner';
 const AdminGallery = () => {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [editingGalleryItem, setEditingGalleryItem] = useState<GalleryItem | null>(null);
+  const [viewingItem, setViewingItem] = useState<GalleryItem | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
 
@@ -225,7 +227,12 @@ const AdminGallery = () => {
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Button variant="outline" size="sm">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => setViewingItem(item)}
+                          data-testid={`button-view-gallery-${item.id}`}
+                        >
                           <Eye className="w-4 h-4" />
                         </Button>
                         <Button 
@@ -291,6 +298,12 @@ const AdminGallery = () => {
           galleryItem={editingGalleryItem}
           onSubmit={handleUpdateGalleryItem}
           isLoading={updateGalleryItem.isPending}
+        />
+
+        <GalleryViewDialog
+          item={viewingItem}
+          open={!!viewingItem}
+          onOpenChange={(open) => !open && setViewingItem(null)}
         />
       </div>
     </AdminLayout>

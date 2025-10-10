@@ -9,6 +9,7 @@ import Legislacao from "@/pages/Legislacao";
 import Publicacoes from "@/pages/Publicacoes";
 import Eventos from "@/pages/Eventos";
 import Galeria from "@/pages/Galeria";
+import Organigrama from "@/pages/Organigrama";
 import MemberRegistration from "@/pages/MemberRegistration";
 import AdminLogin from "@/pages/AdminLogin";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
@@ -18,6 +19,7 @@ import AdminPublications from "@/pages/admin/AdminPublications";
 import AdminEvents from "@/pages/admin/AdminEvents";
 import AdminGallery from "@/pages/admin/AdminGallery";
 import AdminUsers from "@/pages/admin/AdminUsers";
+import AdminMembers from "@/pages/admin/AdminMembers";
 import AdminReports from "@/pages/admin/AdminReports";
 import AdminSettings from "@/pages/admin/AdminSettings";
 import ProtectedRoute from "@/components/ProtectedRoute";
@@ -33,12 +35,18 @@ function Router() {
       <Route path="/publicacoes" component={Publicacoes} />
       <Route path="/eventos" component={Eventos} />
       <Route path="/galeria" component={Galeria} />
+      <Route path="/organigrama" component={Organigrama} />
       <Route path="/contactos" component={Home} />
       <Route path="/associar-se" component={MemberRegistration} />
       
       {/* Admin routes */}
       <Route path="/admin/login" component={AdminLogin} />
       <Route path="/admin" component={() => (
+        <ProtectedRoute>
+          <AdminDashboard />
+        </ProtectedRoute>
+      )} />
+      <Route path="/admin/dashboard" component={() => (
         <ProtectedRoute>
           <AdminDashboard />
         </ProtectedRoute>
@@ -71,6 +79,11 @@ function Router() {
       <Route path="/admin/users" component={() => (
         <ProtectedRoute>
           <AdminUsers />
+        </ProtectedRoute>
+      )} />
+      <Route path="/admin/members" component={() => (
+        <ProtectedRoute>
+          <AdminMembers />
         </ProtectedRoute>
       )} />
       <Route path="/admin/reports" component={() => (

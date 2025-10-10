@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { EventDialog } from '@/components/admin/EventDialog';
+import { EventViewDialog } from '@/components/admin/EventViewDialog';
 import { 
   useEvents, 
   useCreateEvent, 
@@ -19,6 +20,7 @@ import { toast } from 'sonner';
 const AdminEvents = () => {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [editingEvent, setEditingEvent] = useState<Event | null>(null);
+  const [viewingEvent, setViewingEvent] = useState<Event | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
 
@@ -220,7 +222,12 @@ const AdminEvents = () => {
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Button variant="outline" size="sm">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => setViewingEvent(event)}
+                          data-testid={`button-view-event-${event.id}`}
+                        >
                           <Eye className="w-4 h-4" />
                         </Button>
                         <Button 
@@ -286,6 +293,12 @@ const AdminEvents = () => {
           event={editingEvent}
           onSubmit={handleUpdateEvent}
           isLoading={updateEvent.isPending}
+        />
+
+        <EventViewDialog
+          event={viewingEvent}
+          open={!!viewingEvent}
+          onOpenChange={(open) => !open && setViewingEvent(null)}
         />
       </div>
     </AdminLayout>
