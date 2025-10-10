@@ -112,6 +112,7 @@ export const ReportDialog = ({
               onChange={(e) => handleInputChange('title', e.target.value)}
               placeholder="Ex: Relatório Mensal - Janeiro 2024"
               required
+              data-testid="input-report-title"
             />
           </div>
 
@@ -124,6 +125,7 @@ export const ReportDialog = ({
               placeholder="Descreva o conteúdo do relatório..."
               rows={3}
               required
+              data-testid="textarea-report-description"
             />
           </div>
 
@@ -199,7 +201,7 @@ export const ReportDialog = ({
             >
               Cancelar
             </Button>
-            <Button type="submit" disabled={isLoading} className="w-full sm:w-auto">
+            <Button type="submit" disabled={isLoading} className="w-full sm:w-auto" data-testid="button-submit-report">
               {isLoading ? 'Salvando...' : report ? 'Atualizar' : 'Criar'}
             </Button>
           </DialogFooter>

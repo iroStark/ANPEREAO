@@ -132,6 +132,7 @@ const AdminReports = () => {
           <Button 
             onClick={() => setIsCreateDialogOpen(true)}
             className="gap-2"
+            data-testid="button-create-report"
           >
             <Plus className="w-4 h-4" />
             Novo Relatório
@@ -216,6 +217,7 @@ const AdminReports = () => {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="pl-10"
+                    data-testid="input-search-reports"
                   />
                 </div>
               </div>
@@ -297,6 +299,7 @@ const AdminReports = () => {
                             variant="outline" 
                             size="sm"
                             onClick={() => handleDownloadReport(report)}
+                            data-testid={`button-download-${report.id}`}
                           >
                             <Download className="w-4 h-4" />
                           </Button>
@@ -305,6 +308,7 @@ const AdminReports = () => {
                           variant="outline" 
                           size="sm"
                           onClick={() => handleEditReport(report)}
+                          data-testid={`button-edit-${report.id}`}
                         >
                           <Edit2 className="w-4 h-4" />
                         </Button>
@@ -314,6 +318,7 @@ const AdminReports = () => {
                           className="text-red-600 hover:text-red-700"
                           onClick={() => handleDeleteReport(report.id)}
                           disabled={deleteReport.isPending}
+                          data-testid={`button-delete-${report.id}`}
                         >
                           <Trash2 className="w-4 h-4" />
                         </Button>
