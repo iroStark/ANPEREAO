@@ -146,6 +146,7 @@ const AdminSettings = () => {
           <Button 
             onClick={() => setIsCreateDialogOpen(true)}
             className="gap-2"
+            data-testid="button-create-setting"
           >
             <Plus className="w-4 h-4" />
             Nova Configuração
@@ -223,6 +224,7 @@ const AdminSettings = () => {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="pl-10"
+                    data-testid="input-search-settings"
                   />
                 </div>
               </div>
@@ -309,6 +311,7 @@ const AdminSettings = () => {
                           variant="outline" 
                           size="sm"
                           onClick={() => handleEditSetting(setting)}
+                          data-testid={`button-edit-${setting.id}`}
                         >
                           <Edit2 className="w-4 h-4" />
                         </Button>
@@ -318,6 +321,7 @@ const AdminSettings = () => {
                           className="text-red-600 hover:text-red-700"
                           onClick={() => handleDeleteSetting(setting.id)}
                           disabled={deleteSetting.isPending}
+                          data-testid={`button-delete-${setting.id}`}
                         >
                           <Trash2 className="w-4 h-4" />
                         </Button>

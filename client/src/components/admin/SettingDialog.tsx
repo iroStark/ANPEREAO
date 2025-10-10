@@ -165,6 +165,7 @@ export const SettingDialog = ({
               onChange={(e) => handleInputChange('key', e.target.value)}
               placeholder="Ex: site_name"
               required
+              data-testid="input-setting-key"
             />
           </div>
 
@@ -177,6 +178,7 @@ export const SettingDialog = ({
               placeholder="Descreva o propósito desta configuração..."
               rows={2}
               required
+              data-testid="textarea-setting-description"
             />
           </div>
 
@@ -235,7 +237,7 @@ export const SettingDialog = ({
             >
               Cancelar
             </Button>
-            <Button type="submit" disabled={isLoading} className="w-full sm:w-auto">
+            <Button type="submit" disabled={isLoading} className="w-full sm:w-auto" data-testid="button-submit-setting">
               {isLoading ? 'Salvando...' : setting ? 'Atualizar' : 'Criar'}
             </Button>
           </DialogFooter>
