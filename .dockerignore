@@ -1,0 +1,59 @@
+# Dependencies
+node_modules/
+
+# Build outputs (serão gerados no container)
+# dist/  <- NÃO ignorar dist/ pois precisamos dele para cópia
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+*.md
+!README.md
+
+# Scripts locais
+scripts/
+
+# Backups
+backups/
+*.tar.gz
+
+# Legacy
+backend-laravel/
+frontend_build.zip
+frontend_production.zip
+
+# Railway
+.railway/
+
+# Docker
+docker-compose.yml
+Dockerfile
+.dockerignore
+
+# Test files
+*.test.ts
+*.test.tsx
+coverage/
+
+# Development files
+.eslintrc*
+.prettierrc*

@@ -2,10 +2,21 @@
 nixPkgs = ["nodejs_20", "npm-9_x"]
 
 [phases.install]
-cmds = ["npm install"]
+cmds = ["npm ci"]
 
 [phases.build]
 cmds = ["npm run build"]
 
+[phases.postbuild]
+cmds = [
+  "mkdir -p uploads",
+  "ls -la dist/",
+  "ls -la dist/public/"
+]
+
 [start]
-cmd = "npm run start"
+cmd = "node dist/index.js"
+
+[env]
+NODE_ENV = "production"
+PORT = "5000"

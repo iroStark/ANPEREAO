@@ -1,41 +1,60 @@
 import "dotenv/config";
 import express, { type Request, Response, NextFunction } from "express";
 import session from "express-session";
-import createMemoryStore from "memorystore";
+import pgSession from "connect-pg-simple";
 import cors from "cors";
 import path from "path";
 import fs from "fs";
+import { Pool } from "pg";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
 
 // CORS configuration - must be before session
+const allowedOrigins = process.env.NODE_ENV === "production"
+  ? [process.env.RAILWAY_STATIC_URL || "", process.env.VERCEL_URL || ""].filter(Boolean)
+  : ["http://localhost:5001", "http://127.0.0.1:5001", "http://localhost:5173"];
+
 app.use(cors({
-  origin: process.env.NODE_ENV === "production" 
-    ? false 
-    : ["http://localhost:5001", "http://127.0.0.1:5001"],
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin) || process.env.NODE_ENV !== "production") {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Session configuration
-const MemoryStore = createMemoryStore(session);
+// Session configuration with PostgreSQL store
+const PostgresSessionStore = pgSession(session);
+
+// Create a dedicated pool for sessions
+const sessionPool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
+});
 
 app.use(session({
-  store: new MemoryStore({
-    checkPeriod: 86400000 // prune expired entries every 24h
+  store: new PostgresSessionStore({
+    pool: sessionPool,
+    tableName: "session",
+    createTableIfMissing: true,
   }),
-  secret: process.env.SESSION_SECRET || "development-secret-key",
+  secret: process.env.SESSION_SECRET || "development-secret-key-change-in-production",
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false, // Set to false for development on HTTP
+    secure: process.env.NODE_ENV === "production",
     httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000, // 24 hours
-    sameSite: "lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   },
 }));
 
