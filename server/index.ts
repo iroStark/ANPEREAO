@@ -40,6 +40,11 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Trust proxy - required for secure cookies behind Railway's reverse proxy
+if (process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1);
+}
+
 // Session configuration with PostgreSQL store
 const PostgresSessionStore = pgSession(session);
 
