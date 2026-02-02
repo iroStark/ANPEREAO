@@ -1,0 +1,50 @@
+Entendi 👍
+O elemento que você mostrou é um **card bottom menu interativo** posicionado **entre o slideshow (banner principal) e a próxima seção da página**. Vou descrevê-lo de forma completa para que você possa aplicar no seu site com o mesmo efeito:
+
+---
+
+### 📌 Estrutura do Elemento
+
+* **Layout:**
+  Uma **faixa horizontal** (barra de cards) que fica centralizada na largura da tela, logo abaixo do slideshow e antes da próxima seção.
+  Essa faixa contém **vários cards alinhados lado a lado** (no caso da imagem: 5 opções — Air Freight, Land Freight, Sea Freight, Project Cargo e Shipping Agency).
+
+* **Cards:**
+  Cada card é um **retângulo arredondado** com ícone, título e subtítulo.
+
+  * Os ícones são simples e lineares (estilo outline).
+  * O texto do título está em **maiúsculas e negrito**.
+  * O subtítulo está menor, em cor mais clara.
+  * O card ativo (selecionado ou hover) ganha **destaque em azul forte**, com ícone e textos em branco.
+  * Dentro do card ativo há ainda um **botão circular com seta →** para chamar a ação (CTA).
+
+---
+
+### 🎨 Efeitos Visuais
+
+* **Estado normal (cards inativos):**
+  Fundo branco, sombra leve, ícone e texto em cinza claro.
+* **Estado ativo/hover:**
+  Fundo azul vibrante, ícone e textos em branco, botão de seta visível.
+* **Transição:**
+  A mudança entre normal ↔ ativo ocorre com **transição suave (0.3s ~ 0.5s)** para dar efeito moderno.
+
+---
+
+### 📐 Posição na Página
+
+* O componente fica **flutuando visualmente** entre o **slideshow** (acima) e a **seção seguinte ("Why Choose Us?")**.
+* Para dar esse efeito, geralmente se usa:
+
+  * **margin negativa** ou **posição relativa** para sobrepor levemente o slideshow.
+  * **sombra (box-shadow)** para destacar o card da página.
+
+---
+
+### ✨ Resumindo em Texto para Aplicação
+
+Este é um **menu de serviços em formato de cards interativos**, posicionado entre o **banner principal (slideshow)** e a **próxima seção**. Cada card apresenta **ícone + título + subtítulo**, com destaque no card ativo que muda de cor, mostra um botão de ação e gera um efeito moderno de transição.
+
+---
+
+👉 Quer que eu prepare também o **código em HTML + CSS (com efeito de hover e destaque)** para você aplicar direto no seu site?
