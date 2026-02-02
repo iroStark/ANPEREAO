@@ -57,8 +57,9 @@ async function initializeAdmin() {
   
   try {
     const existingAdmin = await storage.getUserByUsername(adminUsername);
+    const hashedPassword = await bcrypt.hash(adminPassword, 10);
+    
     if (!existingAdmin) {
-      const hashedPassword = await bcrypt.hash(adminPassword, 10);
       await storage.createUser({
         username: adminUsername,
         password: hashedPassword,
@@ -66,6 +67,10 @@ async function initializeAdmin() {
         isActive: true,
       });
       console.log(`Admin user created with username: ${adminUsername}`);
+    } else {
+      // Update the admin password to ensure it matches the environment variable
+      await storage.updateUser(existingAdmin.id, { password: hashedPassword });
+      console.log(`Admin password updated for username: ${adminUsername}`);
     }
   } catch (error) {
     console.error("Failed to initialize admin user:", error);
