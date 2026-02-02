@@ -1,5 +1,5 @@
 # Build stage
-# Cache bust: 2026-02-02-v2
+# Cache bust: 2026-02-02-v3
 FROM node:20-alpine AS builder
 
 WORKDIR /app

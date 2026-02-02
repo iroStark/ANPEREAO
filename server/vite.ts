@@ -73,9 +73,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export function serveStatic(app: Express) {
-  const distPath = path.resolve(__dirname, "..", "dist", "public");
+  // Use process.cwd() for production as it's more reliable in Docker containers
+  // __dirname can be incorrect after esbuild bundles the server code
+  const distPath = path.resolve(process.cwd(), "dist", "public");
   
   console.log(`[STATIC] Configured dist path: ${distPath}`);
+  console.log(`[STATIC] Current working directory: ${process.cwd()}`);
 
   if (!fs.existsSync(distPath)) {
     console.error(`[STATIC] Build directory not found at: ${distPath}`);
