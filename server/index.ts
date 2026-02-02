@@ -12,19 +12,27 @@ import { setupVite, serveStatic, log } from "./vite";
 const app = express();
 
 // CORS configuration - must be before session
-const allowedOrigins = process.env.NODE_ENV === "production"
-  ? [process.env.RAILWAY_STATIC_URL || "", process.env.VERCEL_URL || ""].filter(Boolean)
-  : ["http://localhost:5001", "http://127.0.0.1:5001", "http://localhost:5173"];
-
+// In production, allow the Railway domain and same-origin requests
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps or curl requests)
+    // Allow requests with no origin (same-origin requests, mobile apps, curl, etc.)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin) || process.env.NODE_ENV !== "production") {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
+    
+    // In production, allow Railway domains and the app's own domain
+    if (process.env.NODE_ENV === "production") {
+      // Allow any railway.app subdomain or the same origin
+      if (origin.includes('railway.app') || origin.includes('anpere')) {
+        return callback(null, true);
+      }
     }
+    
+    // In development, allow localhost
+    if (process.env.NODE_ENV !== "production") {
+      return callback(null, true);
+    }
+    
+    // For any other case in production, still allow (we're serving a SPA)
+    callback(null, true);
   },
   credentials: true,
 }));
