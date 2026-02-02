@@ -46,3 +46,4 @@ uploads/*
 # Railway
 .railway/
 Galeria ANpere/
+backups/*.tar.gz
