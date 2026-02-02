@@ -82,7 +82,7 @@ const AdminSlideshow = () => {
     const formData = new FormData();
     formData.append('file', file);
     
-    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+    const baseUrl = import.meta.env.VITE_API_URL || '/api';
     const uploadResponse = await fetch(`${baseUrl}/admin/upload`, {
       method: 'POST',
       credentials: 'include',

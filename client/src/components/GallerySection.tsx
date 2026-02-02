@@ -13,7 +13,7 @@ const GallerySection = () => {
   const getImageUrl = (url: string) => {
     if (!url) return '';
     if (url.startsWith('http')) return url;
-    return url.startsWith('http') ? url : `http://localhost:5001${url}`;
+    return url;
   };
 
   // Map categories from real data

@@ -140,7 +140,7 @@ export default function MemberRegistration() {
         formData.append('photo', photoFile);
       }
 
-      const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+      const baseUrl = import.meta.env.VITE_API_URL || '/api';
       const response = await fetch(`${baseUrl}/members/register`, {
         method: 'POST',
         body: formData,

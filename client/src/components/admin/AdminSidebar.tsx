@@ -112,7 +112,7 @@ const AdminSidebar = () => {
 
   const handleLogout = async () => {
     try {
-      const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+      const baseUrl = import.meta.env.VITE_API_URL || '/api';
       await fetch(`${baseUrl}/auth/logout`, {
         method: 'POST',
         credentials: 'include',
