@@ -78,8 +78,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json({ 
       status: "ok", 
       timestamp: new Date().toISOString(),
-      version: "2.0.0"
+      version: "2.0.1"
     });
+  });
+
+  // Debug endpoint to check static files
+  app.get("/api/debug/assets", (req: Request, res: Response) => {
+    const distPath = path.resolve(process.cwd(), "dist", "public", "assets");
+    try {
+      if (fs.existsSync(distPath)) {
+        const files = fs.readdirSync(distPath);
+        res.json({ 
+          path: distPath, 
+          cwd: process.cwd(),
+          files,
+          exists: true 
+        });
+      } else {
+        res.json({ 
+          path: distPath, 
+          cwd: process.cwd(),
+          exists: false,
+          error: "Directory does not exist"
+        });
+      }
+    } catch (error: any) {
+      res.status(500).json({ 
+        error: error.message,
+        path: distPath,
+        cwd: process.cwd()
+      });
+    }
   });
 
   // Initialize admin user
