@@ -14,7 +14,7 @@
 Configure estas variáveis no Railway:
 
 | Variável | Descrição | Exemplo |
-|----------|-----------|---------|
+| :--- | :--- | :--- |
 | `DATABASE_URL` | URL de conexão PostgreSQL | `postgresql://user:pass@host:5432/db` |
 | `SESSION_SECRET` | Chave secreta para sessões | (gerar string aleatória) |
 | `NODE_ENV` | Ambiente | `production` |
