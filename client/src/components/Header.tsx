@@ -59,7 +59,7 @@ const Header = () => {
           <div className="flex-shrink-0 flex items-center">
             <Link href="/" data-testid="link-home" className="flex items-center">
               <img 
-                src="/uploads/logo.svg"
+                src="/favicon.png"
                 alt="ANPERE - Associação Nacional dos Profissionais do Espectro Rádio Eletrónico"
                 className="h-10 w-auto"
               />

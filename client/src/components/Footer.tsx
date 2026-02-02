@@ -1,6 +1,6 @@
 import { Location01Icon, Call02Icon, Mail01Icon } from "hugeicons-react";
 import { Link, useLocation } from "wouter";
-import anpereLogo from "@assets/logo.svg";
+const anpereLogo = "/favicon.png";
 
 const Footer = () => {
   const [location, setLocation] = useLocation();
@@ -65,9 +65,12 @@ const Footer = () => {
                   1ª andar esquerdo, Viana, Luanda
                 </span>
               </div>
-              <div className="flex items-center">
-                <Mail01Icon className="w-4 h-4 mr-2 flex-shrink-0" />
-                <span data-testid="text-footer-email">cruzgama7@gmail.com</span>
+              <div className="flex items-start">
+                <Mail01Icon className="w-4 h-4 mr-2 mt-1 flex-shrink-0" />
+                <div data-testid="text-footer-email">
+                  <p>geral@anpere.ao</p>
+                  <p>info@anpere.ao</p>
+                </div>
               </div>
               <div className="flex items-center">
                 <Call02Icon className="w-4 h-4 mr-2 flex-shrink-0" />

@@ -28,7 +28,7 @@ import {
   File02Icon as File,
   Megaphone01Icon as Megaphone
 } from "hugeicons-react";
-import anpereLogo from "@assets/logo.svg";
+const anpereLogo = "/favicon.png";
 
 const FloatingMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

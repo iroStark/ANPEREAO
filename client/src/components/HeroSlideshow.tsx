@@ -3,7 +3,7 @@ import { Link, useLocation } from "wouter";
 import { HPHButton } from "@/components/ui/hph";
 import { ArrowLeft01Icon as ChevronLeft, ArrowRight01Icon as ChevronRight } from "hugeicons-react";
 import { usePublicSlideshow, SlideshowItem } from "@/hooks/useSlideshow";
-import anpereLogo from "/uploads/logo.svg";
+const anpereLogo = "/favicon.png";
 
 // Placeholder images for fallback
 const heroImage1 = "https://placehold.co/1920x1080/004d40/ffffff?text=Profissionais+do+Espectro";

@@ -4,7 +4,7 @@ import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import anpereLogo from "@assets/logo.svg";
+const anpereLogo = "/favicon.png";
 
 interface ProtectedRouteProps {
   children: ReactNode;

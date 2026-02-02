@@ -6,7 +6,7 @@ import { HPHButton, HPHCard, HPHInput } from "@/components/ui/hph";
 import { Label } from "@/components/ui/label";
 import { UserIcon as User, LockIcon as Lock, Login03Icon as LogIn } from "hugeicons-react";
 import { useLocation } from "wouter";
-import anpereLogo from "@assets/logo.svg";
+const anpereLogo = "/favicon.png";
 
 const AdminLogin = () => {
   const [username, setUsername] = useState("");

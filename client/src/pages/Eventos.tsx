@@ -15,10 +15,23 @@ const Eventos = () => {
 
   // Separar eventos em próximos e passados baseado na data
   const now = new Date();
-  const upcomingEvents = events.filter(event => new Date(event.date) >= now);
-  const pastEvents = events.filter(event => new Date(event.date) < now);
+  
+  const isValidDate = (dateStr: string) => !isNaN(new Date(dateStr).getTime());
+
+  const upcomingEvents = events.filter(event => {
+    if (!isValidDate(event.date)) return true; // Datas textuais (ex: "Janeiro a Dezembro") aparecem como próximos
+    return new Date(event.date) >= now;
+  });
+
+  const pastEvents = events.filter(event => {
+    if (!isValidDate(event.date)) return false;
+    return new Date(event.date) < now;
+  });
 
   const getStatusBadge = (eventDate: string) => {
+    if (!isValidDate(eventDate)) {
+      return <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">Agendado</Badge>;
+    }
     const eventDateObj = new Date(eventDate);
     return eventDateObj >= now 
       ? <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Próximo</Badge>
@@ -127,7 +140,7 @@ const Eventos = () => {
                       <div className="space-y-2">
                         <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
                           <Calendar className="w-4 h-4 text-primary" />
-                          {new Date(event.date).toLocaleDateString('pt-PT')}
+                          {isValidDate(event.date) ? new Date(event.date).toLocaleDateString('pt-PT') : event.date}
                         </div>
                         <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
                           <Clock className="w-4 h-4 text-primary" />
@@ -224,7 +237,7 @@ const Eventos = () => {
                       <div className="space-y-1">
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
                           <Calendar className="w-3 h-3" />
-                          {new Date(event.date).toLocaleDateString('pt-PT')}
+                          {isValidDate(event.date) ? new Date(event.date).toLocaleDateString('pt-PT') : event.date}
                         </div>
                         {event.capacity && (
                           <div className="flex items-center gap-2 text-xs text-muted-foreground">

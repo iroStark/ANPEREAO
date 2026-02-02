@@ -22,7 +22,7 @@ import {
   Presentation01Icon as Presentation,
   Mail01Icon as Mail
 } from "hugeicons-react";
-import anpereLogo from "@assets/logo.svg";
+const anpereLogo = "/favicon.png";
 
 interface NavigationItem {
   name: string;
