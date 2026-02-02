@@ -977,6 +977,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Upload endpoint that preserves original filename (for migration)
+  const syncUploadStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+      // Use the original filename
+      cb(null, file.originalname);
+    }
+  });
+  const syncUpload = multer({ storage: syncUploadStorage, limits: { fileSize: 50 * 1024 * 1024 } });
+
+  app.post("/api/admin/upload-sync", requireAuth, syncUpload.single('file'), async (req: Request, res: Response) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: "Nenhum arquivo foi enviado" });
+      }
+
+      const fileUrl = `/uploads/${req.file.filename}`;
+      
+      res.json({
+        success: true,
+        filename: req.file.filename,
+        originalName: req.file.originalname,
+        size: req.file.size,
+        url: fileUrl,
+        type: req.file.mimetype
+      });
+    } catch (error: any) {
+      console.error("Error uploading file:", error);
+      res.status(500).json({ error: error.message || "Erro ao fazer upload do arquivo" });
+    }
+  });
+
   // Member routes (Public - for registration)
   app.post("/api/members/register", upload.single('photo'), async (req: Request, res: Response) => {
     try {
