@@ -67,10 +67,18 @@ export async function setupVite(app: Express, server: Server) {
   });
 }
 
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 export function serveStatic(app: Express) {
-  const distPath = path.resolve(import.meta.dirname, "..", "dist", "public");
+  const distPath = path.resolve(__dirname, "..", "dist", "public");
+  
+  console.log(`[STATIC] Configured dist path: ${distPath}`);
 
   if (!fs.existsSync(distPath)) {
+    console.error(`[STATIC] Build directory not found at: ${distPath}`);
     throw new Error(
       `Could not find the build directory: ${distPath}, make sure to build the client first`,
     );
@@ -79,7 +87,22 @@ export function serveStatic(app: Express) {
   app.use(express.static(distPath));
 
   // fall through to index.html if the file doesn't exist
-  app.use("*", (_req, res) => {
-    res.sendFile(path.resolve(distPath, "index.html"));
+  app.use("*", (req, res) => {
+    // Only serve index.html for GET requests that accept HTML, 
+    // to avoid serving it for missing assets causing confusing 500/200 OK errors
+    if (req.method === 'GET' && req.accepts('html')) {
+        const indexPath = path.resolve(distPath, "index.html");
+        res.sendFile(indexPath, (err) => {
+            if (err) {
+                console.error(`[STATIC] Error sending index.html from ${indexPath}:`, err);
+                if (!res.headersSent) {
+                    res.status(500).send("Error serving application");
+                }
+            }
+        });
+    } else {
+        // For non-HTML requests (like missing CSS/JS), return 404
+        res.status(404).json({ message: "Not Found" });
+    }
   });
 }
