@@ -50,6 +50,25 @@ const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const requireAdmin = async (req: Request, res: Response, next: NextFunction) => {
+  if (!req.session || !req.session.userId) {
+    return res.status(401).json({ error: "Authentication required" });
+  }
+
+  try {
+    const user = await storage.getUser(req.session.userId);
+    if (!user || user.role !== 'admin') {
+      return res.status(403).json({ error: "Access denied. Admin role required." });
+    }
+
+    req.user = { id: user.id, username: user.username };
+    next();
+  } catch (error) {
+    console.error("Admin middleware error:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 // Initialize default admin user
 async function initializeAdmin() {
   const adminUsername = process.env.ADMIN_USERNAME || "admin";
@@ -1203,7 +1222,7 @@ Equipa ANPERE
   });
 
   // Users endpoints (admin)
-  app.get("/api/admin/users", requireAuth, async (req: Request, res: Response) => {
+  app.get("/api/admin/users", requireAdmin, async (req: Request, res: Response) => {
     try {
       const users = await storage.getAllUsers();
       res.json(users);
@@ -1213,7 +1232,7 @@ Equipa ANPERE
     }
   });
 
-  app.post("/api/admin/users", requireAuth, async (req: Request, res: Response) => {
+  app.post("/api/admin/users", requireAdmin, async (req: Request, res: Response) => {
     try {
       const { username, email, password, role, isActive } = req.body;
       
@@ -1235,7 +1254,7 @@ Equipa ANPERE
     }
   });
 
-  app.put("/api/admin/users/:id", requireAuth, async (req: Request, res: Response) => {
+  app.put("/api/admin/users/:id", requireAdmin, async (req: Request, res: Response) => {
     try {
       const { username, email, password, role, isActive } = req.body;
       
@@ -1257,7 +1276,7 @@ Equipa ANPERE
     }
   });
 
-  app.delete("/api/admin/users/:id", requireAuth, async (req: Request, res: Response) => {
+  app.delete("/api/admin/users/:id", requireAdmin, async (req: Request, res: Response) => {
     try {
       const success = await storage.deleteUser(req.params.id);
       if (!success) {

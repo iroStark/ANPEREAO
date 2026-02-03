@@ -3,9 +3,9 @@ import { apiRequest } from '@/lib/queryClient';
 
 export interface User {
   id: string;
-  username: string; // Backend likely 'name'
+  username: string;
   email?: string;
-  role: 'admin' | 'editor' | 'viewer'; // Backend User model doesn't have role by default, need to check or assume
+  role: 'admin' | 'editor' | 'viewer';
   isActive: boolean;
   createdAt: string;
   lastLoginAt?: string;
@@ -20,8 +20,13 @@ export interface CreateUserData {
   isActive?: boolean;
 }
 
-export interface UpdateUserData extends Partial<CreateUserData> {
+export interface UpdateUserData {
   id: string;
+  username?: string;
+  email?: string;
+  password?: string;
+  role?: 'admin' | 'editor' | 'viewer';
+  isActive?: boolean;
 }
 
 // Fetch all users
@@ -30,13 +35,6 @@ export const useUsers = () => {
     queryKey: ['users'],
     queryFn: async () => {
       const res = await apiRequest('GET', '/api/admin/users');
-      // Map backend 'name' to 'username'?
-      // Or just return as is and let UI break?
-      // Better to map if I can, but I can't verify backend response structure fully without running it.
-      // Laravel User: name, email, password.
-      // Frontend User: username, email, role.
-      // I will assume backend returns 'name' and frontend expects 'username'.
-      // I'll fix the hook to conform to APIRequest.
       return res.json();
     },
   });
@@ -48,14 +46,7 @@ export const useCreateUser = () => {
   
   return useMutation({
     mutationFn: async (data: CreateUserData) => {
-      // Map username to name
-      const payload = {
-          name: data.username,
-          email: data.email,
-          password: data.password,
-          // role... backend lacks role field currently.
-      };
-      const res = await apiRequest('POST', '/api/admin/users', payload);
+      const res = await apiRequest('POST', '/api/admin/users', data);
       return res.json();
     },
     onSuccess: () => {
@@ -70,12 +61,7 @@ export const useUpdateUser = () => {
   
   return useMutation({
     mutationFn: async ({ id, ...data }: UpdateUserData) => {
-      const payload: any = {};
-      if (data.username) payload.name = data.username;
-      if (data.email) payload.email = data.email;
-      if (data.password) payload.password = data.password;
-      
-      const res = await apiRequest('PUT', `/api/admin/users/${id}`, payload);
+      const res = await apiRequest('PUT', `/api/admin/users/${id}`, data);
       return res.json();
     },
     onSuccess: () => {
