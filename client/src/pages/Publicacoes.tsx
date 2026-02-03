@@ -18,9 +18,10 @@ type PublicationItem = {
   description: string;
   category: string;
   date: string;
-  type: 'plano' | 'relatorio' | 'acta' | 'comunicado' | 'evento';
+  type: 'plano' | 'relatorio' | 'acta' | 'comunicado' | 'circular' | 'evento';
   fileUrl?: string;
   downloadUrl?: string;
+  imageUrl?: string;
   publishedAt?: string;
   planId?: string; // Para planos de atividades
 };
@@ -111,6 +112,22 @@ const Publicacoes = () => {
       type: 'comunicado' as const,
       fileUrl: pub.fileUrl,
       downloadUrl: pub.downloadUrl,
+      imageUrl: pub.imageUrl,
+      publishedAt: pub.publishedAt,
+    }));
+
+  const circularItems: PublicationItem[] = publications
+    .filter(pub => pub.category === "Circular")
+    .map(pub => ({
+      id: pub.id,
+      title: pub.title,
+      description: pub.description,
+      category: pub.category,
+      date: pub.date,
+      type: 'circular' as const,
+      fileUrl: pub.fileUrl,
+      downloadUrl: pub.downloadUrl,
+      imageUrl: pub.imageUrl,
       publishedAt: pub.publishedAt,
     }));
 
@@ -121,6 +138,7 @@ const Publicacoes = () => {
     ...eventItems,
     ...actaItems,
     ...comunicadoItems,
+    ...circularItems,
   ];
 
   // Filtrar por consulta e tipo
@@ -135,6 +153,7 @@ const Publicacoes = () => {
         case 'relatorios': matchesFilter = item.type === 'relatorio'; break;
         case 'actas': matchesFilter = item.type === 'acta'; break;
         case 'comunicados': matchesFilter = item.type === 'comunicado'; break;
+        case 'circulares': matchesFilter = item.type === 'circular'; break;
         case 'eventos': matchesFilter = item.type === 'evento'; break;
       }
     }
@@ -158,7 +177,9 @@ const Publicacoes = () => {
     { value: 'relatorios', label: 'Relatórios', icon: <FileCheck className="w-4 h-4" />, count: reportItems.length },
     { value: 'actas', label: 'Actas', icon: <FileText className="w-4 h-4" />, count: actaItems.length },
     { value: 'comunicados', label: 'Comunicados', icon: <Megaphone className="w-4 h-4" />, count: comunicadoItems.length },
+    { value: 'circulares', label: 'Circulares', icon: <FileText className="w-4 h-4" />, count: circularItems.length },
   ];
+
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
@@ -243,7 +264,8 @@ const Publicacoes = () => {
                         {item.type === 'relatorio' && <FileCheck className="w-6 h-6 md:w-8 md:h-8 text-primary" />}
                         {item.type === 'acta' && <FileText className="w-6 h-6 md:w-8 md:h-8 text-primary" />}
                         {item.type === 'comunicado' && <Megaphone className="w-6 h-6 md:w-8 md:h-8 text-primary" />}
-                        {!['plano', 'evento', 'relatorio', 'acta', 'comunicado'].includes(item.type) && (
+                        {item.type === 'circular' && <FileText className="w-6 h-6 md:w-8 md:h-8 text-primary" />}
+                        {!['plano', 'evento', 'relatorio', 'acta', 'comunicado', 'circular'].includes(item.type) && (
                         <FileText className="w-6 h-6 md:w-8 md:h-8 text-primary" />
                         )}
                         <Badge className={`${getCategoryColor(item.category)} text-[10px] md:text-xs`}>
@@ -296,6 +318,31 @@ const Publicacoes = () => {
                                 Ver no Plano
                               </Link>
                             </Button>
+                          </>
+                        ) : (item.type === 'comunicado' || item.type === 'circular') ? (
+                          <>
+                            <span className="text-xs text-muted-foreground hidden sm:inline">
+                              Ver detalhes completos
+                            </span>
+                            <div className="flex gap-2 w-full sm:w-auto">
+                              <Button size="sm" className="flex-1 sm:flex-none gap-2" asChild>
+                                <Link href={`/publicacoes/${item.id}`}>
+                                  <Eye className="w-4 h-4" />
+                                  Ver Detalhes
+                                </Link>
+                              </Button>
+                              {(item.fileUrl || item.downloadUrl) && (
+                                <Button size="sm" variant="outline" className="gap-2" asChild>
+                                  <a 
+                                    href={item.downloadUrl || item.fileUrl} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                  >
+                                    <Download className="w-4 h-4" />
+                                  </a>
+                                </Button>
+                              )}
+                            </div>
                           </>
                         ) : (
                           <>

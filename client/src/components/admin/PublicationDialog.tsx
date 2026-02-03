@@ -42,6 +42,9 @@ const categoryOptions = [
   'Circular',
 ];
 
+// Categorias que suportam imagens
+const categoriesWithImages = ['Comunicado', 'Circular'];
+
 export const PublicationDialog = ({
   open,
   onOpenChange,
@@ -56,10 +59,17 @@ export const PublicationDialog = ({
     date: new Date().toLocaleDateString('pt-PT', { month: 'long', year: 'numeric' }),
     fileUrl: '',
     downloadUrl: '',
+    imageUrl: '',
   });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [filePreview, setFilePreview] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
+
+  // Verificar se a categoria atual suporta imagens
+  const showImageUpload = categoriesWithImages.includes(formData.category);
 
   useEffect(() => {
     if (publication) {
@@ -70,8 +80,10 @@ export const PublicationDialog = ({
         date: publication.date || new Date().toLocaleDateString('pt-PT', { month: 'long', year: 'numeric' }),
         fileUrl: publication.fileUrl || '',
         downloadUrl: publication.downloadUrl || '',
+        imageUrl: publication.imageUrl || '',
       });
       setFilePreview(publication.fileUrl || publication.downloadUrl || null);
+      setImagePreview(publication.imageUrl || null);
     } else {
       setFormData({
         title: '',
@@ -80,10 +92,13 @@ export const PublicationDialog = ({
         date: new Date().toLocaleDateString('pt-PT', { month: 'long', year: 'numeric' }),
         fileUrl: '',
         downloadUrl: '',
+        imageUrl: '',
       });
       setFilePreview(null);
+      setImagePreview(null);
     }
     setSelectedFile(null);
+    setSelectedImage(null);
   }, [publication, open]);
 
   const uploadFile = async (file: File): Promise<string> => {
@@ -116,15 +131,35 @@ export const PublicationDialog = ({
     }
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
   const handleRemoveFile = () => {
     setSelectedFile(null);
-    if (filePreview) {
+    if (filePreview && !filePreview.startsWith('/uploads')) {
       URL.revokeObjectURL(filePreview);
     }
     setFilePreview(null);
     setFormData(prev => ({ ...prev, fileUrl: '', downloadUrl: '' }));
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setSelectedImage(null);
+    if (imagePreview && !imagePreview.startsWith('/uploads')) {
+      URL.revokeObjectURL(imagePreview);
+    }
+    setImagePreview(null);
+    setFormData(prev => ({ ...prev, imageUrl: '' }));
+    if (imageInputRef.current) {
+      imageInputRef.current.value = '';
     }
   };
 
@@ -140,7 +175,18 @@ export const PublicationDialog = ({
         finalData.fileUrl = uploadedUrl;
         finalData.downloadUrl = uploadedUrl;
       } catch (error) {
-        console.error('Erro ao fazer upload:', error);
+        console.error('Erro ao fazer upload do arquivo:', error);
+        return;
+      }
+    }
+
+    // Se há uma imagem selecionada, fazer upload
+    if (selectedImage) {
+      try {
+        const uploadedImageUrl = await uploadFile(selectedImage);
+        finalData.imageUrl = uploadedImageUrl;
+      } catch (error) {
+        console.error('Erro ao fazer upload da imagem:', error);
         return;
       }
     }
@@ -154,7 +200,7 @@ export const PublicationDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
             {publication ? 'Editar Publicação' : 'Nova Publicação'}
@@ -227,10 +273,11 @@ export const PublicationDialog = ({
             </div>
           </div>
 
+          {/* Upload de Arquivo (PDF, DOC) */}
           <div className="space-y-2">
-            <Label htmlFor="file">Arquivo</Label>
+            <Label htmlFor="file">Anexo (PDF, DOC)</Label>
             <div className="space-y-2">
-            <Input
+              <Input
                 id="file"
                 type="file"
                 accept=".pdf,.doc,.docx"
@@ -240,7 +287,10 @@ export const PublicationDialog = ({
               />
               {filePreview && (
                 <div className="flex items-center gap-2 p-2 bg-muted rounded-md">
-                  <span className="text-sm flex-1">Arquivo selecionado</span>
+                  <Upload className="w-4 h-4 text-primary" />
+                  <span className="text-sm flex-1 truncate">
+                    {selectedFile?.name || 'Arquivo selecionado'}
+                  </span>
                   <Button
                     type="button"
                     variant="ghost"
@@ -251,9 +301,12 @@ export const PublicationDialog = ({
                   </Button>
                 </div>
               )}
-              {publication && (publication.fileUrl || publication.downloadUrl) && !selectedFile && (
+              {publication && (publication.fileUrl || publication.downloadUrl) && !selectedFile && !filePreview && (
                 <div className="flex items-center gap-2 p-2 bg-muted rounded-md">
-                  <span className="text-sm flex-1">Arquivo atual: {publication.fileUrl || publication.downloadUrl}</span>
+                  <Upload className="w-4 h-4 text-primary" />
+                  <span className="text-sm flex-1 truncate">
+                    Arquivo atual: {publication.fileUrl || publication.downloadUrl}
+                  </span>
                   <Button
                     type="button"
                     variant="ghost"
@@ -264,8 +317,66 @@ export const PublicationDialog = ({
                   </Button>
                 </div>
               )}
+            </div>
           </div>
-          </div>
+
+          {/* Upload de Imagem - apenas para Comunicados e Circulares */}
+          {showImageUpload && (
+            <div className="space-y-2">
+              <Label htmlFor="image">
+                Imagem (opcional)
+                <span className="text-xs text-muted-foreground ml-2">
+                  - Será exibida na página de detalhes
+                </span>
+              </Label>
+              <div className="space-y-2">
+                <Input
+                  id="image"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  ref={imageInputRef}
+                  className="cursor-pointer"
+                />
+                {imagePreview && (
+                  <div className="relative">
+                    <img 
+                      src={imagePreview} 
+                      alt="Preview" 
+                      className="w-full max-h-48 object-cover rounded-md"
+                    />
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      className="absolute top-2 right-2"
+                      onClick={handleRemoveImage}
+                    >
+                      <X className="w-4 h-4" />
+                    </Button>
+                  </div>
+                )}
+                {publication?.imageUrl && !selectedImage && !imagePreview && (
+                  <div className="relative">
+                    <img 
+                      src={publication.imageUrl} 
+                      alt="Imagem atual" 
+                      className="w-full max-h-48 object-cover rounded-md"
+                    />
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      className="absolute top-2 right-2"
+                      onClick={handleRemoveImage}
+                    >
+                      <X className="w-4 h-4" />
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
           <DialogFooter>
             <Button

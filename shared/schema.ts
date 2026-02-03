@@ -95,6 +95,7 @@ export const publications = pgTable("publications", {
   date: varchar("date", { length: 50 }).notNull(), // formatted date string
   fileUrl: text("file_url"), // URL to the document file
   downloadUrl: text("download_url"), // URL for downloading the file
+  imageUrl: text("image_url"), // URL to an optional image (for Comunicados and Circulares)
   publishedAt: timestamp("published_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

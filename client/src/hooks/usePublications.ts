@@ -9,6 +9,7 @@ export interface Publication {
   date: string;
   fileUrl?: string;
   downloadUrl?: string;
+  imageUrl?: string;
   publishedAt?: string;
   updatedAt?: string;
 }
@@ -20,6 +21,7 @@ export interface CreatePublicationData {
   date: string;
   fileUrl?: string;
   downloadUrl?: string;
+  imageUrl?: string;
 }
 
 export interface UpdatePublicationData extends Partial<CreatePublicationData> {

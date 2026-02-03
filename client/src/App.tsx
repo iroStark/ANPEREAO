@@ -7,6 +7,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Home from "@/pages/Home";
 import Legislacao from "@/pages/Legislacao";
 import Publicacoes from "@/pages/Publicacoes";
+import PublicacaoDetalhes from "@/pages/PublicacaoDetalhes";
 import Eventos from "@/pages/Eventos";
 import Galeria from "@/pages/Galeria";
 import Organigrama from "@/pages/Organigrama";
@@ -44,6 +45,7 @@ function Router() {
       <Route path="/quem-somos" component={Home} />
       <Route path="/legislacao" component={Legislacao} />
       <Route path="/publicacoes" component={Publicacoes} />
+      <Route path="/publicacoes/:id" component={PublicacaoDetalhes} />
       <Route path="/plano-atividades" component={PlanoAtividades} />
       <Route path="/estatutos" component={Estatutos} />
       <Route path="/eventos" component={Eventos} />

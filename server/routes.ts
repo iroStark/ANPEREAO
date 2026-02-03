@@ -1412,6 +1412,21 @@ Equipa ANPERE
     }
   });
 
+  // Get single publication by ID (public)
+  app.get("/api/publications/:id", async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const publication = await storage.getPublication(id);
+      if (!publication) {
+        return res.status(404).json({ error: "Publication not found" });
+      }
+      res.json(publication);
+    } catch (error) {
+      console.error("Error fetching publication:", error);
+      res.status(500).json({ error: "Failed to fetch publication" });
+    }
+  });
+
   // Events endpoints (public)
   app.get("/api/events", async (req: Request, res: Response) => {
     try {
