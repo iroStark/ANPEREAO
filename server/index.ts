@@ -20,8 +20,10 @@ app.use(cors({
     
     // In production, allow Railway domains and the app's own domain
     if (process.env.NODE_ENV === "production") {
-      // Allow any railway.app subdomain or the same origin
-      if (origin.includes('railway.app') || origin.includes('anpere')) {
+      // Permitir o domínio principal e o subdomínio admin
+      if (origin.includes('railway.app') || 
+          origin.includes('anpere.ao') || 
+          origin.includes('admin.anpere.ao')) {
         return callback(null, true);
       }
     }
@@ -43,6 +45,15 @@ app.use(express.urlencoded({ extended: false }));
 // Trust proxy - required for secure cookies behind Railway's reverse proxy
 if (process.env.NODE_ENV === "production") {
   app.set("trust proxy", 1);
+  
+  // Middleware para redirecionar admin.anpere.ao para /admin
+  app.use((req, res, next) => {
+    const host = req.headers.host;
+    if (host === 'admin.anpere.ao' && req.path === '/') {
+      return res.redirect('/admin/login');
+    }
+    next();
+  });
 }
 
 // Session configuration with PostgreSQL store
@@ -66,8 +77,10 @@ app.use(session({
   cookie: {
     secure: process.env.NODE_ENV === "production",
     httpOnly: true,
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    sameSite: "lax", // Use 'lax' since frontend and backend are on the same domain
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dias
+    sameSite: "lax",
+    // Configura o domínio para aceitar subdomínios em produção
+    domain: process.env.NODE_ENV === "production" ? ".anpere.ao" : undefined,
   },
 }));
 
